@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:18:49 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/01 16:54:51 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:59:49 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 #include <math.h>
 #include <fcntl.h>
 #include <mlx.h>
-#include "get_next_linee/get_next_line.h"
-#include "libftt/libft.h"
+#include "get_next_line/get_next_line.h"
+#include "libft/libft.h"
 
 typedef struct	s_data {
 	void	*img;
