@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/16 19:30:26 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/16 20:33:10 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,40 @@ void draw_pixel(int x, int y, unsigned int color)
 	}
 }
 
+void draw_line(t_cub *data, double dis, double rotation)
+{
+	double end_x = data->plr->x_p + dis * cos(rotation);
+	double end_y = data->plr->y_p + dis * sin(rotation);
+
+	int x0 = data->plr->x_p;
+	int y0 = data->plr->y_p;
+	int x1 = (int)end_x;
+	int y1 = (int)end_y;
+	
+	int dx = abs(x1 - x0);
+	int dy = abs(y1 - y0);
+	int sx = (x0 < x1) ? 1 : -1;
+	int sy = (y0 < y1) ? 1 : -1;
+	int err = dx - dy;
+	
+	while (1) {
+	    mlx_put_pixel(image, x0, y0, 0x00FF0099);
+		if ((x0 == x1) && (y0 == y1))
+			break;
+		int e2 = 2 * err;
+		if (e2 > -dy)
+		{
+			err -= dy;
+			x0 += sx;
+		}
+		if (e2 < dx) 
+		{
+			err += dx;
+			y0 += sy;
+		}
+	}	
+}
+
 void frame_playr(void *f)
 {
 	t_cub *y = f;
@@ -79,6 +113,7 @@ void frame_playr(void *f)
 		}
 		i++;
 	}
+	draw_line(y,  10, y->plr->derction);
 }
 
 int check_is_wall(char **map, int y, int x, t_cub *data)
