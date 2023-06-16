@@ -3,9 +3,9 @@ CC = cc
 flg = 
 RM = rm -f 
 
-
+# //-framework Cocoa -framework OpenGL -framework IOKit
 SRC= get_next_line/get_next_line.c get_next_line/get_next_line_utils.c main.c parsing/checkmap.c\
-	libft/ft_atoi.c libft/ft_isdigit.c 
+	libft/ft_atoi.c libft/ft_isdigit.c graphic/graph.c
 
 FILES = ft_striteri.c ft_memcmp.c  ft_bzero.c ft_putnbr_fd.c ft_strmapi.c ft_itoa.c \
 	ft_putendl_fd.c ft_putchar_fd.c ft_putstr_fd.c ft_strtrim.c ft_strjoin.c ft_strdup.c \
@@ -25,7 +25,7 @@ OBJ=$(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) -o $@
+	$(CC) $(OBJ) ./libmlx42.a -Iinclude -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/" -o $@
 
 %.o: %.c cube.h
 	$(CC) -c $< -o $@

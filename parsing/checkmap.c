@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:44:31 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/01 14:28:01 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/04 22:41:30 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,22 @@ int check_identify(char **map)
             return (write(2, "Error in line 5 will be empty \n", 31), 1);
     check_f_c(map, 5, 'F');
     check_f_c(map, 6, 'C');
-    while (map[7][++i])
-        if (map[7][i] != '\n' && map[7][i] != ' ' && map[7][i] != '\t')
-            return (write(2, "Error in line 7 will be empty \n", 31), 1);
+    // while (map[7][++i])
+    //     if (map[7][i] != '\n' && map[7][i] != ' ' && map[7][i] != '\t')
+    //         return (write(2, "Error in line 7 will be empty \n", 31), 1);
     return (0);
 }
-
+void chack_env_0(char **map, int i , int j)
+{
+    if (map[i - 1] && map[i - 1][j] != '0' && map[i -1][j] != '1')
+        return(write(2, "Error in Wall \n", 15), exit(1));
+    if (map[i + 1] && map[i + 1][j] != '0' && map[i + 1][j] != '1')
+        return(write(2, "Error in Wall \n", 15), exit(1));
+    if (map[i][j - 1] && map[i][j - 1] != '0' && map[i][j - 1] != '1')
+        return(write(2, "Error in Wall \n", 15), exit(1));
+    if (map[i][j + 1] && map[i][j + 1] != '0' && map[i][j +1 ] != '1')
+        return(write(2, "Error in Wall \n", 15), exit(1));
+}
 int check_map(char **map)
 {
     int i;
@@ -115,6 +125,14 @@ int check_map(char **map)
     if (check_identify(map))
         return (1);
     while (map[++i])
-        check_line(map[i]);
+    {
+        j = 0;
+        while (map[i][j])
+        {
+            if (map[i][j] == '0')
+                chack_env_0(map, i , j);
+            j++;
+        }
+    }
     return (0);
 }

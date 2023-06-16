@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:17:53 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/01 15:23:31 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/14 18:18:51 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,9 @@ int main(int ac, char **av)
     fd = open(av[1], O_RDONLY, 0777);
     while (i <= len)
         map[i++] = get_next_line(fd); 
-    if (check_map(map))
-        return (1);
+    // if (check_map(map))
+    //     return (1);
+    graphic(map);
     // mlx_mini_map(map);
     // i = 0;
     // while (map[i])
@@ -63,3 +64,6 @@ int main(int ac, char **av)
     // printf("%s", map[i]);
     
 }
+
+//  your parsing dosn't check the last line in map you should be handle this 
+// should be handle fist caracter in every line in your map, mast be 1 
