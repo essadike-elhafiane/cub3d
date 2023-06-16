@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/16 17:40:56 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/16 19:30:26 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 //for convert a degrees to rad 
 
-double PI = 3.1415926535;
-
 double deg2rad(double degrees)
 {
-	return (degrees * (PI / 180.0));
+	return (degrees * (M_PI / 180.0));
 }
 
 static mlx_image_t* image;
@@ -64,7 +62,7 @@ void frame_playr(void *f)
 		j = 0;
 		while (j < 4)
 		{
-			mlx_put_pixel(image, y->plr->x_p + 32  + i , 32 + j + y->plr->y_p , 0xFF3333);
+			mlx_put_pixel(image, y->plr->x_p + 32  + i , 32 + j + y->plr->y_p , 0xFFFF00);
 			j++;
 		}
 		i++;
@@ -87,14 +85,20 @@ int check_is_wall(char **map, int y, int x, t_cub *data)
 {
 	int idy  = y / 32;
 	int idx = x / 32;
+	int idy1  = (y + 1) / 32;
+	int idy_1  = (y - 1) / 32;
+	int idx1 = (x + 1) / 32;
 	if (idy >= data->hight_map)
 		return 1;
 	if (y < 0)
 		return (1);
 	if (x < 0)
 		return (1);
-	if (map[idy + 9][idx + 1] == '1')
-		return (1);
+	if (data->map[idy + 9][idx + 1] && (data->map[idy + 9][idx + 1] == '1' || data->map[idy + 9][idx1 + 1] == '1' \
+	|| data->map[idy1 + 9][idx + 1] == '1' || data->map[idy_1 + 9][idx + 1] == '1'))
+		return 1;
+	// if (!map[idy + 9][idx + 1] || map[idy + 9][idx + 1] == '1')
+	// 	return (1);
 	return (0);
 }
 
@@ -156,6 +160,8 @@ void render_next_frame(t_cub *y)
 		{
 			if (y->map[i + 8][j] == '0' || check_direction(y->map[i + 8][j]))
 				draw_pixel(i, j, 0xFFFFFF0);
+			if (y->map[i + 8][j] == '1')
+				draw_pixel(i, j, 0x000FF);
 			j++;
 		}
 		i++;
