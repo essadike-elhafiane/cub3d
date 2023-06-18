@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/18 18:56:38 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/18 19:35:52 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int check_is_wall(double y, double x, t_cub *data)
 	int idy1  = (y + 1) / 32;
 	int idy_1  = (y - 1) / 32;
 	int idx1 = (x + 1) / 32;
-	if (idy >= data->hight_map || idx >= data->with_map)
+	if (idy >= data->hight_map)
 		return 1;
 	if (y < 0)
 		return (1);
@@ -151,72 +151,94 @@ void frame_playr(void *f)
 	// conerte PI to positif number //
 	if (y->plr->derction < 0)
 		y->plr->derction = (2 * M_PI) + y->plr->derction;
-		
+	if (y->plr->derction  >= 2 * M_PI)
+			y->plr->derction  = 0;
 	// y->plr->derction = norm_angle;
 	
 	// first intersections horizontal 
 	double y_fisrt_interce = floor(y->plr->y_p / 32) * 32;
-	double x_fisrt_interce = y->plr->x_p + (y->plr->y_p - y_fisrt_interce) / tan(y->plr->derction);
 	
 
 	// steep horizontal // 
 	double ystep = 32;
 	double xstep = ystep / tan(y->plr->derction);
-
+	int flg = 0;
 	
-	//DOwn
+	// DOwn
 	if (y->plr->derction > 0 && y->plr->derction  < M_PI)
 	{
 		y_fisrt_interce = floor(y->plr->y_p / 32) * 32 + 32;
+		flg = 1;
 		// x_fisrt_interce = y->plr->x_p + (y->plr->y_p - y_fisrt_interce) / tan(y->plr->derction);
 	}
 	// up
+	else 
+		y_fisrt_interce = floor(y->plr->y_p / 32) * 32 - 1;
 	
-	if (y->plr->derction > M_PI && y->plr->derction  <  2 * M_PI)
+	double x_fisrt_interce = y->plr->x_p + ( y_fisrt_interce - y->plr->y_p ) / tan(y->plr->derction);
+	// if (y->plr->derction > M_PI && y->plr->derction  <  2 * M_PI)
+	// {
+	// 	y_fisrt_interce = floor(y->plr->y_p / 32) * 32;
+	// 	ystep *= -1;
+	// }
+	
+	if (!flg)
 	{
-		y_fisrt_interce = floor(y->plr->y_p / 32) * 32;
 		ystep *= -1;
+		xstep *= -1;
 	}
+		// left
 	
-	// right
-	if (y->plr->derction < 0.5 * M_PI || y->plr->derction > 1.5 * M_PI)
-	{
-		if (xstep < 0)
-			xstep *= -1;
-	}
-	// left
-	if (y->plr->derction > 0.5 * M_PI || y->plr->derction < 1.5 * M_PI)
-	{
-		if (xstep > 0)
-			xstep *= -1;
-	}
 	while (!check_is_wall(y_fisrt_interce, x_fisrt_interce, y))
 	{
+	// right
 		y_fisrt_interce += ystep;
 		x_fisrt_interce += xstep;
 	}
 
-	long dictence_h = distance_p(y->plr->x_p, y->plr->y_p, x_fisrt_interce, y_fisrt_interce);
+	double dictence_h = distance_p(y->plr->x_p, y->plr->y_p, x_fisrt_interce, y_fisrt_interce);
+
+
+
+
+
+	
 	// vertical intersections
-
+	flg = 0;
 	double x_fisrt_interce_v = floor(y->plr->x_p / 32) * 32;
-	double y_fisrt_interce_v = y->plr->y_p + (x_fisrt_interce - y->plr->x_p ) / tan(y->plr->derction);
 
+	if (y->plr->derction >=  3 * M_PI / 2 ||  y->plr->derction  <=  M_PI / 2)
+	{
+		x_fisrt_interce_v = floor(y->plr->x_p / 32) * 32 + 32;
+		flg = 1;
+		// x_fisrt_interce = y->plr->x_p + (y->plr->y_p - y_fisrt_interce) / tan(y->plr->derction);
+	}
+	// up
+	else 
+		x_fisrt_interce_v = floor(y->plr->x_p / 32) * 32 - 1;
+	
+	double y_fisrt_interce_v = y->plr->y_p + (x_fisrt_interce - y->plr->x_p ) * tan(y->plr->derction) - 1;
 	double xstep_v = 32;
-	double ystep_v = xstep_v / tan(y->plr->derction);
+	double ystep_v = xstep_v * tan(y->plr->derction);
+	
+	if (!flg)
+	{
+		ystep_v *= -1;
+		xstep_v *= -1;
+	}
 	// while (!check_is_wall(y_fisrt_interce_v, x_fisrt_interce_v, y))
 	// {
-		y_fisrt_interce_v += ystep_v;
-		x_fisrt_interce_v += xstep_v;
+	// 	y_fisrt_interce_v += ystep_v;
+	// 	x_fisrt_interce_v += xstep_v;
 	// }
 	
-	long dictence_v = distance_p(y->plr->x_p, y->plr->y_p, x_fisrt_interce_v, y_fisrt_interce_v);
+	// double dictence_v = distance_p(y->plr->x_p, y->plr->y_p, x_fisrt_interce_v, y_fisrt_interce_v);
 	
-	
-	if (dictence_h <= dictence_v)
+	// dictence_v = 40;
+	// if (dictence_h < dictence_v)
 		draw_line(y, dictence_h, y->plr->derction);
-	else 
-		draw_line(y, dictence_v, y->plr->derction);
+	// else 
+	// 	draw_line(y, dictence_v, y->plr->derction);
 		
 	// draw_line(y,  100, y->plr->derction - r * 2);
 	// draw_line(y,  100, y->plr->derction - r);
