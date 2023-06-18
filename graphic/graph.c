@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/19 00:56:38 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/19 00:59:18 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void draw_pixel(int x, int y, unsigned int color)
 		while (j < 32)
 		{
 			mlx_put_pixel(image, (y * 32) + i , (x * 32) + j, color);
-			mlx_put_pixel(image, (y * 32) , (x * 32), 0x0FFFFF);
+			// mlx_put_pixel(image, (y * 32) , (x * 32), 0x0FFFFF);
 
 			j++;
 		}
@@ -184,7 +184,7 @@ void frame_playr(void *f)
 	}
 	// up
 	else 
-		y_fisrt_interce = floor(y->plr->y_p / 32) * 32 - 1;
+		y_fisrt_interce = floor(y->plr->y_p / 32) * 32;
 	
 	double x_fisrt_interce = y->plr->x_p + ( y_fisrt_interce - y->plr->y_p ) / tan(y->plr->derction);
 	// if (y->plr->derction > M_PI && y->plr->derction  <  2 * M_PI)
@@ -200,7 +200,8 @@ void frame_playr(void *f)
 	}
 		// left
 	
-	while (x_fisrt_interce >= 0 && x_fisrt_interce < 2000 && y_fisrt_interce >= 0 && y_fisrt_interce < 1000 && !check_wall_fram(x_fisrt_interce, y_fisrt_interce, y->map))
+	while (x_fisrt_interce >= 0 && x_fisrt_interce < 2000 
+		&& y_fisrt_interce >= 0 && y_fisrt_interce < 1000 && !check_wall_fram(x_fisrt_interce, y_fisrt_interce, y->map))
 	{
 	// right
 		y_fisrt_interce += ystep;
