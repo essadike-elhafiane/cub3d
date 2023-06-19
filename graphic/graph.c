@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/19 20:07:35 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/19 21:49:16 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void draw_line(t_cub *data, double dis, double rotation)
 	int err = dx - dy;
 	
 	while (1) {
-	    mlx_put_pixel(image, x0, y0, 0x00FF0099);
+	    mlx_put_pixel(image, x0, y0, 0xF0);
 		if ((x0 == x1) && (y0 == y1))
 			break;
 		int e2 = 2 * err;
@@ -116,6 +116,7 @@ double distance_p(double x, double y, double x1, double y1)
 {
 	return(sqrt(((x1-x) * (x1-x)) + ((y1-y) * (y1 - y))));
 }
+int angle = 60;
 
 int check_wall_fram(double x, double y, char **map, t_cub *data)
 {
@@ -159,40 +160,12 @@ void frame_playr(void *f)
 	}
 	
 	// first intersections horizontal 
-	double y_fisrt_interce = floor(y->plr->y_p / 32) * 32;
+	
+	// double y_fisrt_interce = floor(y->plr->y_p / 32) * 32;
 	
 
 	// steep horizontal // 
-	double ystep = 32;
-	double xstep = ystep / tan(y->plr->derction);
-	int flg = 0;
 	
-	// DOwn
-	if (y->plr->derction > 0 && y->plr->derction  < M_PI)
-	{
-		y_fisrt_interce = floor(y->plr->y_p / 32) * 32 + 32;
-		flg = 1;
-	}
-	// up
-	else 
-		y_fisrt_interce = floor(y->plr->y_p / 32) * 32 - 1;
-	
-	double x_fisrt_interce = y->plr->x_p + ( y_fisrt_interce - y->plr->y_p ) / tan(y->plr->derction);
-	
-	if (!flg)
-	{
-		ystep *= -1;
-		xstep *= -1;
-	}
-		// left
-	while (x_fisrt_interce >= 0 && x_fisrt_interce < 2000
-		&& y_fisrt_interce >= 0 && y_fisrt_interce < 1000 && !check_wall_fram(x_fisrt_interce, y_fisrt_interce, y->map, y))
-	{
-	// right
-		y_fisrt_interce += ystep;
-		x_fisrt_interce += xstep;
-	}
-	double dictence_h = distance_p(y->plr->x_p, y->plr->y_p, x_fisrt_interce, y_fisrt_interce);
 	// vertical intersections
 
 
@@ -205,9 +178,9 @@ void frame_playr(void *f)
 
 
 	
-	int flgg = 0;
-	float x_fisrt_interce_v = 0;
-	float y_fisrt_interce_v = 0;
+	// int flgg = 0;
+	// float x_fisrt_interce_v = 0;
+	// float y_fisrt_interce_v = 0;
 
 	// if (y->plr->derction >  3 * M_PI / 2 ||  y->plr->derction  <  M_PI / 2)
 	// {
@@ -253,43 +226,20 @@ void frame_playr(void *f)
 	// }
 
 
-	int c = 0;
-	float	a_x = 0;
-	float	a_y = 0;
-
-	if (y->plr->derction > 3 * M_PI / 2 || y->plr->derction < M_PI/2)
+	int m = 0;
+	y->angle_of_ray = y->plr->derction - (deg2rad(angle) / 2);
+	while (m < y->with_map)
 	{
-		a_x = floor(y->plr->x_p / 32) * 32 + 32;
-		c = 1;
-	}
-	else
-		a_x = floor(y->plr->x_p / 32) * 32 - 1;
-	// printf("rad : %f  x = %f y = %f\n", y->plr->derction, a_x, a_y);
-	
-	a_y = y->plr->y_p + ((a_x - y->plr->x_p) * tan(y->plr->derction))  - 1;
-	while (a_x >= 0 && a_x < 2000 && a_y >= 0 && a_y < 1000 && !check_wall_fram(a_x, a_y, y->map, y))
-	{
-		if (c)
-		{
-			a_y +=	32 * tan(y->plr->derction);
-			a_x +=	32;
-		}
+		double dictence_h = dictance_horizontal(y);
+		double dictence_v = dictance_virtical(y);
+		if (dictence_h < dictence_v)
+			draw_line(y, dictence_h, y->angle_of_ray);
 		else
-		{
-			a_y -=	32 * tan(y->plr->derction);
-			a_x -=	32; 
-		}
+			draw_line(y, dictence_v, y->angle_of_ray);
+		y->angle_of_ray += deg2rad(60) / y->with_map ;
+		m++;
 	}
 	
-	double dictence_v = distance_p(y->plr->x_p, y->plr->y_p, a_x, a_y);
-	// double dictence_v = distance_p(y->plr->x_p, y->plr->y_p, x_fisrt_interce_v, y_fisrt_interce_v);
-	
-	if (dictence_h < dictence_v)
-		draw_line(y, dictence_h, y->plr->derction);
-	else
-	{
-			draw_line(y, dictence_v, y->plr->derction);
-	}
 	// draw_line(y,  100, y->plr->derction - r * 2);
 	// draw_line(y,  100, y->plr->derction - r);
 	// draw_line(y,  100, y->plr->derction + r);
@@ -404,7 +354,7 @@ void    graphic(char **map, char **map_only)
     y.map = map_only;
 	
 	y.plr = malloc(sizeof(t_player));
-	y.with_map = ft_strlen(map[17]);
+	y.with_map = ft_strlen(map[9]);
 	y.hight_map = ft_strlen_pnt(map_only);
 	printf("%d is with || %d is height\n", y.with_map, y.hight_map);
     y.mlx = mlx_init(2000, 1000, "cube3D", false);
