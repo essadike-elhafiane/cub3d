@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/19 22:57:33 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/19 23:08:43 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ double distance_p(double x, double y, double x1, double y1)
 {
 	return(sqrt(((x1-x) * (x1-x)) + ((y1-y) * (y1 - y))));
 }
-int angle = 60;
+int angle = 80;
 
 int check_wall_fram(double x, double y, char **map, t_cub *data)
 {
