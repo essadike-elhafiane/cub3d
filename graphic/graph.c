@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/19 21:49:16 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/19 22:57:33 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void draw_pixel(int x, int y, unsigned int color)
 
 			j++;
 		}
-		mlx_put_pixel(image, (y * 32) + i , (x * 32), 0x0FFFFF);
+		// mlx_put_pixel(image, (y * 32) + i , (x * 32), 0x0FFFFF);
 		i++;
 	}
 }
@@ -72,7 +72,7 @@ void draw_line(t_cub *data, double dis, double rotation)
 	int err = dx - dy;
 	
 	while (1) {
-	    mlx_put_pixel(image, x0, y0, 0xF0);
+	    mlx_put_pixel(image, x0, y0, 0x00FF0000);
 		if ((x0 == x1) && (y0 == y1))
 			break;
 		int e2 = 2 * err;
@@ -147,17 +147,17 @@ void frame_playr(void *f)
 		i++;
 	}
 
-	i = 0;
-	while (i < 4)
-	{
-		j = 0;
-		while (j < 4)
-		{
-			mlx_put_pixel(image, y->plr->a_x + i ,  j + y->plr->a_y , 0xFF3333);
-			j++;
-		}
-		i++;
-	}
+	// i = 0;
+	// while (i < 4)
+	// {
+	// 	j = 0;
+	// 	while (j < 4)
+	// 	{
+	// 		mlx_put_pixel(image, y->plr->a_x + i ,  j + y->plr->a_y , 0xFF3333);
+	// 		j++;
+	// 	}
+	// 	i++;
+	// }
 	
 	// first intersections horizontal 
 	
@@ -228,7 +228,7 @@ void frame_playr(void *f)
 
 	int m = 0;
 	y->angle_of_ray = y->plr->derction - (deg2rad(angle) / 2);
-	while (m < y->with_map)
+	while (m < y->with_map * 2 * 3)
 	{
 		double dictence_h = dictance_horizontal(y);
 		double dictence_v = dictance_virtical(y);
@@ -236,7 +236,11 @@ void frame_playr(void *f)
 			draw_line(y, dictence_h, y->angle_of_ray);
 		else
 			draw_line(y, dictence_v, y->angle_of_ray);
-		y->angle_of_ray += deg2rad(60) / y->with_map ;
+		// if (y->angle_of_ray < 0)
+		// 	y->angle_of_ray += M_PI * 2;
+		// if (y->angle_of_ray > 2 * M_PI)
+		// 	y->angle_of_ray -= M_PI * 2;
+		y->angle_of_ray += 0.3 * M_PI / 180;
 		m++;
 	}
 	

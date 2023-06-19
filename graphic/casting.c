@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:03:08 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/19 21:35:55 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/19 22:51:28 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ double  dictance_horizontal(t_cub *y)
 	}
 	// up
 	else 
-		y_fisrt_interce = floor(y->plr->y_p / 32) * 32 - 1;
+		y_fisrt_interce = floor(y->plr->y_p / 32) * 32 - 0.01;
 	
 	double x_fisrt_interce = y->plr->x_p + ( y_fisrt_interce - y->plr->y_p ) / tan(y->angle_of_ray);
 	
@@ -62,7 +62,7 @@ double  dictance_virtical(t_cub *y)
 		a_x = floor(y->plr->x_p / 32) * 32 - 1;
 	// printf("rad : %f  x = %f y = %f\n", y->angle_of_ray, a_x, a_y);
 	
-	a_y = y->plr->y_p + ((a_x - y->plr->x_p) * tan(y->angle_of_ray))  - 1;
+	a_y = y->plr->y_p + ((a_x - y->plr->x_p) * tan(y->angle_of_ray))  - 0.01;
 	while (a_x >= 0 && a_x < 2000 && a_y >= 0 && a_y < 1000 && !check_wall_fram(a_x, a_y, y->map, y))
 	{
 		if (c)
