@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:17:53 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/16 19:25:18 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:18:27 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int main(int ac, char **av)
     int i;
     char *str;
     char **map;
-
+    char **only_map;
+    
     len = 0;
     i = 0;
     if (ac > 2)
@@ -56,7 +57,21 @@ int main(int ac, char **av)
         map[i++] = get_next_line(fd); 
     // if (check_map(map))
     //     return (1);
-    graphic(map);
+         
+    only_map = (char **) malloc(sizeof(char *) * (i - 8 + 1));
+    int j = 8;
+    int a = 0;
+    while (map[j])
+    {
+        only_map[a++] = ft_strdup(map[j++]);
+    }
+    // j = 0;
+    // while (only_map[j])
+    // {
+    //     printf("%s", only_map[j++]);
+    // }
+    
+    graphic(map, only_map);
     // mlx_mini_map(map);
     // i = 0;
     // while (map[i])

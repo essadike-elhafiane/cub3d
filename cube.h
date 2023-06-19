@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:18:49 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/16 16:37:02 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:20:10 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_cube
 }t_cub;
 
 int check_map(char **map);
-void    graphic(char **map);
+void    graphic(char **map, char **map_only);
 void check_line(char *map_line);
 void render_next_frame(t_cub *y);
 

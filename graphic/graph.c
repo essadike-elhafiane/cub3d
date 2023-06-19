@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/19 00:59:18 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:07:35 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,11 @@ void draw_pixel(int x, int y, unsigned int color)
 
 void draw_line(t_cub *data, double dis, double rotation)
 {
-	double end_x = data->plr->x_p + 32 + dis * cos(rotation);
-	double end_y = data->plr->y_p + 32 + dis * sin(rotation);
+	double end_x = data->plr->x_p + dis * cos(rotation);
+	double end_y = data->plr->y_p + dis * sin(rotation);
 
-	int x0 = data->plr->x_p + 32;
-	int y0 = data->plr->y_p + 32;
+	int x0 = data->plr->x_p;
+	int y0 = data->plr->y_p;
 	int x1 = (int)end_x;
 	int y1 = (int)end_y;
 	
@@ -91,8 +91,8 @@ void draw_line(t_cub *data, double dis, double rotation)
 
 int check_is_wall(double y, double x, t_cub *data)
 {
-	if (y >= 1000 || x >= 2000)
-		return 1;
+	// if (y >= 100 || x >= 100)
+	// 	return 1;
 	int idy  = y / 32;
 	int idx = x / 32;
 	int idy1  = (y + 1) / 32;
@@ -103,8 +103,8 @@ int check_is_wall(double y, double x, t_cub *data)
 	if (x < 0)
 		return (1);
 	// printf("x == %d | y == %d | c == %c \n", idx, idy, data->map[idy + 9][idx + 1]);
-	if (data->map[idy + 9][idx + 1] && (data->map[idy + 9][idx + 1] == '1' || data->map[idy + 9][idx1 + 1] == '1' \
-	|| data->map[idy1 + 9][idx + 1] == '1' || data->map[idy_1 + 9][idx + 1] == '1'))
+	if (data->map[idy][idx] && (data->map[idy][idx] == '1' || data->map[idy][idx1] == '1' \
+	|| data->map[idy1][idx] == '1' || data->map[idy_1][idx] == '1'))
 		return 1;
 	// if (!map[idy + 9][idx + 1] || map[idy + 9][idx + 1] == '1')
 	// 	return (1);
@@ -117,11 +117,15 @@ double distance_p(double x, double y, double x1, double y1)
 	return(sqrt(((x1-x) * (x1-x)) + ((y1-y) * (y1 - y))));
 }
 
-int check_wall_fram(double x, double y, char **map)
+int check_wall_fram(double x, double y, char **map, t_cub *data)
 {
 	int xx = (int)floor(x / 32);
 	int yy = (int)floor(y / 32);
-	if (map[yy + 9][xx] == '1')
+	if (yy < 0 || yy >= data->hight_map)
+		return 1;
+	if (xx < 0 || xx >= ft_strlen(map[yy]))
+		return (1);
+	if (map[yy][xx] == '1')
 		return (1);
 	return (0);
 }
@@ -136,7 +140,7 @@ void frame_playr(void *f)
 		j = 0;
 		while (j < 4)
 		{
-			mlx_put_pixel(image, y->plr->x_p + 32  + i , 32 + j + y->plr->y_p , 0xFFFF00);
+			mlx_put_pixel(image, y->plr->x_p + i , j + y->plr->y_p , 0xFFFF00);
 			j++;
 		}
 		i++;
@@ -148,23 +152,11 @@ void frame_playr(void *f)
 		j = 0;
 		while (j < 4)
 		{
-			mlx_put_pixel(image, y->plr->a_x + 32  + i , 32 + j + y->plr->a_y , 0xFF3333);
+			mlx_put_pixel(image, y->plr->a_x + i ,  j + y->plr->a_y , 0xFF3333);
 			j++;
 		}
 		i++;
 	}
-	
-	// double r = M_PI / 180;
-	// double rayangle = y->plr->derction - (60 / 2);
-	// // horizontal intersections
-	// int norm_angle = rayangle % (2 * M_PI);
-	
-	// conerte PI to positif number //
-	if (y->plr->derction < 0)
-		y->plr->derction = (2 * M_PI) + y->plr->derction;
-	if (y->plr->derction  >= 2 * M_PI)
-			y->plr->derction  = 0;
-	// y->plr->derction = norm_angle;
 	
 	// first intersections horizontal 
 	double y_fisrt_interce = floor(y->plr->y_p / 32) * 32;
@@ -180,18 +172,12 @@ void frame_playr(void *f)
 	{
 		y_fisrt_interce = floor(y->plr->y_p / 32) * 32 + 32;
 		flg = 1;
-		// x_fisrt_interce = y->plr->x_p + (y->plr->y_p - y_fisrt_interce) / tan(y->plr->derction);
 	}
 	// up
 	else 
-		y_fisrt_interce = floor(y->plr->y_p / 32) * 32;
+		y_fisrt_interce = floor(y->plr->y_p / 32) * 32 - 1;
 	
 	double x_fisrt_interce = y->plr->x_p + ( y_fisrt_interce - y->plr->y_p ) / tan(y->plr->derction);
-	// if (y->plr->derction > M_PI && y->plr->derction  <  2 * M_PI)
-	// {
-	// 	y_fisrt_interce = floor(y->plr->y_p / 32) * 32;
-	// 	ystep *= -1;
-	// }
 	
 	if (!flg)
 	{
@@ -199,9 +185,8 @@ void frame_playr(void *f)
 		xstep *= -1;
 	}
 		// left
-	
-	while (x_fisrt_interce >= 0 && x_fisrt_interce < 2000 
-		&& y_fisrt_interce >= 0 && y_fisrt_interce < 1000 && !check_wall_fram(x_fisrt_interce, y_fisrt_interce, y->map))
+	while (x_fisrt_interce >= 0 && x_fisrt_interce < 2000
+		&& y_fisrt_interce >= 0 && y_fisrt_interce < 1000 && !check_wall_fram(x_fisrt_interce, y_fisrt_interce, y->map, y))
 	{
 	// right
 		y_fisrt_interce += ystep;
@@ -220,34 +205,48 @@ void frame_playr(void *f)
 
 
 	
-	// flg = 0;
-	// double x_fisrt_interce_v;
+	int flgg = 0;
+	float x_fisrt_interce_v = 0;
+	float y_fisrt_interce_v = 0;
 
-	// if (y->plr->derction >=  3 * M_PI / 2 ||  y->plr->derction  <=  M_PI / 2)
+	// if (y->plr->derction >  3 * M_PI / 2 ||  y->plr->derction  <  M_PI / 2)
 	// {
 	// 	x_fisrt_interce_v = floor(y->plr->x_p / 32) * 32 + 32;
 	// 	flg = 1;
 	// // 	// x_fisrt_interce = y->plr->x_p + (y->plr->y_p - y_fisrt_interce) / tan(y->plr->derction);
 	// }
 	// else 
-	// 	x_fisrt_interce_v = floor(y->plr->x_p / 32) * 32;
+	// 	x_fisrt_interce_v = floor(y->plr->x_p / 32) * 32 - 1;
 	
 
 
 	
 	
-	// double y_fisrt_interce_v = y->plr->y_p + (x_fisrt_interce - y->plr->x_p) * tan(y->plr->derction) - 1;
+	// y_fisrt_interce_v = y->plr->y_p + ((x_fisrt_interce - y->plr->x_p) * tan(y->plr->derction)) - 1;
+	// // double xstep_v = 32;
+	// // double ystep_v = xstep_v * tan(y->plr->derction);
 	
-	// double xstep_v = 32;
-	// double ystep_v = xstep_v * tan(y->plr->derction);
-	
-	// if (!flg)
+	// // // if (!flg)
+	// // // {
+	// // // 	ystep_v *= -1;
+	// // // 	xstep_v *= -1;
+	// // // }
+	// while (x_fisrt_interce_v >= 0 && x_fisrt_interce_v < 2000
+	// 	&& y_fisrt_interce_v >= 0 && y_fisrt_interce_v < 1000 && !check_wall_fram(x_fisrt_interce_v, y_fisrt_interce_v, y->map))
 	// {
-	// 	ystep_v *= -1;
-	// 	xstep_v *= -1;
+	// 	if (flg)
+	// 	{
+	// 		y_fisrt_interce_v +=	32 * tan(y->plr->derction);
+	// 		x_fisrt_interce_v +=	32;
+	// 	}
+	// 	else
+	// 	{
+	// 		y_fisrt_interce_v -=	32 * tan(y->plr->derction);
+	// 		x_fisrt_interce_v -=	32; 
+	// 	}
 	// }
 	// while (x_fisrt_interce > 0 && y_fisrt_interce > 0 && x_fisrt_interce <  2000
-	// 	&& y_fisrt_interce < 1000 && !check_is_wall(y_fisrt_interce_v, x_fisrt_interce_v, y))
+	// 	&& y_fisrt_interce < 1000 && !check_wall_fram(y_fisrt_interce_v, x_fisrt_interce_v, y->map))
 	// {
 	// 	y_fisrt_interce_v += ystep_v;
 	// 	x_fisrt_interce_v += xstep_v;
@@ -258,17 +257,17 @@ void frame_playr(void *f)
 	float	a_x = 0;
 	float	a_y = 0;
 
-	if (y->plr->derction > 3*M_PI/2 || y->plr->derction < M_PI/2)
+	if (y->plr->derction > 3 * M_PI / 2 || y->plr->derction < M_PI/2)
 	{
-		a_x = floor(y->plr->x_p / 32) * 32;
+		a_x = floor(y->plr->x_p / 32) * 32 + 32;
 		c = 1;
 	}
 	else
-		a_x = floor(y->plr->x_p / 32) * 32;
-	printf("rad : %f  x = %f y = %f\n", y->plr->derction, a_x, a_y);
+		a_x = floor(y->plr->x_p / 32) * 32 - 1;
+	// printf("rad : %f  x = %f y = %f\n", y->plr->derction, a_x, a_y);
 	
-	a_y = y->plr->y_p + ((a_x - y->plr->x_p) * tan(y->plr->derction)) - 1;
-	while (a_x >= 0 && a_x < 2000 && a_y >= 0 && a_y < 1000 && !check_wall_fram(a_x, a_y, y->map))
+	a_y = y->plr->y_p + ((a_x - y->plr->x_p) * tan(y->plr->derction))  - 1;
+	while (a_x >= 0 && a_x < 2000 && a_y >= 0 && a_y < 1000 && !check_wall_fram(a_x, a_y, y->map, y))
 	{
 		if (c)
 		{
@@ -283,15 +282,13 @@ void frame_playr(void *f)
 	}
 	
 	double dictence_v = distance_p(y->plr->x_p, y->plr->y_p, a_x, a_y);
+	// double dictence_v = distance_p(y->plr->x_p, y->plr->y_p, x_fisrt_interce_v, y_fisrt_interce_v);
 	
 	if (dictence_h < dictence_v)
 		draw_line(y, dictence_h, y->plr->derction);
 	else
 	{
-		if (c)
-			draw_line(y, dictence_v - 32, y->plr->derction);
-		else
-			draw_line(y, dictence_v + 1, y->plr->derction);
+			draw_line(y, dictence_v, y->plr->derction);
 	}
 	// draw_line(y,  100, y->plr->derction - r * 2);
 	// draw_line(y,  100, y->plr->derction - r);
@@ -338,12 +335,17 @@ void ft_hook1(void* param)
 	if (mlx_is_key_down(y->mlx, MLX_KEY_LEFT))
 	{
 		y->plr->derction -= 2 * M_PI / 180;
+		if (y->plr->derction < 0)
+				y->plr->derction = (2 * M_PI) + y->plr->derction;
+		
 		y->plr->a_x = y->plr->x_p + 20 * cos(y->plr->derction);
 		y->plr->a_y = y->plr->y_p + 20 * sin(y->plr->derction);
 	}
 	if (mlx_is_key_down(y->mlx, MLX_KEY_RIGHT))
 	{
 		y->plr->derction += 2 * M_PI / 180;
+		if (y->plr->derction  >= 2 * M_PI)
+				y->plr->derction  = 0;
 		y->plr->a_x = y->plr->x_p + 20 * cos(y->plr->derction);
 		y->plr->a_y = y->plr->y_p + 20 * sin(y->plr->derction);
 	}
@@ -358,14 +360,14 @@ void ft_hook1(void* param)
 void render_next_frame(t_cub *y)
 {
 	int i = 0;
-	while (y->map[i + 8])
+	while (y->map[i])
 	{
 		int j = 0;
-		while (y->map[i + 8][j])
+		while (y->map[i][j])
 		{
-			if (y->map[i + 8][j] == '0' || check_direction(y->map[i + 8][j]))
+			if (y->map[i][j] == '0' || check_direction(y->map[i][j]))
 				draw_pixel(i, j, 0xFFFFFF0);
-			if (y->map[i + 8][j] == '1')
+			if (y->map[i][j] == '1')
 				draw_pixel(i, j, 0x000FF);
 			j++;
 		}
@@ -396,32 +398,31 @@ double init_direction(char c)
 	return (-1);
 }
 
-void    graphic(char **map)
+void    graphic(char **map, char **map_only)
 {
     t_cub y;
-    y.map = map;
+    y.map = map_only;
 	
 	y.plr = malloc(sizeof(t_player));
 	y.with_map = ft_strlen(map[17]);
-	y.hight_map = ft_strlen_pnt(map);
-	y.hight_map -= 8;
+	y.hight_map = ft_strlen_pnt(map_only);
 	printf("%d is with || %d is height\n", y.with_map, y.hight_map);
     y.mlx = mlx_init(2000, 1000, "cube3D", false);
 
    	image = mlx_new_image(y.mlx, 2000, 1000);
 	int i = 0;
-	while (y.map[i + 8])
+	while (y.map[i])
 	{
 		int j = 0;
-		while (y.map[i + 8][j])
+		while (y.map[i][j])
 		{
-			if (y.map[i + 8][j] == '1')
+			if (y.map[i][j] == '1')
 				draw_pixel(i, j, 0xFFFFFFF);
-			if (check_direction(y.map[i + 8][j]))
+			if (check_direction(y.map[i][j]))
 			{
 				y.plr->x_p = j * 32;
 				y.plr->y_p = i * 32;
-				y.plr->derction = init_direction(y.map[i + 8][j]);
+				y.plr->derction = init_direction(y.map[i][j]);
 				y.plr->a_x = y.plr->x_p + 20 * cos(y.plr->derction);
 				y.plr->a_y = y.plr->y_p + 20 * sin(y.plr->derction);
 			}
