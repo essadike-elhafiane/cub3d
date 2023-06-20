@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/20 20:27:04 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/20 21:06:20 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,17 @@ int angle = 60;
 int check_wall_fram(double x, double y, char **map, t_cub *data)
 {
 	int xx = (int)floor(x / 32);
+	int xx1 = (int)floor((x + 1) / 32);
+	int xx_1 = (int)floor((x - 1) / 32);
 	int yy = (int)floor(y / 32);
+	int yy_1 = (int)floor((y - 1 )/ 32);
+	int yy1 = (int)floor((y + 1) / 32);
+	// int yy = (int)floor(y / 32);
 	if (yy < 0 || yy >= data->hight_map)
-		return 1;
+		return (1);
 	if (xx < 0 || xx >= ft_strlen(map[yy]))
 		return (1);
-	if (map[yy][xx] == '1')
+	if (map[yy][xx] == '1' || map[yy][xx1] == '1' || map[yy][xx_1] == '1' || map[yy1][xx] == '1' || map[yy_1][xx] == '1')
 		return (1);
 	return (0);
 }
@@ -246,10 +251,6 @@ void frame_playr(void *f)
 				y->distancee = dictence_v;
 			}
 		randerwall(y, m);
-		// if (y->angle_of_ray < 0)
-		// 	y->angle_of_ray += M_PI * 2;
-		// if (y->angle_of_ray > 2 * M_PI)
-		// 	y->angle_of_ray -= M_PI * 2;
 		y->angle_of_ray += deg2rad(60) / 2000;
 		m++;
 	}

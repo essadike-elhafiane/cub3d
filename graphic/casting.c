@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:03:08 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/20 20:44:01 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/20 21:24:39 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 double  dictance_horizontal(t_cub *y)
 {
-    double ystep = 32;
-    double y_fisrt_interce = floor(y->plr->y_p / 32) * 32;
-	double xstep = ystep / tan(y->angle_of_ray);
+    float ystep = 32;
+    float y_fisrt_interce = 0;
+	float x_fisrt_interce = 0;
+	float xstep = ystep / tan(y->angle_of_ray);
 	int flg = 0;
 	
 	// DOwn
@@ -27,16 +28,10 @@ double  dictance_horizontal(t_cub *y)
 	}
 	// up
 	else 
-		y_fisrt_interce = floor(y->plr->y_p / 32) * 32 - 1;
+		y_fisrt_interce = floor(y->plr->y_p / 32) * 32 - 0.01;
 	
-	double x_fisrt_interce = y->plr->x_p + ( y_fisrt_interce - y->plr->y_p ) / tan(y->angle_of_ray);
+	x_fisrt_interce = y->plr->x_p + ( y_fisrt_interce - y->plr->y_p ) / tan(y->angle_of_ray);
 	
-	// if (!flg)
-	// {
-	// 	ystep *= -1;
-	// 	xstep *= -1;
-	// }
-		// left
 	while (x_fisrt_interce >= 0 && x_fisrt_interce < 2000
 		&& y_fisrt_interce >= 0 && y_fisrt_interce < 1000 && !check_wall_fram(x_fisrt_interce, y_fisrt_interce, y->map, y))
 	{
@@ -67,10 +62,10 @@ double  dictance_virtical(t_cub *y)
 		c = 1;
 	}
 	else
-		a_x = floor(y->plr->x_p / 32) * 32 - 1;
+		a_x = floor(y->plr->x_p / 32) * 32 - 0.01;
 	// printf("rad : %f  x = %f y = %f\n", y->angle_of_ray, a_x, a_y);
 	
-	a_y = y->plr->y_p + ((a_x - y->plr->x_p) * tan(y->angle_of_ray))  - 0.01;
+	a_y = y->plr->y_p + ((a_x - y->plr->x_p) * tan(y->angle_of_ray));
 	while (a_x >= 0 && a_x < 2000 && a_y >= 0 && a_y < 1000 && !check_wall_fram(a_x, a_y, y->map, y))
 	{
 		if (c)
