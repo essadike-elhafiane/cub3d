@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:03:08 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/20 19:40:54 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/20 20:44:01 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,26 @@ double  dictance_horizontal(t_cub *y)
 	
 	double x_fisrt_interce = y->plr->x_p + ( y_fisrt_interce - y->plr->y_p ) / tan(y->angle_of_ray);
 	
-	if (!flg)
-	{
-		ystep *= -1;
-		xstep *= -1;
-	}
+	// if (!flg)
+	// {
+	// 	ystep *= -1;
+	// 	xstep *= -1;
+	// }
 		// left
 	while (x_fisrt_interce >= 0 && x_fisrt_interce < 2000
 		&& y_fisrt_interce >= 0 && y_fisrt_interce < 1000 && !check_wall_fram(x_fisrt_interce, y_fisrt_interce, y->map, y))
 	{
 	// right
-		y_fisrt_interce += ystep;
-		x_fisrt_interce += xstep;
+		if (flg)
+		{
+			y_fisrt_interce += ystep;
+			x_fisrt_interce += xstep;
+		}
+		else
+		{
+			y_fisrt_interce -= ystep;
+			x_fisrt_interce -= xstep;
+		}
 	}
 	return (distance_p(y->plr->x_p, y->plr->y_p, x_fisrt_interce, y_fisrt_interce));
 }
