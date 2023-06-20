@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:03:08 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/20 21:24:39 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/20 21:30:34 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 double  dictance_horizontal(t_cub *y)
 {
-    float ystep = 32;
-    float y_fisrt_interce = 0;
-	float x_fisrt_interce = 0;
-	float xstep = ystep / tan(y->angle_of_ray);
+    double ystep = 32;
+    double y_fisrt_interce = 0;
+	double x_fisrt_interce = 0;
+	double xstep = ystep / tan(y->angle_of_ray);
 	int flg = 0;
 	
 	// DOwn
@@ -53,8 +53,8 @@ double  dictance_horizontal(t_cub *y)
 double  dictance_virtical(t_cub *y)
 {
     int c = 0;
-	float	a_x = 0;
-	float	a_y = 0;
+	double	a_x = 0;
+	double	a_y = 0;
 
 	if (y->angle_of_ray > 3 * M_PI / 2 || y->angle_of_ray < M_PI/2)
 	{
