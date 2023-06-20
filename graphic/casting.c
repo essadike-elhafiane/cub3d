@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:03:08 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/19 22:51:28 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/20 19:40:54 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ double  dictance_horizontal(t_cub *y)
 	}
 	// up
 	else 
-		y_fisrt_interce = floor(y->plr->y_p / 32) * 32 - 0.01;
+		y_fisrt_interce = floor(y->plr->y_p / 32) * 32 - 1;
 	
 	double x_fisrt_interce = y->plr->x_p + ( y_fisrt_interce - y->plr->y_p ) / tan(y->angle_of_ray);
 	

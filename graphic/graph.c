@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/19 23:08:43 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/20 20:27:04 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ double distance_p(double x, double y, double x1, double y1)
 {
 	return(sqrt(((x1-x) * (x1-x)) + ((y1-y) * (y1 - y))));
 }
-int angle = 80;
+int angle = 60;
 
 int check_wall_fram(double x, double y, char **map, t_cub *data)
 {
@@ -136,10 +136,10 @@ void frame_playr(void *f)
 	t_cub *y = f;
 	int j = 0;
 	int i = 0;
-	while (i < 4)
+	while (i < 1)
 	{
 		j = 0;
-		while (j < 4)
+		while (j < 1)
 		{
 			mlx_put_pixel(image, y->plr->x_p + i , j + y->plr->y_p , 0xFFFF00);
 			j++;
@@ -227,20 +227,30 @@ void frame_playr(void *f)
 
 
 	int m = 0;
-	y->angle_of_ray = y->plr->derction - (deg2rad(angle) / 2);
-	while (m < y->with_map * 2 * 3)
+	double dictence_h = 0;
+	double dictence_v = 0;
+
+	y->angle_of_ray = y->plr->derction - (deg2rad(30));
+	while (m < 2000)
 	{
-		double dictence_h = dictance_horizontal(y);
-		double dictence_v = dictance_virtical(y);
+		dictence_h = dictance_horizontal(y);
+		dictence_v = dictance_virtical(y);
 		if (dictence_h < dictence_v)
-			draw_line(y, dictence_h, y->angle_of_ray);
+			{
+				draw_line(y, dictence_h, y->angle_of_ray);
+				y->distancee = dictence_h;
+			}
 		else
-			draw_line(y, dictence_v, y->angle_of_ray);
+			{
+				draw_line(y, dictence_v, y->angle_of_ray);
+				y->distancee = dictence_v;
+			}
+		randerwall(y, m);
 		// if (y->angle_of_ray < 0)
 		// 	y->angle_of_ray += M_PI * 2;
 		// if (y->angle_of_ray > 2 * M_PI)
 		// 	y->angle_of_ray -= M_PI * 2;
-		y->angle_of_ray += 0.3 * M_PI / 180;
+		y->angle_of_ray += deg2rad(60) / 2000;
 		m++;
 	}
 	
@@ -259,6 +269,23 @@ void frame_playr(void *f)
 	// draw_line(y,  100, y->plr->derction + r * 11);
 }
 
+void	randerwall(t_cub *y, int m)
+{
+	int i;
+	// static int yy;
+	
+	i = 0;
+	int height_of_wall = 20000 / y->distancee;
+	int top = (1000 / 2) - (height_of_wall / 2);
+	int down = (1000 / 2) + (height_of_wall / 2);
+	top = top < 0 ? 0 : top;
+	down = down > 1000 ? 1000 : down;
+	while (top < down)
+	{
+		mlx_put_pixel(image, m, top, 0xFFFFFF0);
+		top++;
+	}
+}
 
 void ft_hook1(void* param)
 {
