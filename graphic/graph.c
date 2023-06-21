@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/21 20:05:19 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/21 20:51:35 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,85 +151,6 @@ void frame_playr(void *f)
 		i++;
 	}
 
-	// i = 0;
-	// while (i < 4)
-	// {
-	// 	j = 0;
-	// 	while (j < 4)
-	// 	{
-	// 		mlx_put_pixel(image, y->plr->a_x + i ,  j + y->plr->a_y , 0xFF3333);
-	// 		j++;
-	// 	}
-	// 	i++;
-	// }
-	
-	// first intersections horizontal 
-	
-	// double y_fisrt_interce = floor(y->plr->y_p / 32) * 32;
-	
-
-	// steep horizontal // 
-	
-	// vertical intersections
-
-
-
-
-
-
-
-
-
-
-	
-	// int flgg = 0;
-	// float x_fisrt_interce_v = 0;
-	// float y_fisrt_interce_v = 0;
-
-	// if (y->plr->derction >  3 * M_PI / 2 ||  y->plr->derction  <  M_PI / 2)
-	// {
-	// 	x_fisrt_interce_v = floor(y->plr->x_p / 32) * 32 + 32;
-	// 	flg = 1;
-	// // 	// x_fisrt_interce = y->plr->x_p + (y->plr->y_p - y_fisrt_interce) / tan(y->plr->derction);
-	// }
-	// else 
-	// 	x_fisrt_interce_v = floor(y->plr->x_p / 32) * 32 - 1;
-	
-
-
-	
-	
-	// y_fisrt_interce_v = y->plr->y_p + ((x_fisrt_interce - y->plr->x_p) * tan(y->plr->derction)) - 1;
-	// // double xstep_v = 32;
-	// // double ystep_v = xstep_v * tan(y->plr->derction);
-	
-	// // // if (!flg)
-	// // // {
-	// // // 	ystep_v *= -1;
-	// // // 	xstep_v *= -1;
-	// // // }
-	// while (x_fisrt_interce_v >= 0 && x_fisrt_interce_v < 2000
-	// 	&& y_fisrt_interce_v >= 0 && y_fisrt_interce_v < 1000 && !check_wall_fram(x_fisrt_interce_v, y_fisrt_interce_v, y->map))
-	// {
-	// 	if (flg)
-	// 	{
-	// 		y_fisrt_interce_v +=	32 * tan(y->plr->derction);
-	// 		x_fisrt_interce_v +=	32;
-	// 	}
-	// 	else
-	// 	{
-	// 		y_fisrt_interce_v -=	32 * tan(y->plr->derction);
-	// 		x_fisrt_interce_v -=	32; 
-	// 	}
-	// }
-	// while (x_fisrt_interce > 0 && y_fisrt_interce > 0 && x_fisrt_interce <  2000
-	// 	&& y_fisrt_interce < 1000 && !check_wall_fram(y_fisrt_interce_v, x_fisrt_interce_v, y->map))
-	// {
-	// 	y_fisrt_interce_v += ystep_v;
-	// 	x_fisrt_interce_v += xstep_v;
-	// }
-
-
 	int m = 0;
 	double dictence_h = 0;
 	double dictence_v = 0;
@@ -260,20 +181,6 @@ void frame_playr(void *f)
 		y->angle_of_ray += deg2rad(60) / 2000;
 		m++;
 	}
-	
-	// draw_line(y,  100, y->plr->derction - r * 2);
-	// draw_line(y,  100, y->plr->derction - r);
-	// draw_line(y,  100, y->plr->derction + r);
-	// draw_line(y,  100, y->plr->derction + r * 2);
-	// draw_line(y,  100, y->plr->derction + r * 3);
-	// draw_line(y,  100, y->plr->derction + r * 4);
-	// draw_line(y,  100, y->plr->derction + r * 5);
-	// draw_line(y,  100, y->plr->derction + r * 6);
-	// draw_line(y,  100, y->plr->derction + r * 7);
-	// draw_line(y,  100, y->plr->derction + r * 8);
-	// draw_line(y,  100, y->plr->derction + r * 9);
-	// draw_line(y,  100, y->plr->derction + r * 10);
-	// draw_line(y,  100, y->plr->derction + r * 11);
 }
 
 
@@ -281,26 +188,28 @@ void frame_playr(void *f)
 void	randerwall(t_cub *y, int m)
 {
 	int i;
-	// static int yy;
-	
+
 	i = 0;
 	int height_of_wall = 20000 / y->distancee;
 	int top = (1000 / 2) - (height_of_wall / 2);
 	int down = (1000 / 2) + (height_of_wall / 2);
 	top = top < 0 ? 0 : top;
 	down = down > 1000 ? 1000 : down;
-	while (i < top)
+	while (i < 1000)
 	{
-		mlx_put_pixel(image, m, i, 0xF0FFF0FF);
+		if (i < top)
+			mlx_put_pixel(image, m, i, 0xF0FFF0FF);
+		else if (i < down)
+			mlx_put_pixel(image, m, i, 0x5a2bd3FF);
+		else
+			mlx_put_pixel(image, m, i, 0x5a2bd3FF);
 		i++;
 	}
-	// printf("%d\n", y->img_data->color_count);
-	while (top < down)
-	{
-		
-		mlx_put_pixel(image, m, top, 0x5a2bd3FF);
-		top++;
-	}
+	// while (top < down)
+	// {
+	// 	mlx_put_pixel(image, m, top, 0x5a2bd3FF);
+	// 	top++;
+	// }
 }
 
 void ft_hook1(void* param)
