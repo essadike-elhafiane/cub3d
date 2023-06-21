@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:03:08 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/21 20:44:31 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/22 00:07:31 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ double  dictance_horizontal(t_cub *y)
 			y_fisrt_interce += ystep;
 			x_fisrt_interce += xstep;
 	}
-	return (distance_p(y->plr->x_p, y->plr->y_p, x_fisrt_interce, y_fisrt_interce));
+	return (y->hitwall_x = x_fisrt_interce, y->hitwall_y = y_fisrt_interce, distance_p(y->plr->x_p, y->plr->y_p, x_fisrt_interce, y_fisrt_interce));
 }
 
 double  dictance_virtical(t_cub *y)
@@ -62,5 +62,5 @@ double  dictance_virtical(t_cub *y)
 			y_fisrt_interce_v +=	ystep_v;
 			x_fisrt_interce_v +=	xstep_v;
 	}
-	return (distance_p(y->plr->x_p, y->plr->y_p, x_fisrt_interce_v, y_fisrt_interce_v));
+	return (y->hitwall_x_v = x_fisrt_interce_v, y->hitwall_y_v = y_fisrt_interce_v, distance_p(y->plr->x_p, y->plr->y_p, x_fisrt_interce_v, y_fisrt_interce_v));
 }

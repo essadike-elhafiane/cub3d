@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "*.excalidraw": "json",
+        "*.excalidrawlib": "json",
+        "algorithm": "c",
+        "atomic": "c",
+        "cstdint": "c",
+        "utility": "c"
+    }
+}

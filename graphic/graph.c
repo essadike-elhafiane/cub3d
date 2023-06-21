@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/21 20:56:43 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/22 00:45:06 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,10 +167,12 @@ void frame_playr(void *f)
 		}
 		dictence_h = dictance_horizontal(y);
 		dictence_v = dictance_virtical(y);
+		y->h = 0;
 		if (dictence_h < dictence_v)
 			{
 				// draw_line(y, dictence_h, y->angle_of_ray);
 				y->distancee = dictence_h;
+				y->h = 1;
 			}
 		else
 			{
@@ -195,25 +197,29 @@ void	randerwall(t_cub *y, int m)
 	int down = (1000 / 2) + (height_of_wall / 2);
 	top = top < 0 ? 0 : top;
 	down = down > 1000 ? 1000 : down;
+	int x_texture;
+	if (!y->h)
+		x_texture = (int )y->hitwall_y_v % 32;
+	else
+		x_texture = (int )y->hitwall_x % 32;
+
+	int y_texture;
+		
 	while (i < 1000)
 	{
 		if (i < top)
 			mlx_put_pixel(image, m, i, 0xF0FFF0FF);
-		else if (i < down)
-			mlx_put_pixel(image, m, i, 0x5a2bd3FF);
-		else if (i % 2 == 0)
-			mlx_put_pixel(image, m, i, 0xc3f5c3FF);
+		else if (i < down )
+		{
+				y_texture = (i - top) * ((float)32 / (down - top));
+				// y_texture = i;
+			 	mlx_put_pixel(image, m ,  i, y->data_pixel[y_texture * y->imgg->width + x_texture]);
+		}
 		else
-			
-			mlx_put_pixel(image, m, i, 0x177717FF);
-
+				// while(i < i + 4 && i < 1000)
+			mlx_put_pixel(image, m, i, 0xc3f5c3FF);
 		i++;
 	}
-	// while (top < down)
-	// {
-	// 	mlx_put_pixel(image, m, top, 0x5a2bd3FF);
-	// 	top++;
-	// }
 }
 
 void ft_hook1(void* param)
@@ -318,18 +324,25 @@ void    graphic(char **map, char **map_only)
 	y.hight_map = ft_strlen_pnt(map_only);
     y.mlx = mlx_init(2000, 1000, "cube3D", false);
    	image = mlx_new_image(y.mlx, 2000, 1000);
-	// y.img_data = mlx_load_xpm42("../hourglass1.xpm42");
-	// if (!y.img_data)
-	// 	exit(1);
-	// y.imgg = mlx_texture_to_image(y.mlx, &y.img_data->texture);
+	y.img_data = mlx_load_xpm42("./wall.xpm42");
+	// y.img_data->texture.pixels
+	if (!y.img_data)
+		exit(1);
+	y.imgg = mlx_texture_to_image(y.mlx, &y.img_data->texture);
+	
+	y.data_pixel = (uint32_t*)y.imgg->pixels;
+	// color = x[y * width + x];
 	// if (!y.imgg)
 	// 	exit(1);
-	// 	int  i = 0;
-	// while (1)
+	// int  i = 0;
+	// while (i < 32)
 	// {
-		// mlx_put_pixel(image, y.imgg->instances->x++ , y.imgg->instances->y , y.imgg->pixels[i++]);
-		// mlx_image_to_window(y.mlx, y.imgg, 0, 0);
+	// 	int j = -1;
+	// 	while (++j < 32)
+	// 		mlx_put_pixel(image, i ,  j, y.data_pixel[j * y.imgg->width + i]);
+	// 	i++;
 	// }
+	// mlx_image_to_window(y.mlx, y.imgg, 0, 0);
 	
 	// y.imgg->pixels;
 	int i = 0;
