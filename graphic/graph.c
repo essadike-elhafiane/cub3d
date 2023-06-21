@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/21 01:03:07 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/21 20:05:19 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ int check_is_wall(double y, double x, t_cub *data)
 	// 	return (1);
 	return (0);
 }
-
 
 double distance_p(double x, double y, double x1, double y1)
 {
@@ -249,12 +248,12 @@ void frame_playr(void *f)
 		dictence_v = dictance_virtical(y);
 		if (dictence_h < dictence_v)
 			{
-				draw_line(y, dictence_h, y->angle_of_ray);
+				// draw_line(y, dictence_h, y->angle_of_ray);
 				y->distancee = dictence_h;
 			}
 		else
 			{
-				draw_line(y, dictence_v, y->angle_of_ray);
+				// draw_line(y, dictence_v, y->angle_of_ray);
 				y->distancee = dictence_v;
 			}
 		randerwall(y, m);
@@ -277,6 +276,8 @@ void frame_playr(void *f)
 	// draw_line(y,  100, y->plr->derction + r * 11);
 }
 
+
+
 void	randerwall(t_cub *y, int m)
 {
 	int i;
@@ -290,13 +291,14 @@ void	randerwall(t_cub *y, int m)
 	down = down > 1000 ? 1000 : down;
 	while (i < top)
 	{
-		mlx_put_pixel(image, m, top, 0xF0FFF0FF);
+		mlx_put_pixel(image, m, i, 0xF0FFF0FF);
 		i++;
 	}
-	
+	// printf("%d\n", y->img_data->color_count);
 	while (top < down)
 	{
-		mlx_put_pixel(image, m, top, 0xFFFFFF0);
+		
+		mlx_put_pixel(image, m, top, 0x5a2bd3FF);
 		top++;
 	}
 }
@@ -397,14 +399,26 @@ void    graphic(char **map, char **map_only)
 {
     t_cub y;
     y.map = map_only;
-	
+
 	y.plr = malloc(sizeof(t_player));
 	y.with_map = ft_strlen(map[9]);
 	y.hight_map = ft_strlen_pnt(map_only);
-	printf("%d is with || %d is height\n", y.with_map, y.hight_map);
     y.mlx = mlx_init(2000, 1000, "cube3D", false);
-
    	image = mlx_new_image(y.mlx, 2000, 1000);
+	// y.img_data = mlx_load_xpm42("../hourglass1.xpm42");
+	// if (!y.img_data)
+	// 	exit(1);
+	// y.imgg = mlx_texture_to_image(y.mlx, &y.img_data->texture);
+	// if (!y.imgg)
+	// 	exit(1);
+	// 	int  i = 0;
+	// while (1)
+	// {
+		// mlx_put_pixel(image, y.imgg->instances->x++ , y.imgg->instances->y , y.imgg->pixels[i++]);
+		// mlx_image_to_window(y.mlx, y.imgg, 0, 0);
+	// }
+	
+	// y.imgg->pixels;
 	int i = 0;
 	while (y.map[i])
 	{

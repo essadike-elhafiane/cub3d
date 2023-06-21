@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:18:49 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/20 20:21:07 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/21 02:19:50 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct s_cube
 	int		hight_map;
 	char	**map;
 	void	*mlx;
+	xpm_t *img_data;
+	mlx_image_t	*imgg;
 	double	angle_of_ray;
 	t_player *plr;
 }t_cub;
