@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/22 22:25:12 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/22 22:26:08 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,7 +344,7 @@ void    graphic(char **map, char **map_only)
 	y.img_data_s = mlx_load_png("./i32.png");
 	y.img_data_w = mlx_load_png("./i32.png");
 	// y.img_data->texture.pixels
-	if (!y.img_data_n)
+	if (!y.img_data_n || !y.img_data_e || !y.img_data_s || !y.img_data_w)
 		exit(1);
 	y.img_n = mlx_texture_to_image(y.mlx, y.img_data_n);
 	y.img_e = mlx_texture_to_image(y.mlx, y.img_data_e);
