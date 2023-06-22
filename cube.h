@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:18:49 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/22 00:04:57 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:24:09 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,13 @@ typedef struct s_cube
 	int		hight_map;
 	char	**map;
 	void	*mlx;
-	xpm_t *img_data;
+	mlx_texture_t *img_data;
 	uint32_t *data_pixel;
 	mlx_image_t	*imgg;
+	mlx_image_t	*img_n;
+	mlx_image_t	*img_s;
+	mlx_image_t	*img_w;
+	mlx_image_t	*img_e;
 	int	h;
 	double	hitwall_x_v;
 	double	hitwall_y_v;

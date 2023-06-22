@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/22 00:45:06 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:22:16 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,10 +198,11 @@ void	randerwall(t_cub *y, int m)
 	top = top < 0 ? 0 : top;
 	down = down > 1000 ? 1000 : down;
 	int x_texture;
+	y->imgg = get_img_of_view(y);
 	if (!y->h)
-		x_texture = (int )y->hitwall_y_v % 32;
+		x_texture = (int )y->hitwall_y_v % y->imgg->width;
 	else
-		x_texture = (int )y->hitwall_x % 32;
+		x_texture = (int )y->hitwall_x % y->imgg->width;
 
 	int y_texture;
 		
@@ -209,9 +210,10 @@ void	randerwall(t_cub *y, int m)
 	{
 		if (i < top)
 			mlx_put_pixel(image, m, i, 0xF0FFF0FF);
-		else if (i < down )
+		else if (i < down)
 		{
-				y_texture = (i - top) * ((float)32 / (down - top));
+				int mm = i +( height_of_wall / 2) - (1000 / 2);
+				y_texture = mm * ((float)y->imgg->width / height_of_wall);
 				// y_texture = i;
 			 	mlx_put_pixel(image, m ,  i, y->data_pixel[y_texture * y->imgg->width + x_texture]);
 		}
@@ -324,11 +326,11 @@ void    graphic(char **map, char **map_only)
 	y.hight_map = ft_strlen_pnt(map_only);
     y.mlx = mlx_init(2000, 1000, "cube3D", false);
    	image = mlx_new_image(y.mlx, 2000, 1000);
-	y.img_data = mlx_load_xpm42("./wall.xpm42");
+	y.img_data = mlx_load_png("./i32.png");
 	// y.img_data->texture.pixels
 	if (!y.img_data)
 		exit(1);
-	y.imgg = mlx_texture_to_image(y.mlx, &y.img_data->texture);
+	y.imgg = mlx_texture_to_image(y.mlx, y.img_data);
 	
 	y.data_pixel = (uint32_t*)y.imgg->pixels;
 	// color = x[y * width + x];
