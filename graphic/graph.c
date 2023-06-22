@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/22 22:26:08 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/22 23:42:47 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,13 +170,13 @@ void frame_playr(void *f)
 		y->h = 0;
 		if (dictence_h < dictence_v)
 			{
-				// draw_line(y, dictence_h, y->angle_of_ray);
+				draw_line(y, dictence_h, y->angle_of_ray);
 				y->distancee = dictence_h;
 				y->h = 1;
 			}
 		else
 			{
-				// draw_line(y, dictence_v, y->angle_of_ray);
+				draw_line(y, dictence_v, y->angle_of_ray);
 				y->distancee = dictence_v;
 			}
 		randerwall(y, m);
@@ -189,15 +189,26 @@ void frame_playr(void *f)
 mlx_image_t *get_img_of_view(t_cub *y)
 {
 	// up right
-	if (y->angle_of_ray >= 3 * M_PI / 2 && y->angle_of_ray <= 2 * M_PI)
-		return (y->img_e);
-	if (y->angle_of_ray < 3 * M_PI / 2 && y->angle_of_ray >= M_PI)
+	if (y->h && (y->angle_of_ray >  M_PI && y->angle_of_ray < 2 * M_PI))
+	{
+		y->data_pixel = (uint32_t*)y->img_n->pixels;
 		return (y->img_n);
-	if (y->angle_of_ray <=  M_PI / 2 && y->angle_of_ray > 0)
+	}
+	else if (y->h)
+	{
+		y->data_pixel = (uint32_t*)y->img_s->pixels;
 		return (y->img_s);
-	if (y->angle_of_ray >  M_PI / 2 && y->angle_of_ray < M_PI)
+	}
+	if (!y->h && y->angle_of_ray < 3 * M_PI / 2 && y->angle_of_ray > M_PI / 2)
+	{
+		y->data_pixel = (uint32_t*)y->img_e->pixels;
+		return (y->img_e);
+	}
+	else
+	{
+		y->data_pixel = (uint32_t*)y->img_w->pixels;
 		return (y->img_w);
-	return (NULL);
+	}
 }
 
 void	randerwall(t_cub *y, int m)
@@ -339,10 +350,11 @@ void    graphic(char **map, char **map_only)
 	y.hight_map = ft_strlen_pnt(map_only);
     y.mlx = mlx_init(2000, 1000, "cube3D", false);
    	image = mlx_new_image(y.mlx, 2000, 1000);
+	
 	y.img_data_n = mlx_load_png("./i32.png");
-	y.img_data_e = mlx_load_png("./i32.png");
-	y.img_data_s = mlx_load_png("./i32.png");
-	y.img_data_w = mlx_load_png("./i32.png");
+	y.img_data_e = mlx_load_png("./e.png");
+	y.img_data_s = mlx_load_png("./s.png");
+	y.img_data_w = mlx_load_png("./w.png");
 	// y.img_data->texture.pixels
 	if (!y.img_data_n || !y.img_data_e || !y.img_data_s || !y.img_data_w)
 		exit(1);
@@ -351,7 +363,7 @@ void    graphic(char **map, char **map_only)
 	y.img_w = mlx_texture_to_image(y.mlx, y.img_data_w);
 	y.img_s = mlx_texture_to_image(y.mlx, y.img_data_s);
 	
-	y.data_pixel = (uint32_t*)y.imgg->pixels;
+	
 	int i = 0;
 	while (y.map[i])
 	{
