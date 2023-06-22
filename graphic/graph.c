@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/22 19:22:16 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/22 22:25:12 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,19 @@ void frame_playr(void *f)
 }
 
 
+mlx_image_t *get_img_of_view(t_cub *y)
+{
+	// up right
+	if (y->angle_of_ray >= 3 * M_PI / 2 && y->angle_of_ray <= 2 * M_PI)
+		return (y->img_e);
+	if (y->angle_of_ray < 3 * M_PI / 2 && y->angle_of_ray >= M_PI)
+		return (y->img_n);
+	if (y->angle_of_ray <=  M_PI / 2 && y->angle_of_ray > 0)
+		return (y->img_s);
+	if (y->angle_of_ray >  M_PI / 2 && y->angle_of_ray < M_PI)
+		return (y->img_w);
+	return (NULL);
+}
 
 void	randerwall(t_cub *y, int m)
 {
@@ -218,7 +231,7 @@ void	randerwall(t_cub *y, int m)
 			 	mlx_put_pixel(image, m ,  i, y->data_pixel[y_texture * y->imgg->width + x_texture]);
 		}
 		else
-				// while(i < i + 4 && i < 1000)
+			// while(i < i + 4 && i < 1000)
 			mlx_put_pixel(image, m, i, 0xc3f5c3FF);
 		i++;
 	}
@@ -326,27 +339,19 @@ void    graphic(char **map, char **map_only)
 	y.hight_map = ft_strlen_pnt(map_only);
     y.mlx = mlx_init(2000, 1000, "cube3D", false);
    	image = mlx_new_image(y.mlx, 2000, 1000);
-	y.img_data = mlx_load_png("./i32.png");
+	y.img_data_n = mlx_load_png("./i32.png");
+	y.img_data_e = mlx_load_png("./i32.png");
+	y.img_data_s = mlx_load_png("./i32.png");
+	y.img_data_w = mlx_load_png("./i32.png");
 	// y.img_data->texture.pixels
-	if (!y.img_data)
+	if (!y.img_data_n)
 		exit(1);
-	y.imgg = mlx_texture_to_image(y.mlx, y.img_data);
+	y.img_n = mlx_texture_to_image(y.mlx, y.img_data_n);
+	y.img_e = mlx_texture_to_image(y.mlx, y.img_data_e);
+	y.img_w = mlx_texture_to_image(y.mlx, y.img_data_w);
+	y.img_s = mlx_texture_to_image(y.mlx, y.img_data_s);
 	
 	y.data_pixel = (uint32_t*)y.imgg->pixels;
-	// color = x[y * width + x];
-	// if (!y.imgg)
-	// 	exit(1);
-	// int  i = 0;
-	// while (i < 32)
-	// {
-	// 	int j = -1;
-	// 	while (++j < 32)
-	// 		mlx_put_pixel(image, i ,  j, y.data_pixel[j * y.imgg->width + i]);
-	// 	i++;
-	// }
-	// mlx_image_to_window(y.mlx, y.imgg, 0, 0);
-	
-	// y.imgg->pixels;
 	int i = 0;
 	while (y.map[i])
 	{
