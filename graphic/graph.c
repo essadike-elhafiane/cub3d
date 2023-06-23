@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/22 23:42:47 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/06/23 23:26:44 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,13 +170,13 @@ void frame_playr(void *f)
 		y->h = 0;
 		if (dictence_h < dictence_v)
 			{
-				draw_line(y, dictence_h, y->angle_of_ray);
+				// draw_line(y, dictence_h, y->angle_of_ray);
 				y->distancee = dictence_h;
 				y->h = 1;
 			}
 		else
 			{
-				draw_line(y, dictence_v, y->angle_of_ray);
+				// draw_line(y, dictence_v, y->angle_of_ray);
 				y->distancee = dictence_v;
 			}
 		randerwall(y, m);
@@ -216,7 +216,7 @@ void	randerwall(t_cub *y, int m)
 	int i;
 
 	i = 0;
-	int height_of_wall = 20000 / y->distancee;
+	int height_of_wall = 60000 / y->distancee;
 	int top = (1000 / 2) - (height_of_wall / 2);
 	int down = (1000 / 2) + (height_of_wall / 2);
 	top = top < 0 ? 0 : top;
