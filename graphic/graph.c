@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/23 23:26:44 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/07/18 04:32:49 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,7 @@ void	randerwall(t_cub *y, int m)
 	int i;
 
 	i = 0;
+	y->distancee = y->distancee * cos(y->angle_of_ray - y->plr->derction);
 	int height_of_wall = 60000 / y->distancee;
 	int top = (1000 / 2) - (height_of_wall / 2);
 	int down = (1000 / 2) + (height_of_wall / 2);
