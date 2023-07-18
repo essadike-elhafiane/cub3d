@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/07/18 04:32:49 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/07/18 22:12:00 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,17 +120,17 @@ int angle = 60;
 int check_wall_fram(double x, double y, char **map, t_cub *data)
 {
 	int xx = (int)floor(x / 32);
-	// int xx1 = (int)floor((x + 1) / 32);
+	int xx1 = (int)floor((x + 1) / 32);
 	// int xx_1 = (int)floor((x - 1) / 32);
 	int yy = (int)floor(y / 32);
 	// int yy_1 = (int)floor((y - 1 )/ 32);
-	// int yy1 = (int)floor((y + 1) / 32);
+	int yy1 = (int)floor((y + 1) / 32);
 	// int yy = (int)floor(y / 32);
 	if (yy < 0 || yy >= data->hight_map)
 		return (1);
 	if (xx < 0 || xx >= ft_strlen(map[yy]))
 		return (1);
-	if (map[yy][xx] == '1' || map[yy][xx] == '1' || map[yy][xx] == '1' || map[yy][xx] == '1' || map[yy][xx] == '1')
+	if (map[yy][xx] == '1')
 		return (1);
 	return (0);
 }
@@ -354,7 +354,7 @@ void    graphic(char **map, char **map_only)
 	
 	y.img_data_n = mlx_load_png("./i32.png");
 	y.img_data_e = mlx_load_png("./e.png");
-	y.img_data_s = mlx_load_png("./s.png");
+	y.img_data_s = mlx_load_png("./d.png");
 	y.img_data_w = mlx_load_png("./w.png");
 	// y.img_data->texture.pixels
 	if (!y.img_data_n || !y.img_data_e || !y.img_data_s || !y.img_data_w)
