@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:03:08 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/22 00:07:31 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/07/23 23:42:29 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ double  dictance_horizontal(t_cub *y)
 		y_fisrt_interce = floor(y->plr->y_p / 32) * 32 + 32;
 	else 
 	{
-		y_fisrt_interce = floor(y->plr->y_p / 32) * 32 - 0.01;
+		y_fisrt_interce = floor(y->plr->y_p / 32) * 32 - 1e-8;
 		ystep *= - 1;
 		xstep *= - 1;
 	}
@@ -51,7 +51,7 @@ double  dictance_virtical(t_cub *y)
 		x_fisrt_interce_v = floor(y->plr->x_p / 32) * 32 + 32;
 	else
 	{
-		x_fisrt_interce_v = floor(y->plr->x_p / 32) * 32 - 0.01;
+		x_fisrt_interce_v = floor(y->plr->x_p / 32) * 32 - 1e-8;
 		xstep_v *= -1;
 		ystep_v *= -1;
 	}

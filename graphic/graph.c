@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/07/18 22:12:00 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/07/23 23:46:53 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,16 +168,16 @@ void frame_playr(void *f)
 		dictence_h = dictance_horizontal(y);
 		dictence_v = dictance_virtical(y);
 		y->h = 0;
-		if (dictence_h < dictence_v)
+		if (dictence_h < dictence_v + 1e-8)
 			{
 				// draw_line(y, dictence_h, y->angle_of_ray);
-				y->distancee = dictence_h;
+				y->distancee = dictence_h + 1e-8;
 				y->h = 1;
 			}
-		else
+		else if (dictence_h > dictence_v + 1e-8)
 			{
 				// draw_line(y, dictence_v, y->angle_of_ray);
-				y->distancee = dictence_v;
+				y->distancee = dictence_v + 1e-8;
 			}
 		randerwall(y, m);
 		y->angle_of_ray += deg2rad(60) / 2000;
@@ -352,8 +352,8 @@ void    graphic(char **map, char **map_only)
     y.mlx = mlx_init(2000, 1000, "cube3D", false);
    	image = mlx_new_image(y.mlx, 2000, 1000);
 	
-	y.img_data_n = mlx_load_png("./i32.png");
-	y.img_data_e = mlx_load_png("./e.png");
+	y.img_data_n = mlx_load_png("./i.png");
+	y.img_data_e = mlx_load_png("./w.png");
 	y.img_data_s = mlx_load_png("./d.png");
 	y.img_data_w = mlx_load_png("./w.png");
 	// y.img_data->texture.pixels
@@ -363,7 +363,7 @@ void    graphic(char **map, char **map_only)
 	y.img_e = mlx_texture_to_image(y.mlx, y.img_data_e);
 	y.img_w = mlx_texture_to_image(y.mlx, y.img_data_w);
 	y.img_s = mlx_texture_to_image(y.mlx, y.img_data_s);
-	
+
 	
 	int i = 0;
 	while (y.map[i])
