@@ -1,5 +1,5 @@
 NAME = cub
-CC = cc 
+CC = cc -Ofast -g -fsanitize=address
 flg = 
 RM = rm -f 
 

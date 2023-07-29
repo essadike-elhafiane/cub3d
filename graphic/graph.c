@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/07/23 23:46:53 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/07/29 15:04:54 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,20 +257,20 @@ void ft_hook1(void* param)
 		mlx_close_window(y->mlx);
 	if (mlx_is_key_down(y->mlx, MLX_KEY_UP))
 	{
-		if (!check_is_wall(y->plr->y_p + 2 * sin(y->plr->derction), y->plr->x_p + 2 * cos(y->plr->derction), y))
+		if (!check_is_wall(y->plr->y_p + 5 * sin(y->plr->derction), y->plr->x_p + 5 * cos(y->plr->derction), y))
 		{
-			y->plr->y_p += 2 *sin(y->plr->derction);
-			y->plr->x_p += 2 *cos(y->plr->derction);
+			y->plr->y_p += 5 *sin(y->plr->derction);
+			y->plr->x_p += 5 *cos(y->plr->derction);
 		}
 		y->plr->a_x = y->plr->x_p + 20 * cos(y->plr->derction);
 		y->plr->a_y = y->plr->y_p + 20 * sin(y->plr->derction);
 	}
 	if (mlx_is_key_down(y->mlx, MLX_KEY_DOWN))
 	{
-		if (!check_is_wall(y->plr->y_p - 2 * sin(y->plr->derction), y->plr->x_p - 2 * cos(y->plr->derction), y))
+		if (!check_is_wall(y->plr->y_p - 5 * sin(y->plr->derction), y->plr->x_p - 5 * cos(y->plr->derction), y))
 		{
-			y->plr->y_p -= 2 *sin(y->plr->derction);
-			y->plr->x_p -= 2 *cos(y->plr->derction);
+			y->plr->y_p -= 5 *sin(y->plr->derction);
+			y->plr->x_p -= 5 *cos(y->plr->derction);
 		}
 		y->plr->a_x = y->plr->x_p + 20 * cos(y->plr->derction);
 		y->plr->a_y = y->plr->y_p + 20 * sin(y->plr->derction);
@@ -323,6 +323,8 @@ int ft_strlen_pnt(char **str)
 	int i;
 	
 	i = 0;
+	if (!str || !*str)
+		return (0);
 	while (str[i])
 		i++;
 	return (i);
@@ -347,8 +349,15 @@ void    graphic(char **map, char **map_only)
     y.map = map_only;
 
 	y.plr = malloc(sizeof(t_player));
-	y.with_map = ft_strlen(map[9]);
+	if (!y.plr)
+		exit(0);
+	y.with_map = ft_strlen(map_only[0]);
+	if (y.with_map == 0)
+		exit(0);
 	y.hight_map = ft_strlen_pnt(map_only);
+	// y.hight_map = 9;
+	if (y.hight_map == 0)
+		exit(0);
     y.mlx = mlx_init(2000, 1000, "cube3D", false);
    	image = mlx_new_image(y.mlx, 2000, 1000);
 	
