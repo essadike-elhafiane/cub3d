@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:18:49 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/06/22 22:23:24 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/20 17:05:33 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,23 @@ typedef struct s_cube
 	t_player		*plr;
 } t_cub;
 
-int		check_map(char **map);
-void    graphic(char **map, char **map_only);
+typedef struct s_path
+{
+	int p;
+	int cc;
+	int f[3];
+	int c[3];
+	int ff;
+	int flg;
+	char *no;
+	char *so;
+	char *we;
+	char *ea;
+	char **only_map;
+}t_path;
+
+int		check_map(char **map , t_path *p, int len);
+void    graphic(char **map_only, t_path *p);
 double	dictance_horizontal(t_cub *y);
 void	check_line(char *map_line);
 void	render_next_frame(t_cub *y);

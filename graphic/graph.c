@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/07/29 15:04:54 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/20 17:11:48 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,13 @@ int check_is_wall(double y, double x, t_cub *data)
 		return (1);
 	// printf("x == %d | y == %d | c == %c \n", idx, idy, data->map[idy + 9][idx + 1]);
 	if (data->map[idy][idx] && (data->map[idy][idx] == '1' || data->map[idy][idx1] == '1' \
-	|| data->map[idy1][idx] == '1' || data->map[idy_1][idx] == '1'))
+	|| data->map[idy1][idx] == '1' || data->map[idy_1][idx] == '1' ))
 		return 1;
+	if (data->map[idy][idx] && (data->map[idy][idx] == ' ' || data->map[idy][idx1] == ' ' \
+	|| data->map[idy1][idx] == ' ' || data->map[idy_1][idx] == ' ' ))
+		return 1;
+	if (data->map[(int)(data->plr->y_p / 32)][(int)(x / 32)] == '1' && data->map[idy][(int)(data->plr->x_p / 32)] == '1')
+		return (1);
 	// if (!map[idy + 9][idx + 1] || map[idy + 9][idx + 1] == '1')
 	// 	return (1);
 	return (0);
@@ -255,7 +260,7 @@ void ft_hook1(void* param)
 
 	if (mlx_is_key_down(y->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(y->mlx);
-	if (mlx_is_key_down(y->mlx, MLX_KEY_UP))
+	if (mlx_is_key_down(y->mlx, MLX_KEY_UP) || mlx_is_key_down(y->mlx, MLX_KEY_W))
 	{
 		if (!check_is_wall(y->plr->y_p + 5 * sin(y->plr->derction), y->plr->x_p + 5 * cos(y->plr->derction), y))
 		{
@@ -343,7 +348,7 @@ double init_direction(char c)
 	return (-1);
 }
 
-void    graphic(char **map, char **map_only)
+void    graphic(char **map_only, t_path *p)
 {
     t_cub y;
     y.map = map_only;
@@ -351,29 +356,23 @@ void    graphic(char **map, char **map_only)
 	y.plr = malloc(sizeof(t_player));
 	if (!y.plr)
 		exit(0);
-	y.with_map = ft_strlen(map_only[0]);
-	if (y.with_map == 0)
-		exit(0);
+	// y.with_map = ft_strlen(map_only[0]);
+	// if (y.with_map == 0)
+		// exit(0);
 	y.hight_map = ft_strlen_pnt(map_only);
-	// y.hight_map = 9;
-	if (y.hight_map == 0)
-		exit(0);
     y.mlx = mlx_init(2000, 1000, "cube3D", false);
    	image = mlx_new_image(y.mlx, 2000, 1000);
 	
-	y.img_data_n = mlx_load_png("./i.png");
-	y.img_data_e = mlx_load_png("./w.png");
-	y.img_data_s = mlx_load_png("./d.png");
-	y.img_data_w = mlx_load_png("./w.png");
-	// y.img_data->texture.pixels
+	y.img_data_n = mlx_load_png(p->no);
+	y.img_data_e = mlx_load_png(p->ea);
+	y.img_data_s = mlx_load_png(p->so);
+	y.img_data_w = mlx_load_png(p->we);
 	if (!y.img_data_n || !y.img_data_e || !y.img_data_s || !y.img_data_w)
 		exit(1);
 	y.img_n = mlx_texture_to_image(y.mlx, y.img_data_n);
 	y.img_e = mlx_texture_to_image(y.mlx, y.img_data_e);
 	y.img_w = mlx_texture_to_image(y.mlx, y.img_data_w);
 	y.img_s = mlx_texture_to_image(y.mlx, y.img_data_s);
-
-	
 	int i = 0;
 	while (y.map[i])
 	{
@@ -395,7 +394,7 @@ void    graphic(char **map, char **map_only)
 		i++;
 	}
 	// render_next_frame(&y);
-	// mlx_loop_hook(y.mlx, ft_randomize, &y);
+	// mlx_loop_hook(y.mlx, ft_randomize, &y);aaaa
 	mlx_loop_hook(y.mlx, ft_hook1, &y);
 	mlx_image_to_window(y.mlx, image, 0, 0);
 	mlx_loop(y.mlx);
