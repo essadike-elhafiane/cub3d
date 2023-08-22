@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:18:49 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/20 17:05:33 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:22:31 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,6 @@ int		check_wall_fram(double x, double y, char **map, t_cub *data);
 double	distance_p(double x, double y, double x1, double y1);
 double  dictance_virtical(t_cub *y);
 void	randerwall(t_cub *y, int m);
+void	draw_player(t_cub *y);
 
 #endif

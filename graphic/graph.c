@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/22 17:00:39 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:55:09 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void draw_pixel(int x, int y, unsigned int color)
 		int j = 0;
 		while (j < 32)
 		{
-			mlx_put_pixel(image, (y * 32) + i , (x * 32) + j, color);
+			mlx_put_pixel(image, (y * 32) + i , (x * 32) + j - 32, color);
 			// mlx_put_pixel(image, (y * 32) , (x * 32), 0x0FFFFF);
 
 			j++;
@@ -138,18 +138,7 @@ int check_wall_fram(double x, double y, char **map, t_cub *data)
 void frame_playr(void *f)
 {
 	t_cub *y = f;
-	int j = 0;
-	int i = 0;
-	while (i < 1)
-	{
-		j = 0;
-		while (j < 1)
-		{
-			mlx_put_pixel(image, y->plr->x_p + i , j + y->plr->y_p , 0xFFFF00);
-			j++;
-		}
-		i++;
-	}
+	
 
 	int m = 0;
 	double dictence_h = 0;
@@ -183,6 +172,8 @@ void frame_playr(void *f)
 		y->angle_of_ray += deg2rad(60) / 2000;
 		m++;
 	}
+	render_next_frame(y);
+	draw_player(y);
 }
 
 
@@ -292,25 +283,44 @@ void ft_hook1(void* param)
 	mlx_delete_image(y->mlx, image);
 	image = mlx_new_image(y->mlx, 2000, 1000);
 	frame_playr(y);
-	render_next_frame(y);
 	mlx_image_to_window(y->mlx, image, 0, 0);
 }
 
-void	draw_player(int i, int j, int size, unsigned int color)
+void	draw_player(t_cub *y)
 {
-	int x,y;
-	x = 0;
-	while (x < size)
-	{
-		y = 0;
-		mlx_put_pixel(image, x + i , j, color);
-		while (y < size)
+	int size;
+	static int effect;
+	unsigned int color;
+	int j;
+	int i = 0;
+	int mm = 0;
+	
+	if (effect < 20)
 		{
-			mlx_put_pixel(image, i , y  + j, color);
-			y++;
+			// effect = 100;
+			size = 4;
+			color = 0xFFFFF;
 		}
-		x++;
+	else if(effect < 40)
+	{
+		i = -4;
+		mm = -4;
+		size = 8;
+		color = 0x66cdaa;
 	}
+	else
+		effect = 0;
+	while (i < size)
+	{
+		j = mm;
+		while (j < size)
+		{
+			mlx_put_pixel(image, y->plr->x_p + i , j + y->plr->y_p -32 , color);
+			j++;
+		}
+		i++;
+	}
+	effect++;
 }
 
 void render_next_frame(t_cub *y)
@@ -321,7 +331,22 @@ void render_next_frame(t_cub *y)
 	
 	color = 0x7FEAFF;
 	effect = 0;
+	int x_map = y->plr->x_p / 32;
+	int y_map = y->plr->y_p / 32;
+	if (x_map < 0)
+		x_map = 0;
+	else if (x_map - 4 < 0)
+		x_map = 0;
+	else
+		x_map -= 4;
 	
+	if (y_map < 0)
+		y_map = 0;
+	else if (y_map - 4 < 0)
+		y_map = 0;
+	else
+		y_map -= 4;
+	i = y_map
 	while (y->map[i])
 	{
 		int j = 0;
@@ -331,19 +356,6 @@ void render_next_frame(t_cub *y)
 				draw_pixel(i, j, 0xFFFFFF0);
 			if (y->map[i][j] == '1')
 				draw_pixel(i, j, 0xE23535FF);
-			if (check_direction(y->map[i][j]))
-			{
-				if (!effect)
-				{
-					draw_player(y->plr->a_y, y->plr->a_x, 4, 0x66cdaa);
-					effect = 1;
-				}
-				else
-				{
-					draw_player(y->plr->a_y, y->plr->a_x, 8, 0x66cdaa);
-					effect = 0;
-				}
-			}
 			j++;
 		}
 		i++;
