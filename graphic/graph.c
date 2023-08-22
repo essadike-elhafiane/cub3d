@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/22 17:55:09 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/22 22:33:19 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,14 @@ void draw_pixel(int x, int y, unsigned int color)
 {
 	int i = 0;
 	
+	if (x < 0 || y < 0)
+		exit(1);
 	while (i < 32)
 	{
 		int j = 0;
 		while (j < 32)
 		{
-			mlx_put_pixel(image, (y * 32) + i , (x * 32) + j - 32, color);
+			mlx_put_pixel(image, (y* 32 ) + i ,( x * 32) + j, color);
 			// mlx_put_pixel(image, (y * 32) , (x * 32), 0x0FFFFF);
 
 			j++;
@@ -315,7 +317,7 @@ void	draw_player(t_cub *y)
 		j = mm;
 		while (j < size)
 		{
-			mlx_put_pixel(image, y->plr->x_p + i , j + y->plr->y_p -32 , color);
+			mlx_put_pixel(image, 140 + i , 140 + j , color);
 			j++;
 		}
 		i++;
@@ -327,39 +329,126 @@ void render_next_frame(t_cub *y)
 {
 	static int effect;
 	int i = 0;
+	int j;
 	unsigned int color;
 	
 	color = 0x7FEAFF;
 	effect = 0;
-	int x_map = y->plr->x_p / 32;
-	int y_map = y->plr->y_p / 32;
-	if (x_map < 0)
-		x_map = 0;
-	else if (x_map - 4 < 0)
-		x_map = 0;
-	else
-		x_map -= 4;
 	
-	if (y_map < 0)
-		y_map = 0;
-	else if (y_map - 4 < 0)
-		y_map = 0;
-	else
-		y_map -= 4;
-	i = y_map
-	while (y->map[i])
+	int tmp = y->plr->x_p;
+	int	tmp2 = y->plr->y_p; 
+	int x_map;
+	tmp -= 140;
+	tmp2 -= 140;
+	int y_map = tmp2;
+	
+	int yy;
+	int xx;
+
+	yy = 0;
+	while(yy < 280)
 	{
-		int j = 0;
-		while (y->map[i][j])
+		xx = 0;
+		while(xx < 280)
 		{
-			if (y->map[i][j] == '0' || check_direction(y->map[i][j]))
-				draw_pixel(i, j, 0xFFFFFF0);
-			if (y->map[i][j] == '1')
-				draw_pixel(i, j, 0xE23535FF);
-			j++;
+			mlx_put_pixel(image, xx  ,yy , 0xFFF);
+			xx++;
 		}
-		i++;
+		yy++;
 	}
+
+	
+	if(y_map < 0)
+		y_map = 0;
+
+	while(y_map < tmp2 + 140 * 2 && y->map[y_map / 32])
+	{
+		x_map = tmp;
+		if (x_map < 0)
+			x_map = 0;	
+			while((x_map < tmp + 140 * 2) && x_map / 32 < ft_strlen(y->map[y_map / 32]))
+			{
+					// if(y->map[y_map / 32][x_map / 32] == '0')
+					// 	// mlx_put_pixel(image,   ,(x_map  - y->plr->x_p + 140 )  , 0xE23535FF);
+					// 	mlx_put_pixel(image, (x_map  - y->plr->x_p + 140 )  , (y_map  - y->plr->y_p + 140) , 0xE23535FF);
+					if(y->map[y_map / 32][x_map / 32] == '1')
+						// mlx_put_pixel(image, (y_map  - y->plr->y_p + 140)    ,(x_map  - y->plr->x_p + 140 )  ,);
+						mlx_put_pixel(image, (x_map  - y->plr->x_p + 140 )  , (y_map  - y->plr->y_p + 140) , 0xE2FFFF);
+					// else
+					// 	mlx_put_pixel(image, (x_map  - y->plr->x_p + 100 )  , (y_map  - y->plr->y_p + 100) , 0xE23535FF);
+						
+				
+					x_map++;
+			}
+		y_map++;
+	}
+	
+	// printf("%d\n",tmp2);
+	// printf("%d\n",tmp);
+	// printf("y%d\n",y_map);
+	// printf("x%d\n",x_map);
+	// exit(0);	
+	
+
+	// int x_map = y->plr->x_p / 32;
+	// int y_map = y->plr->y_p / 32;
+	// x_map -= 2;
+	
+	// if (x_map < 0)
+	// 	x_map = 0;
+	// else if (x_map - y->plr->x_p / 32 < 0)
+	// 	x_map = 0;
+	// else
+	// 	x_map = x_map - y->plr->x_p / 32 +2;
+	
+	// y_map -= 2;
+	// if (y_map < 0)
+	// 	y_map = 0;
+	// else if (y_map - y->plr->y_p / 32 < 0)
+	// 	y_map = 0;
+	// else
+	// 	y_map = y_map - y->plr->y_p / 32 + 2;
+
+	
+	// int tmp_x_map = y->plr->x_p / 32;
+	// int tmp_y_map = y->plr->y_p / 32;
+	
+	// if (tmp_x_map < 0)
+	// 	tmp_x_map = 0;
+	// else if (tmp_x_map - 2 < 0)
+	// 	tmp_x_map = 0;
+	// else
+	// 	tmp_x_map -= 2;
+	
+	// if (tmp_y_map < 0)
+	// 	tmp_y_map = 0;
+	// else if (tmp_y_map - 2 < 0)
+	// 	tmp_y_map = 0;
+	// else
+	// 	tmp_y_map -= 2;
+
+	// i = tmp_y_map ;
+	// j = tmp_x_map ;
+	
+	// while (y->map[i] && y->map[y_map])
+	// {
+	// 	int j = tmp_x_map;
+	// 	x_map = 0;
+	// 	while (y->map[i][j] && y->map[y_map][x_map])
+	// 	{
+	// 		if (y->map[i][j] == '0' || check_direction(y->map[i][j]))
+	// 		{
+	// 			draw_pixel(y_map, x_map, 0xE23535FF);
+	// 		}
+	// 		printf("%d | %d \n", x_map, y_map);
+	// 		if (y->map[i][j] == '1')
+	// 				draw_pixel(y_map, x_map, 0xE2FFFF);
+	// 		x_map++;
+	// 		j++;
+	// 	}
+	// 	y_map++;
+	// 	i++;
+	// }
 }
 
 int ft_strlen_pnt(char **str)
