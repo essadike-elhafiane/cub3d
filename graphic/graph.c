@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/23 00:10:55 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/23 00:50:00 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,6 +241,9 @@ void	randerwall(t_cub *y, int m)
 			mlx_put_pixel(image, m, i, 0xc3f5c3FF);
 		i++;
 	}
+	// free(y->imgg->instances);
+	// free(y->imgg->pixels);
+	// free(y->imgg);
 	// free(y->data_pixel);
 }
 
@@ -287,6 +290,7 @@ void ft_hook1(void* param)
 		y->plr->a_x = y->plr->x_p + 20 * cos(y->plr->derction);
 		y->plr->a_y = y->plr->y_p + 20 * sin(y->plr->derction);
 	}
+	mlx_delete_image(y->mlx, image);
 	mlx_delete_image(y->mlx, image);
 	image = mlx_new_image(y->mlx, 2000, 1000);
 	frame_playr(y);
@@ -530,16 +534,38 @@ void    graphic(char **map_only, t_path *p)
 	mlx_loop_hook(y.mlx, ft_hook1, &y);
 	mlx_image_to_window(y.mlx, image, 0, 0);
 	mlx_loop(y.mlx);
+	mlx_delete_texture(y.img_data_e);
+	mlx_delete_texture(y.img_data_n);
+	mlx_delete_texture(y.img_data_w);
+	mlx_delete_texture(y.img_data_s);
+	// mlx_delete_image(y.mlx, y.img_e);
 	free(p->ea);
 	free(p->we);
 	free(p->so);
 	free(p->no);
 	free(y.plr);
-	free(y.img_data_e);
-	free(y.img_data_n);
-	free(y.img_data_w);
-	free(y.img_data_s);
-	free(y.img_e);
+	// free(y.img_data_e->pixels);
+	// free(y.img_data_e);
+	// free(y.img_data_n->pixels);
+	// free(y.img_data_n);
+	// free(y.img_data_w->pixels);
+	// free(y.img_data_w);
+	// free(y.img_data_s->pixels);
+	// free(y.img_data_s);
+	// free(y.img_e->pixels);
+	// free(y.img_e->instances);
+	// free(y.img_e);
+	// free(y.img_n->pixels);
+	// free(y.img_n->instances);
+	// free(y.img_n);
+	// free(y.img_s->instances);
+	// free(y.img_s->pixels);
+	// free(y.img_s);
+	// free(y.img_w->pixels);
+	// free(y.img_w->instances);
+	// free(y.img_w);
+	mlx_close_window(y.mlx);
+	mlx_delete_image(y.mlx, image);
 }
 
 // when we want to calcul a dictance between a and b just we need to transfer it to trangle Ay - By = ab and Ax - Bx = Ac and we will calclut auther line with tng or sin or cos 
