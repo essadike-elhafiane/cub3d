@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:17:53 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/22 21:12:39 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/23 00:12:18 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ void     ft_free(char **map, char **only_map)
         free(only_map[i++]);
     free(only_map);
 }
-// void v()
-// {
-//     system("leaks cub");
-// }
+void v()
+{
+    system("leaks cub");
+}
 int main(int ac, char **av)
 {
     int fd;
@@ -61,7 +61,7 @@ int main(int ac, char **av)
     p.cc = 0;
     len = 0;
     i = 0;
-    // atexit(v);
+    atexit(v);
     if (ac != 2)
         return (write(1, "Error in arg \n", 14 ), 1);
     check_cub(av[1]);
@@ -81,6 +81,8 @@ int main(int ac, char **av)
     fd = open(av[1], O_RDONLY, 0777);
     while (i <= len)
         map[i++] = get_next_line(fd); 
+    if (!map[0])
+        exit(1);
     if (check_map(map, &p, len))
         return (1);
     graphic(p.only_map, &p);

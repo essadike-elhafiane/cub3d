@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/22 22:33:19 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/23 00:10:55 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,8 @@ void frame_playr(void *f)
 		y->h = 0;
 		if (dictence_h < dictence_v + 1e-8)
 			{
+				// if (dictence_h > 600)
+				// 	dictence_h = 600,00;
 				// draw_line(y, dictence_h, y->angle_of_ray);
 				y->distancee = dictence_h + 1e-8;
 				y->h = 1;
@@ -168,7 +170,10 @@ void frame_playr(void *f)
 		else if (dictence_h > dictence_v + 1e-8)
 			{
 				// draw_line(y, dictence_v, y->angle_of_ray);
+				// if (dictence_v > 600)
+				// 	dictence_v = 600,00;
 				y->distancee = dictence_v + 1e-8;
+				printf("%f, %f\n", dictence_h, dictence_v);
 			}
 		randerwall(y, m);
 		y->angle_of_ray += deg2rad(60) / 2000;
@@ -299,7 +304,6 @@ void	draw_player(t_cub *y)
 	
 	if (effect < 20)
 		{
-			// effect = 100;
 			size = 4;
 			color = 0xFFFFF;
 		}
@@ -376,7 +380,6 @@ void render_next_frame(t_cub *y)
 						mlx_put_pixel(image, (x_map  - y->plr->x_p + 140 )  , (y_map  - y->plr->y_p + 140) , 0xE2FFFF);
 					// else
 					// 	mlx_put_pixel(image, (x_map  - y->plr->x_p + 100 )  , (y_map  - y->plr->y_p + 100) , 0xE23535FF);
-						
 				
 					x_map++;
 			}
@@ -507,8 +510,8 @@ void    graphic(char **map_only, t_path *p)
 		int j = 0;
 		while (y.map[i][j])
 		{
-			if (y.map[i][j] == '1')
-				draw_pixel(i, j, 0xFFFFFFF);
+			// if (y.map[i][j] == '1')
+			// 	draw_pixel(i, j, 0xFFFFFFF);
 			if (check_direction(y.map[i][j]))
 			{
 				y.plr->x_p = j * 32;
@@ -521,11 +524,22 @@ void    graphic(char **map_only, t_path *p)
 		}
 		i++;
 	}
+	// exit(1);
 	// render_next_frame(&y);
 	// mlx_loop_hook(y.mlx, ft_randomize, &y);aaaa
 	mlx_loop_hook(y.mlx, ft_hook1, &y);
 	mlx_image_to_window(y.mlx, image, 0, 0);
 	mlx_loop(y.mlx);
+	free(p->ea);
+	free(p->we);
+	free(p->so);
+	free(p->no);
+	free(y.plr);
+	free(y.img_data_e);
+	free(y.img_data_n);
+	free(y.img_data_w);
+	free(y.img_data_s);
+	free(y.img_e);
 }
 
 // when we want to calcul a dictance between a and b just we need to transfer it to trangle Ay - By = ab and Ax - Bx = Ac and we will calclut auther line with tng or sin or cos 

@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:44:31 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/20 21:43:14 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/23 00:25:24 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,28 @@ int chose_line(int *i, char **map)
 	}
 	return(*i);
 }
+void check_error_map(char **map)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (map[i])
+	{
+		j = 0;
+		if (map[i][j] && (map[i][j] == ' ' || map[i][j] == '\t' || map[i][j] =='\n'))
+		{	
+			while(map[i][j] && (map[i][j] == ' ' || map[i][j] == '\t' || map[i][j] =='\n'))
+				j++;
+		}
+		else
+			break;
+		i++;
+	}
+	if(!map[i] || !map[i][j])
+		return (write(2, "Error in map\n", 13), exit(1));
+	
+}
 
 int check_identify(char **map , t_path *p, int len)
 {
@@ -178,6 +200,7 @@ int check_identify(char **map , t_path *p, int len)
 
 	i = 0;
 	a = 0;
+	check_error_map(map);
 	while(++a < 7)
 	{
 		if (check_correct_word(map[chose_line(&i,map)] , p))
