@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/20 17:11:48 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:00:39 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ void draw_line(t_cub *data, double dis, double rotation)
 
 int check_is_wall(double y, double x, t_cub *data)
 {
-	// if (y >= 100 || x >= 100)
-	// 	return 1;
 	int idy  = y / 32;
 	int idx = x / 32;
 	int idy1  = (y + 1) / 32;
@@ -102,7 +100,6 @@ int check_is_wall(double y, double x, t_cub *data)
 		return (1);
 	if (x < 0)
 		return (1);
-	// printf("x == %d | y == %d | c == %c \n", idx, idy, data->map[idy + 9][idx + 1]);
 	if (data->map[idy][idx] && (data->map[idy][idx] == '1' || data->map[idy][idx1] == '1' \
 	|| data->map[idy1][idx] == '1' || data->map[idy_1][idx] == '1' ))
 		return 1;
@@ -111,8 +108,6 @@ int check_is_wall(double y, double x, t_cub *data)
 		return 1;
 	if (data->map[(int)(data->plr->y_p / 32)][(int)(x / 32)] == '1' && data->map[idy][(int)(data->plr->x_p / 32)] == '1')
 		return (1);
-	// if (!map[idy + 9][idx + 1] || map[idy + 9][idx + 1] == '1')
-	// 	return (1);
 	return (0);
 }
 
@@ -196,29 +191,31 @@ mlx_image_t *get_img_of_view(t_cub *y)
 	// up right
 	if (y->h && (y->angle_of_ray >  M_PI && y->angle_of_ray < 2 * M_PI))
 	{
-		y->data_pixel = (uint32_t*)y->img_n->pixels;
-		return (y->img_n);
-	}
-	else if (y->h)
-	{
 		y->data_pixel = (uint32_t*)y->img_s->pixels;
 		return (y->img_s);
 	}
-	if (!y->h && y->angle_of_ray < 3 * M_PI / 2 && y->angle_of_ray > M_PI / 2)
+	else if (y->h)
 	{
-		y->data_pixel = (uint32_t*)y->img_e->pixels;
-		return (y->img_e);
+		y->data_pixel = (uint32_t*)y->img_n->pixels;
+		return (y->img_n);
 	}
-	else
+	if (!y->h && y->angle_of_ray < 3 * M_PI / 2 && y->angle_of_ray > M_PI / 2)
 	{
 		y->data_pixel = (uint32_t*)y->img_w->pixels;
 		return (y->img_w);
+	}
+	else
+	{
+		y->data_pixel = (uint32_t*)y->img_e->pixels;
+		return (y->img_e);
 	}
 }
 
 void	randerwall(t_cub *y, int m)
 {
 	int i;
+	int x_texture;
+	int y_texture;
 
 	i = 0;
 	y->distancee = y->distancee * cos(y->angle_of_ray - y->plr->derction);
@@ -227,31 +224,26 @@ void	randerwall(t_cub *y, int m)
 	int down = (1000 / 2) + (height_of_wall / 2);
 	top = top < 0 ? 0 : top;
 	down = down > 1000 ? 1000 : down;
-	int x_texture;
 	y->imgg = get_img_of_view(y);
 	if (!y->h)
-		x_texture = (int )y->hitwall_y_v % y->imgg->width;
+		x_texture = (int )((y->hitwall_y_v / 32) * y->imgg->width) % y->imgg->width;
 	else
-		x_texture = (int )y->hitwall_x % y->imgg->width;
-
-	int y_texture;
-		
+		x_texture = (int )((y->hitwall_x * y->imgg->width) / 32) % y->imgg->width;
 	while (i < 1000)
 	{
 		if (i < top)
 			mlx_put_pixel(image, m, i, 0xF0FFF0FF);
 		else if (i < down)
 		{
-				int mm = i +( height_of_wall / 2) - (1000 / 2);
-				y_texture = mm * ((float)y->imgg->width / height_of_wall);
-				// y_texture = i;
+				int mm = i + ( height_of_wall / 2) - (1000 / 2);
+				y_texture = mm * ((float)y->imgg->height / height_of_wall);
 			 	mlx_put_pixel(image, m ,  i, y->data_pixel[y_texture * y->imgg->width + x_texture]);
 		}
 		else
-			// while(i < i + 4 && i < 1000)
 			mlx_put_pixel(image, m, i, 0xc3f5c3FF);
 		i++;
 	}
+	// free(y->data_pixel);
 }
 
 void ft_hook1(void* param)
@@ -299,15 +291,37 @@ void ft_hook1(void* param)
 	}
 	mlx_delete_image(y->mlx, image);
 	image = mlx_new_image(y->mlx, 2000, 1000);
-	render_next_frame(y);
 	frame_playr(y);
+	render_next_frame(y);
 	mlx_image_to_window(y->mlx, image, 0, 0);
 }
 
+void	draw_player(int i, int j, int size, unsigned int color)
+{
+	int x,y;
+	x = 0;
+	while (x < size)
+	{
+		y = 0;
+		mlx_put_pixel(image, x + i , j, color);
+		while (y < size)
+		{
+			mlx_put_pixel(image, i , y  + j, color);
+			y++;
+		}
+		x++;
+	}
+}
 
 void render_next_frame(t_cub *y)
 {
+	static int effect;
 	int i = 0;
+	unsigned int color;
+	
+	color = 0x7FEAFF;
+	effect = 0;
+	
 	while (y->map[i])
 	{
 		int j = 0;
@@ -317,6 +331,19 @@ void render_next_frame(t_cub *y)
 				draw_pixel(i, j, 0xFFFFFF0);
 			if (y->map[i][j] == '1')
 				draw_pixel(i, j, 0xE23535FF);
+			if (check_direction(y->map[i][j]))
+			{
+				if (!effect)
+				{
+					draw_player(y->plr->a_y, y->plr->a_x, 4, 0x66cdaa);
+					effect = 1;
+				}
+				else
+				{
+					draw_player(y->plr->a_y, y->plr->a_x, 8, 0x66cdaa);
+					effect = 0;
+				}
+			}
 			j++;
 		}
 		i++;
