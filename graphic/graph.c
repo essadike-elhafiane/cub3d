@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/23 22:35:10 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/23 22:43:59 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,7 @@ void	randerwall(t_cub *y, int m)
 			 	mlx_put_pixel(image, m ,  i, color);
 		}
 		else
-			mlx_put_pixel(image, m, i, 0xc3f5c3FF);
+			mlx_put_pixel(image, m, i, ft_pixel(y->path->f[0], y->path->f[1],y->path->f[2], 255));
 		i++;
 	}
 	// free(y->imgg->instances);
@@ -456,7 +456,7 @@ void    graphic(char **map_only, t_path *p)
 {
     t_cub y;
     y.map = map_only;
-
+	y.path = p;
 	y.plr = malloc(sizeof(t_player));
 	if (!y.plr)
 		exit(0);
