@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/23 22:43:59 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/23 22:45:26 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,7 @@ void	randerwall(t_cub *y, int m)
 	while (i < 1000)
 	{
 		if (i < top)
-			mlx_put_pixel(image, m, i, 0xF0FFF0FF);
+			mlx_put_pixel(image, m, i, ft_pixel(y->path->c[0], y->path->c[1],y->path->c[2], 255));
 		else if (i < down)
 		{
 				int mm = i + ( height_of_wall / 2) - (1000 / 2);
