@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/23 00:50:00 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:37:32 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,14 @@ int angle = 60;
 
 int check_wall_fram(double x, double y, char **map, t_cub *data)
 {
+	// printf("fddfhd %f | %f\n", x,y);
+	// exit(1);
 	int xx = (int)floor(x / 32);
-	int xx1 = (int)floor((x + 1) / 32);
+	// int xx1 = (int)floor((x + 1) / 32);
 	// int xx_1 = (int)floor((x - 1) / 32);
 	int yy = (int)floor(y / 32);
 	// int yy_1 = (int)floor((y - 1 )/ 32);
-	int yy1 = (int)floor((y + 1) / 32);
+	// int yy1 = (int)floor((y + 1) / 32);
 	// int yy = (int)floor(y / 32);
 	if (yy < 0 || yy >= data->hight_map)
 		return (1);
@@ -149,13 +151,10 @@ void frame_playr(void *f)
 	y->angle_of_ray = y->plr->derction - (deg2rad(30));
 	while (m < 2000)
 	{
-		if(y->angle_of_ray < 0){
+		if(y->angle_of_ray < 0)
 			y->angle_of_ray += 2*M_PI;
-		}
 		else if(y->angle_of_ray >=2 * M_PI)
-		{
 			y->angle_of_ray -= 2 * M_PI;
-		}
 		dictence_h = dictance_horizontal(y);
 		dictence_v = dictance_virtical(y);
 		y->h = 0;
@@ -164,23 +163,23 @@ void frame_playr(void *f)
 				// if (dictence_h > 600)
 				// 	dictence_h = 600,00;
 				// draw_line(y, dictence_h, y->angle_of_ray);
-				y->distancee = dictence_h + 1e-8;
+				y->distancee = dictence_h;
 				y->h = 1;
+				// printf("%f, %f\n", dictence_h, dictence_v);
 			}
-		else if (dictence_h > dictence_v + 1e-8)
+		else if (dictence_h >= dictence_v + 1e-8)
 			{
 				// draw_line(y, dictence_v, y->angle_of_ray);
 				// if (dictence_v > 600)
 				// 	dictence_v = 600,00;
-				y->distancee = dictence_v + 1e-8;
-				printf("%f, %f\n", dictence_h, dictence_v);
+				y->distancee = dictence_v;
 			}
 		randerwall(y, m);
 		y->angle_of_ray += deg2rad(60) / 2000;
 		m++;
 	}
-	render_next_frame(y);
-	draw_player(y);
+	// render_next_frame(y);
+	// draw_player(y);
 }
 
 
@@ -234,7 +233,7 @@ void	randerwall(t_cub *y, int m)
 		else if (i < down)
 		{
 				int mm = i + ( height_of_wall / 2) - (1000 / 2);
-				y_texture = mm * ((float)y->imgg->height / height_of_wall);
+				y_texture = mm * ((double)y->imgg->height / height_of_wall);
 			 	mlx_put_pixel(image, m ,  i, y->data_pixel[y_texture * y->imgg->width + x_texture]);
 		}
 		else
@@ -245,6 +244,24 @@ void	randerwall(t_cub *y, int m)
 	// free(y->imgg->pixels);
 	// free(y->imgg);
 	// free(y->data_pixel);
+}
+
+void render_next_frame1(t_cub *y)
+{
+	int i = 0;
+	while (y->map[i])
+	{
+		int j = 0;
+		while (y->map[i][j])
+		{
+			if (y->map[i][j] == '0' || check_direction(y->map[i][j]))
+				draw_pixel(i, j, 0xFFFFFF0);
+			if (y->map[i][j] == '1')
+				draw_pixel(i, j, 0x000FF);
+			j++;
+		}
+		i++;
+	}
 }
 
 void ft_hook1(void* param)
@@ -293,6 +310,7 @@ void ft_hook1(void* param)
 	mlx_delete_image(y->mlx, image);
 	mlx_delete_image(y->mlx, image);
 	image = mlx_new_image(y->mlx, 2000, 1000);
+	// render_next_frame1(y);
 	frame_playr(y);
 	mlx_image_to_window(y->mlx, image, 0, 0);
 }
@@ -389,73 +407,6 @@ void render_next_frame(t_cub *y)
 			}
 		y_map++;
 	}
-	
-	// printf("%d\n",tmp2);
-	// printf("%d\n",tmp);
-	// printf("y%d\n",y_map);
-	// printf("x%d\n",x_map);
-	// exit(0);	
-	
-
-	// int x_map = y->plr->x_p / 32;
-	// int y_map = y->plr->y_p / 32;
-	// x_map -= 2;
-	
-	// if (x_map < 0)
-	// 	x_map = 0;
-	// else if (x_map - y->plr->x_p / 32 < 0)
-	// 	x_map = 0;
-	// else
-	// 	x_map = x_map - y->plr->x_p / 32 +2;
-	
-	// y_map -= 2;
-	// if (y_map < 0)
-	// 	y_map = 0;
-	// else if (y_map - y->plr->y_p / 32 < 0)
-	// 	y_map = 0;
-	// else
-	// 	y_map = y_map - y->plr->y_p / 32 + 2;
-
-	
-	// int tmp_x_map = y->plr->x_p / 32;
-	// int tmp_y_map = y->plr->y_p / 32;
-	
-	// if (tmp_x_map < 0)
-	// 	tmp_x_map = 0;
-	// else if (tmp_x_map - 2 < 0)
-	// 	tmp_x_map = 0;
-	// else
-	// 	tmp_x_map -= 2;
-	
-	// if (tmp_y_map < 0)
-	// 	tmp_y_map = 0;
-	// else if (tmp_y_map - 2 < 0)
-	// 	tmp_y_map = 0;
-	// else
-	// 	tmp_y_map -= 2;
-
-	// i = tmp_y_map ;
-	// j = tmp_x_map ;
-	
-	// while (y->map[i] && y->map[y_map])
-	// {
-	// 	int j = tmp_x_map;
-	// 	x_map = 0;
-	// 	while (y->map[i][j] && y->map[y_map][x_map])
-	// 	{
-	// 		if (y->map[i][j] == '0' || check_direction(y->map[i][j]))
-	// 		{
-	// 			draw_pixel(y_map, x_map, 0xE23535FF);
-	// 		}
-	// 		printf("%d | %d \n", x_map, y_map);
-	// 		if (y->map[i][j] == '1')
-	// 				draw_pixel(y_map, x_map, 0xE2FFFF);
-	// 		x_map++;
-	// 		j++;
-	// 	}
-	// 	y_map++;
-	// 	i++;
-	// }
 }
 
 int ft_strlen_pnt(char **str)
