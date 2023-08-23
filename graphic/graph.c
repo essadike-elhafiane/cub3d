@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/23 18:37:32 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:58:11 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,8 +178,8 @@ void frame_playr(void *f)
 		y->angle_of_ray += deg2rad(60) / 2000;
 		m++;
 	}
-	// render_next_frame(y);
-	// draw_player(y);
+	render_next_frame(y);
+	draw_player(y);
 }
 
 
@@ -377,7 +377,7 @@ void render_next_frame(t_cub *y)
 		xx = 0;
 		while(xx < 280)
 		{
-			mlx_put_pixel(image, xx  ,yy , 0xFFF);
+			// mlx_put_pixel(image, xx  ,yy , 0xFFF);
 			xx++;
 		}
 		yy++;
