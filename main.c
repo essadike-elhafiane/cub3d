@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:17:53 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/23 20:19:22 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/23 20:30:44 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,22 @@ void init_struct(t_path *p)
     p->i = 0;
 }
 
-int main(int ac, char **av)
+void len_map(t_path *p)
 {
     char *str;
+    
+    while (1)
+    {
+        str = get_next_line(p->fd);
+        if (!str)
+            break;
+        free(str);
+        p->len++;
+    }
+}
+
+int main(int ac, char **av)
+{
     char **map;
     t_path p;
 
@@ -70,14 +83,7 @@ int main(int ac, char **av)
     p.fd = open(av[1], O_RDWR, 0777);
     if (p.fd < 0)
         return (write(2, "Error open file\n", 16), 1);
-    while (1)
-    {
-        str = get_next_line(p.fd);
-        if (!str)
-            break;
-        free(str);
-        p.len++;
-    }
+    len_map(&p);
     map = (char **) malloc(sizeof(char *) * (p.len + 1));
     if (!map)
         return (write(2, "Error in malloc \n", 17), 1);
@@ -91,5 +97,3 @@ int main(int ac, char **av)
     ft_free(map, p.only_map);
     return (0);
 }
-
-// you don't check map.cub every file is work in your program

@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/23 18:58:11 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/23 22:35:10 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int check_direction(char c)
 
 // -----------------------------------------------------------------------------
 
-int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
+unsigned int ft_pixel(unsigned int r, unsigned int g, unsigned int b, unsigned int a)
 {
     return (r << 24 | g << 16 | b << 8 | a);
 }
@@ -188,22 +188,22 @@ mlx_image_t *get_img_of_view(t_cub *y)
 	// up right
 	if (y->h && (y->angle_of_ray >  M_PI && y->angle_of_ray < 2 * M_PI))
 	{
-		y->data_pixel = (uint32_t*)y->img_s->pixels;
+		y->data_pixel = y->img_s->pixels;
 		return (y->img_s);
 	}
 	else if (y->h)
 	{
-		y->data_pixel = (uint32_t*)y->img_n->pixels;
+		y->data_pixel = y->img_n->pixels;
 		return (y->img_n);
 	}
 	if (!y->h && y->angle_of_ray < 3 * M_PI / 2 && y->angle_of_ray > M_PI / 2)
 	{
-		y->data_pixel = (uint32_t*)y->img_w->pixels;
+		y->data_pixel = y->img_w->pixels;
 		return (y->img_w);
 	}
 	else
 	{
-		y->data_pixel = (uint32_t*)y->img_e->pixels;
+		y->data_pixel = y->img_e->pixels;
 		return (y->img_e);
 	}
 }
@@ -234,7 +234,24 @@ void	randerwall(t_cub *y, int m)
 		{
 				int mm = i + ( height_of_wall / 2) - (1000 / 2);
 				y_texture = mm * ((double)y->imgg->height / height_of_wall);
-			 	mlx_put_pixel(image, m ,  i, y->data_pixel[y_texture * y->imgg->width + x_texture]);
+				// int m = 0;
+				unsigned int color;
+				// while (y->data_pixel[m])
+				if ((y_texture * y->imgg->width + x_texture) * 4 + 3 < y->imgg->height * y->imgg->width * 4)
+				
+					color  = ft_pixel(y->data_pixel[(y_texture * y->imgg->width + x_texture) * 4],
+
+					y->data_pixel[(y_texture * y->imgg->width + x_texture) * 4 + 1],
+
+					y->data_pixel[(y_texture * y->imgg->width + x_texture)* 4 + 2],
+					
+					y->data_pixel[(y_texture * y->imgg->width + x_texture)* 4 + 3]);
+					
+				else
+					color = 0;
+				
+				// printf("%d\n", y->data_pixel[y_texture * y->imgg->width + x_texture]);
+			 	mlx_put_pixel(image, m ,  i, color);
 		}
 		else
 			mlx_put_pixel(image, m, i, 0xc3f5c3FF);
@@ -348,6 +365,7 @@ void	draw_player(t_cub *y)
 		}
 		i++;
 	}
+	mlx_put_pixel(image, 15 *  cos(y->plr->derction) + 140,  15 * sin(y->plr->derction) + 140, color);
 	effect++;
 }
 
@@ -495,26 +513,6 @@ void    graphic(char **map_only, t_path *p)
 	free(p->so);
 	free(p->no);
 	free(y.plr);
-	// free(y.img_data_e->pixels);
-	// free(y.img_data_e);
-	// free(y.img_data_n->pixels);
-	// free(y.img_data_n);
-	// free(y.img_data_w->pixels);
-	// free(y.img_data_w);
-	// free(y.img_data_s->pixels);
-	// free(y.img_data_s);
-	// free(y.img_e->pixels);
-	// free(y.img_e->instances);
-	// free(y.img_e);
-	// free(y.img_n->pixels);
-	// free(y.img_n->instances);
-	// free(y.img_n);
-	// free(y.img_s->instances);
-	// free(y.img_s->pixels);
-	// free(y.img_s);
-	// free(y.img_w->pixels);
-	// free(y.img_w->instances);
-	// free(y.img_w);
 	mlx_close_window(y.mlx);
 	mlx_delete_image(y.mlx, image);
 }

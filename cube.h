@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:18:49 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/23 20:14:33 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/23 22:05:57 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_cube
 	mlx_texture_t	*img_data_e;
 	mlx_texture_t	*img_data_s;
 	mlx_texture_t	*img_data_w;
-	uint32_t		*data_pixel;
+	uint8_t		*data_pixel;
 	mlx_image_t		*imgg;
 	mlx_image_t		*img_n;
 	mlx_image_t		*img_s;
