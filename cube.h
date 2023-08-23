@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:18:49 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/23 18:36:44 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/23 20:14:33 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ typedef struct s_path
 	int c[3];
 	int ff;
 	int flg;
+	int fd;
+    int len;
+    int i;
 	char *no;
 	char *so;
 	char *we;
