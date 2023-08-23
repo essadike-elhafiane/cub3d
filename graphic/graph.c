@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/23 22:45:26 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/23 23:04:39 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -361,11 +361,12 @@ void	draw_player(t_cub *y)
 		while (j < size)
 		{
 			mlx_put_pixel(image, 140 + i , 140 + j , color);
+			mlx_put_pixel(image, (15 + i) *  cos(y->plr->derction) + 140,  (15 + j) * sin(y->plr->derction) + 140,  0xFFFFF);
 			j++;
 		}
 		i++;
 	}
-	mlx_put_pixel(image, 15 *  cos(y->plr->derction) + 140,  15 * sin(y->plr->derction) + 140, color);
+	
 	effect++;
 }
 
