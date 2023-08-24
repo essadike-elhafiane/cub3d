@@ -1,10 +1,10 @@
-SO textures/mmm.png
-WE textures/e.png
-EA textures/kk.png
-NO textures/i.png
+SO textures/wall.png
+WE textures/wall.png
+EA textures/wall.png
+NO textures/wall1.png
  
-F 100,100,50
-C 50,100,100
+F 200,156,89
+C 166,207,245
 
 
 

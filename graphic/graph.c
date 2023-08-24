@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/23 23:04:39 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/24 21:19:58 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,35 +294,46 @@ void ft_hook1(void* param)
 			y->plr->y_p += 5 *sin(y->plr->derction);
 			y->plr->x_p += 5 *cos(y->plr->derction);
 		}
-		y->plr->a_x = y->plr->x_p + 20 * cos(y->plr->derction);
-		y->plr->a_y = y->plr->y_p + 20 * sin(y->plr->derction);
 	}
-	if (mlx_is_key_down(y->mlx, MLX_KEY_DOWN))
+	if (mlx_is_key_down(y->mlx, MLX_KEY_DOWN) || mlx_is_key_down(y->mlx, MLX_KEY_S))
 	{
 		if (!check_is_wall(y->plr->y_p - 5 * sin(y->plr->derction), y->plr->x_p - 5 * cos(y->plr->derction), y))
 		{
 			y->plr->y_p -= 5 *sin(y->plr->derction);
 			y->plr->x_p -= 5 *cos(y->plr->derction);
 		}
-		y->plr->a_x = y->plr->x_p + 20 * cos(y->plr->derction);
-		y->plr->a_y = y->plr->y_p + 20 * sin(y->plr->derction);
 	}
+
+
+	if (mlx_is_key_down(y->mlx, MLX_KEY_D))
+	{
+		if (!check_is_wall(y->plr->y_p + 2 * cos(y->plr->derction), y->plr->x_p - 2 * sin(y->plr->derction), y))
+		{
+			y->plr->y_p += 2 *cos(y->plr->derction);
+			y->plr->x_p -= 2 *sin(y->plr->derction);
+		}
+	}
+	if (mlx_is_key_down(y->mlx, MLX_KEY_A))
+	{
+		if (!check_is_wall(y->plr->y_p - 2 * cos(y->plr->derction), y->plr->x_p + 2 * sin(y->plr->derction), y))
+		{
+			y->plr->y_p -= 2 *cos(y->plr->derction);
+			y->plr->x_p += 2 *sin(y->plr->derction);
+		}
+	}
+	
 	if (mlx_is_key_down(y->mlx, MLX_KEY_LEFT))
 	{
 		y->plr->derction -= 2 * M_PI / 180;
 		if (y->plr->derction < 0)
 				y->plr->derction = (2 * M_PI) + y->plr->derction;
 		
-		y->plr->a_x = y->plr->x_p + 20 * cos(y->plr->derction);
-		y->plr->a_y = y->plr->y_p + 20 * sin(y->plr->derction);
 	}
 	if (mlx_is_key_down(y->mlx, MLX_KEY_RIGHT))
 	{
 		y->plr->derction += 2 * M_PI / 180;
 		if (y->plr->derction  >= 2 * M_PI)
 				y->plr->derction  = 0;
-		y->plr->a_x = y->plr->x_p + 20 * cos(y->plr->derction);
-		y->plr->a_y = y->plr->y_p + 20 * sin(y->plr->derction);
 	}
 	mlx_delete_image(y->mlx, image);
 	mlx_delete_image(y->mlx, image);
@@ -361,9 +372,22 @@ void	draw_player(t_cub *y)
 		while (j < size)
 		{
 			mlx_put_pixel(image, 140 + i , 140 + j , color);
-			mlx_put_pixel(image, (15 + i) *  cos(y->plr->derction) + 140,  (15 + j) * sin(y->plr->derction) + 140,  0xFFFFF);
+			mlx_put_pixel(image, (15 + i) *  cos(y->plr->derction) + 140,  (15 + j) * sin(y->plr->derction) + 140,  0xffe512);
 			j++;
 		}
+		i++;
+	}
+	i = 0;
+	while (i < 280)
+	{
+		mlx_put_pixel(image, i , 0 , color);
+		mlx_put_pixel(image, 0 , i , color);
+		mlx_put_pixel(image, i , 280 , color);
+		mlx_put_pixel(image, 280 , i , color);
+		mlx_put_pixel(image, i + 1 , 1 , color);
+		mlx_put_pixel(image, 1 , i + 1 , color);
+		mlx_put_pixel(image, i + 1, 281 , color);
+		mlx_put_pixel(image, 281 , i +1, color);
 		i++;
 	}
 	

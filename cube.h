@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:18:49 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/23 22:42:17 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/23 23:29:35 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "/Users/eelhafia/Desktop/MLX42/include/MLX42/MLX42.h"
 #include "get_next_line/get_next_line.h"
 #include "libft/libft.h"
+
 
 typedef struct s_player
 {
