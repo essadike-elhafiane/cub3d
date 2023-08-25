@@ -1,4 +1,4 @@
-NAME = cub
+NAME = cub3D
 CC = cc -Ofast #-g -fsanitize=address
 flg = 
 RM = rm -f 
