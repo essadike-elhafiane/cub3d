@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:18:49 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/25 17:20:20 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/25 21:42:13 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ typedef struct s_cube
 	double			hitwall_x;
 	double			hitwall_y;
 	double			angle_of_ray;
+	int32_t			x_mouse;
+	int32_t			y_mouse;
+	int				mouse_key_down;
 	t_player		*plr;
 	t_path			*path;
 } t_cub;

@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/25 20:02:20 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:36:14 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,10 +279,28 @@ void render_next_frame1(t_cub *y)
 	}
 }
 
+void	mouse_event(t_cub *y)
+{
+	if (mlx_is_mouse_down(y->mlx, MLX_MOUSE_BUTTON_LEFT) && y->mouse_key_down == 0)
+	{	
+		mlx_set_mouse_pos(y->mlx, 1000, 500);
+		mlx_set_cursor_mode(y->mlx, MLX_MOUSE_HIDDEN);
+		y->mouse_key_down = 1;
+	}
+	else if (!mlx_is_mouse_down(y->mlx, MLX_MOUSE_BUTTON_LEFT) && y->mouse_key_down == 1)
+		y->mouse_key_down  = 0;
+	mlx_get_mouse_pos(y->mlx, &y->x_mouse, &y->y_mouse);
+	if (y->mouse_key_down && y->x_mouse > 1000)
+		y->plr->derction += 2 * M_PI / 180;
+	else if (y->mouse_key_down && y->x_mouse < 1000)
+		y->plr->derction -= 2 * M_PI / 180;
+}
+
 void ft_hook1(void* param)
 {
 	t_cub* y = param;
 
+	mouse_event(y);
 	if (mlx_is_key_down(y->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(y->mlx);
 	if (mlx_is_key_down(y->mlx, MLX_KEY_UP) || mlx_is_key_down(y->mlx, MLX_KEY_W))
@@ -302,8 +320,7 @@ void ft_hook1(void* param)
 		}
 	}
 
-
-	if (mlx_is_key_down(y->mlx, MLX_KEY_D))
+	if (mlx_is_key_down(y->mlx, MLX_KEY_D) || mlx_is_mouse_down(y->mlx, 2))
 	{
 		if (!check_is_wall(y->plr->y_p + 2 * cos(y->plr->derction), y->plr->x_p - 2 * sin(y->plr->derction), y))
 		{
@@ -333,6 +350,7 @@ void ft_hook1(void* param)
 		if (y->plr->derction  >= 2 * M_PI)
 				y->plr->derction  = 0;
 	}
+	
 	mlx_delete_image(y->mlx, image);
 	mlx_delete_image(y->mlx, image);
 	image = mlx_new_image(y->mlx, 2000, 1000);
@@ -398,10 +416,8 @@ void render_next_frame(t_cub *y)
 	int i = 0;
 	int j;
 	unsigned int color;
-	
 	color = 0x7FEAFF;
 	effect = 0;
-	
 	int tmp = y->plr->x_p;
 	int	tmp2 = y->plr->y_p; 
 	int x_map;
@@ -417,17 +433,11 @@ void render_next_frame(t_cub *y)
 	{
 		xx = 0;
 		while(xx < 280)
-		{
-			// mlx_put_pixel(image, xx  ,yy , 0xFFF);
 			xx++;
-		}
 		yy++;
 	}
-
-	
 	if(y_map < 0)
 		y_map = 0;
-
 	while(y_map < tmp2 + 140 * 2 && y->map[y_map / 32])
 	{
 		x_map = tmp;
@@ -435,16 +445,9 @@ void render_next_frame(t_cub *y)
 			x_map = 0;	
 			while((x_map < tmp + 140 * 2) && x_map / 32 < ft_strlen(y->map[y_map / 32]))
 			{
-					// if(y->map[y_map / 32][x_map / 32] == '0')
-					// 	// mlx_put_pixel(image,   ,(x_map  - y->plr->x_p + 140 )  , 0xE23535FF);
-					// 	mlx_put_pixel(image, (x_map  - y->plr->x_p + 140 )  , (y_map  - y->plr->y_p + 140) , 0xE23535FF);
-					if(y->map[y_map / 32][x_map / 32] == '1')
-						// mlx_put_pixel(image, (y_map  - y->plr->y_p + 140)    ,(x_map  - y->plr->x_p + 140 )  ,);
-						mlx_put_pixel(image, (x_map  - y->plr->x_p + 140 )  , (y_map  - y->plr->y_p + 140) , 0xE2FFFF);
-					// else
-					// 	mlx_put_pixel(image, (x_map  - y->plr->x_p + 100 )  , (y_map  - y->plr->y_p + 100) , 0xE23535FF);
-				
-					x_map++;
+				if(y->map[y_map / 32][x_map / 32] == '1')
+					mlx_put_pixel(image, (x_map  - y->plr->x_p + 140 )  , (y_map  - y->plr->y_p + 140) , 0xFFF);
+				x_map++;
 			}
 		y_map++;
 	}
@@ -475,11 +478,20 @@ double init_direction(char c)
 	return (-1);
 }
 
+void mouse_houk(mouse_key_t button, action_t action, modifier_key_t mods, void* param)
+{
+	t_cub *y = (t_cub *)param;
+	
+	
+
+}
+
 void    graphic(char **map_only, t_path *p)
 {
     t_cub y;
     y.map = map_only;
 	y.path = p;
+	y.mouse_key_down = 0;
 	y.plr = malloc(sizeof(t_player));
 	if (!y.plr)
 		exit(0);
@@ -520,10 +532,12 @@ void    graphic(char **map_only, t_path *p)
 		}
 		i++;
 	}
+
 	// exit(1);
 	// render_next_frame(&y);
 	// mlx_loop_hook(y.mlx, ft_randomize, &y);aaaa
 	mlx_loop_hook(y.mlx, ft_hook1, &y);
+	// mlx_mouse_hook(y.mlx, mouse_houk , &y);
 	mlx_image_to_window(y.mlx, image, 0, 0);
 	mlx_loop(y.mlx);
 	mlx_delete_texture(y.img_data_e);
