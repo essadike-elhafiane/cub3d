@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:17:53 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/25 01:43:02 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:24:57 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,22 @@ void     ft_free(char **map, char **only_map)
         free(map[i++]);
     free(map);
     i = 0;
-    while (only_map[i])
-        free(only_map[i++]);
-    free(only_map);
+    if (only_map)
+    {
+        while (only_map[i])
+            free(only_map[i++]);
+        free(only_map);
+    }
 }
 void v()
 {
     system("leaks cub");
 }
+
 void init_struct(t_path *p)
 {
+    p->only_map = NULL;
+    p->map = NULL;
     p->ea = NULL;
     p->we = NULL;
     p->no = NULL;

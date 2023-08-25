@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:18:49 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/23 23:29:35 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:20:20 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ typedef struct s_player
 
 typedef struct s_path
 {
+	char *no;
+	char *so;
+	char *we;
+	char *ea;
+	char **only_map;
+	char **map;
 	int p;
 	int cc;
 	int f[3];
@@ -44,11 +50,6 @@ typedef struct s_path
 	int fd;
     int len;
     int i;
-	char *no;
-	char *so;
-	char *we;
-	char *ea;
-	char **only_map;
 }t_path;
 
 typedef struct s_cube
@@ -90,5 +91,6 @@ double	distance_p(double x, double y, double x1, double y1);
 double  dictance_virtical(t_cub *y);
 void	randerwall(t_cub *y, int m);
 void	draw_player(t_cub *y);
+void    ft_free(char **map, char **only_map);
 
 #endif
