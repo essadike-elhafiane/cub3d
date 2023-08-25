@@ -1,12 +1,11 @@
-SO textures/wall.png
-WE textures/wall.png
-EA textures/wall.png
-NO textures/wall1.png
+
+SO textur es/wall.png
+WE textur es/2.png
+NO textur es/wall.png
  
+EA textur es/wall.png
 F 200,156,89
 C 166,207,245
-
-
 
 
 1111111111111111111111111111111
@@ -24,6 +23,8 @@ C 166,207,245
  11100000000000000000001
    100000000000000000011
     1100000000000000011
-      1000000000000001
+      100000000000001
        11111000000111
-       11111111111111 
+       11111111111111
+
+

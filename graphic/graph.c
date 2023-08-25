@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/24 21:19:58 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/25 16:22:14 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,10 +226,12 @@ void	randerwall(t_cub *y, int m)
 		x_texture = (int )((y->hitwall_y_v / 32) * y->imgg->width) % y->imgg->width;
 	else
 		x_texture = (int )((y->hitwall_x * y->imgg->width) / 32) % y->imgg->width;
+	int j = 0;
 	while (i < 1000)
 	{
+		
 		if (i < top)
-			mlx_put_pixel(image, m, i, ft_pixel(y->path->c[0], y->path->c[1],y->path->c[2], 255));
+			mlx_put_pixel(image, m, i, ft_pixel(y->path->c[0], y->path->c[1],y->path->c[2] , 255));
 		else if (i < down)
 		{
 				int mm = i + ( height_of_wall / 2) - (1000 / 2);
@@ -257,10 +259,6 @@ void	randerwall(t_cub *y, int m)
 			mlx_put_pixel(image, m, i, ft_pixel(y->path->f[0], y->path->f[1],y->path->f[2], 255));
 		i++;
 	}
-	// free(y->imgg->instances);
-	// free(y->imgg->pixels);
-	// free(y->imgg);
-	// free(y->data_pixel);
 }
 
 void render_next_frame1(t_cub *y)

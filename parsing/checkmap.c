@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:44:31 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/23 00:25:24 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/25 16:44:10 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int compare_indentifier(char *word,char *len_map , int *i , int j)
 
 void    check_norm(char *map, int i, int *f)
 {
+	if (!ft_isdigit(map[i]))
+		error_message("Error is not digit !\n");
 	f[1] = ft_atoi(map + i);
 	if (f[1] < 0 || f[1] > 255)
 		error_message ("Error in F or C  numbers ! \n");
@@ -43,6 +45,8 @@ void    check_norm(char *map, int i, int *f)
 		error_message ("Error in F or C  numbers ! \n");
 	else 
 		i++;
+	if (!ft_isdigit(map[i]))
+		error_message("Error is not digit !\n");
 	f[2] = ft_atoi(map + i);
 	if (f[2] < 0 || f[2] > 255)
 		error_message ("Error in F or C  numbers ! \n");
@@ -68,6 +72,8 @@ void    check_f_c(char *map,char c,int *f)
 		  error_message ("2Error in F or C  or F not fond ! \n");
 	while (map[i]&& (map[i] == ' ' || map[i] == '\t'))
 		i++;
+	if (!ft_isdigit(map[i]))
+		error_message("Error is not digit !\n");
 	f[0] = ft_atoi(map + i);
 	if (f[0] < 0 || f[0] > 255)
 		error_message ("Error in F or C  numbers ! \n");
@@ -82,8 +88,6 @@ void    check_f_c(char *map,char c,int *f)
 
 void path_allocation(t_path *p,int i ,int j , char *len_map)
 {
-	printf("|%s" , len_map);
-	printf("%d\n",p->flg);
 	if(p->flg == 1)
 		p->no = ft_substr(len_map ,j , i - j);
 	if(p->flg == 2)
@@ -107,10 +111,10 @@ void check_idefifier_data(char *len_map ,  t_path *p , int i)
 	j = i;
 	if (len_map[i] == '\n')
 		error_message ("Error in identify \n");
-	while (len_map[i] && len_map[i] != ' ' && len_map[i] != '\t' && len_map[i] != '\n')
+	while (len_map[i] && len_map[i] != '\n')
 		i++;
 	path_allocation(p, i ,j , len_map);
-	while (len_map[i] == ' ' || len_map[i] == '\t')
+	while (len_map[i] && (len_map[i] == ' ' || len_map[i] == '\t'))
 		i++;
 	if(len_map[i] != '\n')
 		error_message ("Error in identify \n");
