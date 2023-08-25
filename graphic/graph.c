@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/25 19:32:53 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/25 20:02:20 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -510,11 +510,11 @@ void    graphic(char **map_only, t_path *p)
 			// 	draw_pixel(i, j, 0xFFFFFFF);
 			if (check_direction(y.map[i][j]))
 			{
-				y.plr->x_p = j * 32;
-				y.plr->y_p = i * 32;
+				y.plr->x_p = j * 32 + 14;
+				y.plr->y_p = i * 32 + 14;
 				y.plr->derction = init_direction(y.map[i][j]);
-				y.plr->a_x = y.plr->x_p + 20 * cos(y.plr->derction);
-				y.plr->a_y = y.plr->y_p + 20 * sin(y.plr->derction);
+				// y.plr->a_x = y.plr->x_p + 20 * cos(y.plr->derction);
+				// y.plr->a_y = y.plr->y_p + 20 * sin(y.plr->derction);
 			}
 			j++;
 		}
