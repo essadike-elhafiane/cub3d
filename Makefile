@@ -1,11 +1,12 @@
 NAME = cub3D
-CC = cc -Ofast #-g -fsanitize=address
+CC = cc  #-g -fsanitize=address
 flg = 
 RM = rm -f 
 
 # //-framework Cocoa -framework OpenGL -framework IOKit
 SRC= get_next_line/get_next_line.c get_next_line/get_next_line_utils.c main.c parsing/checkmap.c\
-	libft/ft_atoi.c libft/ft_isdigit.c graphic/graph.c  graphic/casting.c libft/ft_substr.c libft/ft_strncmp.c
+	libft/ft_atoi.c libft/ft_isdigit.c graphic/graph.c  graphic/casting.c libft/ft_substr.c libft/ft_strncmp.c \
+	graphic/hook.c
 
 FILES = ft_striteri.c ft_memcmp.c  ft_bzero.c ft_putnbr_fd.c ft_strmapi.c ft_itoa.c \
 	ft_putendl_fd.c ft_putchar_fd.c ft_putstr_fd.c ft_strtrim.c ft_strjoin.c ft_strdup.c \

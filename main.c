@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:17:53 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/25 17:24:57 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/26 17:49:37 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void len_map(t_path *p)
         str = get_next_line(p->fd);
         if (!str)
             break;
-        // printf("%s", str);
         free(str);
         p->len++;
     }

@@ -6,20 +6,16 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/25 22:36:14 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/26 22:58:09 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
 
-//for convert a degrees to rad 
-
 double deg2rad(double degrees)
 {
 	return (degrees * (M_PI / 180.0));
 }
-
-static mlx_image_t* image;
 
 int check_direction(char c)
 {
@@ -36,7 +32,7 @@ unsigned int ft_pixel(unsigned int r, unsigned int g, unsigned int b, unsigned i
     return (r << 24 | g << 16 | b << 8 | a);
 }
 
-void draw_pixel(int x, int y, unsigned int color)
+void draw_pixel(int x, int y, unsigned int color, t_cub *yy)
 {
 	int i = 0;
 	
@@ -47,7 +43,7 @@ void draw_pixel(int x, int y, unsigned int color)
 		int j = 0;
 		while (j < 32)
 		{
-			mlx_put_pixel(image, (y* 32 ) + i ,( x * 32) + j, color);
+			mlx_put_pixel(yy->image, (y* 32 ) + i ,( x * 32) + j, color);
 			// mlx_put_pixel(image, (y * 32) , (x * 32), 0x0FFFFF);
 
 			j++;
@@ -57,39 +53,39 @@ void draw_pixel(int x, int y, unsigned int color)
 	}
 }
 
-void draw_line(t_cub *data, double dis, double rotation)
-{
-	double end_x = data->plr->x_p + dis * cos(rotation);
-	double end_y = data->plr->y_p + dis * sin(rotation);
+// void draw_line(t_cub *data, double dis, double rotation)
+// {
+// 	double end_x = data->plr->x_p + dis * cos(rotation);
+// 	double end_y = data->plr->y_p + dis * sin(rotation);
 
-	int x0 = data->plr->x_p;
-	int y0 = data->plr->y_p;
-	int x1 = (int)end_x;
-	int y1 = (int)end_y;
+// 	int x0 = data->plr->x_p;
+// 	int y0 = data->plr->y_p;
+// 	int x1 = (int)end_x;
+// 	int y1 = (int)end_y;
 	
-	int dx = abs(x1 - x0);
-	int dy = abs(y1 - y0);
-	int sx = (x0 < x1) ? 1 : -1;
-	int sy = (y0 < y1) ? 1 : -1;
-	int err = dx - dy;
+// 	int dx = abs(x1 - x0);
+// 	int dy = abs(y1 - y0);
+// 	int sx = (x0 < x1) ? 1 : -1;
+// 	int sy = (y0 < y1) ? 1 : -1;
+// 	int err = dx - dy;
 	
-	while (1) {
-	    mlx_put_pixel(image, x0, y0, 0x000000FF);
-		if ((x0 == x1) && (y0 == y1))
-			break;
-		int e2 = 2 * err;
-		if (e2 > -dy)
-		{
-			err -= dy;
-			x0 += sx;
-		}
-		if (e2 < dx) 
-		{
-			err += dx;
-			y0 += sy;
-		}
-	}	
-}
+// 	while (1) {
+// 	    mlx_put_pixel(image, x0, y0, 0x000000FF);
+// 		if ((x0 == x1) && (y0 == y1))
+// 			break;
+// 		int e2 = 2 * err;
+// 		if (e2 > -dy)
+// 		{
+// 			err -= dy;
+// 			x0 += sx;
+// 		}
+// 		if (e2 < dx) 
+// 		{
+// 			err += dx;
+// 			y0 += sy;
+// 		}
+// 	}	
+// }
 
 int check_is_wall(double y, double x, t_cub *data)
 {
@@ -139,14 +135,11 @@ int check_wall_fram(double x, double y, char **map, t_cub *data)
 	return (0);
 }
 
-void frame_playr(void *f)
+void frame_playr(t_cub *y)
 {
-	t_cub *y = f;
-	
-
 	int m = 0;
-	double dictence_h = 0;
-	double dictence_v = 0;
+	double distence_h = 0;
+	double distence_v = 0;
 
 	y->angle_of_ray = y->plr->derction - (deg2rad(30));
 	while (m < 2000)
@@ -155,24 +148,24 @@ void frame_playr(void *f)
 			y->angle_of_ray += 2*M_PI;
 		else if(y->angle_of_ray >=2 * M_PI)
 			y->angle_of_ray -= 2 * M_PI;
-		dictence_h = dictance_horizontal(y);
-		dictence_v = dictance_virtical(y);
+		distence_h = dictance_horizontal(y);
+		distence_v = dictance_virtical(y);
 		y->h = 0;
-		if (dictence_h < dictence_v + 1e-8)
+		if (distence_h < distence_v +  0.00000001)
 			{
-				// if (dictence_h > 600)
-				// 	dictence_h = 600,00;
-				// draw_line(y, dictence_h, y->angle_of_ray);
-				y->distancee = dictence_h;
+				// if (distence_h > 600)
+				// 	distence_h = 600,00;
+				// draw_line(y, distence_h, y->angle_of_ray);
+				y->distancee = distence_h;
 				y->h = 1;
-				// printf("%f, %f\n", dictence_h, dictence_v);
+				// printf("%f, %f\n", distence_h, distence_v);
 			}
-		else if (dictence_h >= dictence_v + 1e-8)
+		else if (distence_h >= distence_v +  0.00000001)
 			{
-				// draw_line(y, dictence_v, y->angle_of_ray);
-				// if (dictence_v > 600)
-				// 	dictence_v = 600,00;
-				y->distancee = dictence_v;
+				// draw_line(y, distence_v, y->angle_of_ray);
+				// if (distence_v > 600)
+				// 	distence_v = 600,00;
+				y->distancee = distence_v;
 			}
 		randerwall(y, m);
 		y->angle_of_ray += deg2rad(60) / 2000;
@@ -185,16 +178,15 @@ void frame_playr(void *f)
 
 mlx_image_t *get_img_of_view(t_cub *y)
 {
-	// up right
 	if (y->h && (y->angle_of_ray >  M_PI && y->angle_of_ray < 2 * M_PI))
-	{
-		y->data_pixel = y->img_s->pixels;
-		return (y->img_s);
-	}
-	else if (y->h)
 	{
 		y->data_pixel = y->img_n->pixels;
 		return (y->img_n);
+	}
+	else if (y->h)
+	{
+		y->data_pixel = y->img_s->pixels;
+		return (y->img_s);
 	}
 	if (!y->h && y->angle_of_ray < 3 * M_PI / 2 && y->angle_of_ray > M_PI / 2)
 	{
@@ -219,26 +211,27 @@ void	randerwall(t_cub *y, int m)
 	int height_of_wall = 60000 / y->distancee;
 	int top = (1000 / 2) - (height_of_wall / 2);
 	int down = (1000 / 2) + (height_of_wall / 2);
-	top = top < 0 ? 0 : top;
-	down = down > 1000 ? 1000 : down;
+	if (top < 0)
+		top = 0;
+	if (down > 1000)
+		down = 1000;
 	y->imgg = get_img_of_view(y);
 	if (!y->h)
 		x_texture = (int )((y->hitwall_y_v / 32) * y->imgg->width) % y->imgg->width;
 	else
 		x_texture = (int )((y->hitwall_x * y->imgg->width) / 32) % y->imgg->width;
+	
 	int j = 0;
 	while (i < 1000)
 	{
 		
 		if (i < top)
-			mlx_put_pixel(image, m, i, ft_pixel(y->path->c[0], y->path->c[1],y->path->c[2] , 255));
+			mlx_put_pixel(y->image, m, i, ft_pixel(y->path->c[0], y->path->c[1],y->path->c[2] , 255));
 		else if (i < down)
 		{
 				int mm = i + ( height_of_wall / 2) - (1000 / 2);
 				y_texture = mm * ((double)y->imgg->height / height_of_wall);
-				// int m = 0;
 				unsigned int color;
-				// while (y->data_pixel[m])
 				if ((y_texture * y->imgg->width + x_texture) * 4 + 3 < y->imgg->height * y->imgg->width * 4)
 				
 					color  = ft_pixel(y->data_pixel[(y_texture * y->imgg->width + x_texture) * 4],
@@ -252,11 +245,10 @@ void	randerwall(t_cub *y, int m)
 				else
 					color = 0;
 				
-				// printf("%d\n", y->data_pixel[y_texture * y->imgg->width + x_texture]);
-			 	mlx_put_pixel(image, m ,  i, color);
+			 	mlx_put_pixel(y->image, m ,  i, color);
 		}
 		else
-			mlx_put_pixel(image, m, i, ft_pixel(y->path->f[0], y->path->f[1],y->path->f[2], 255));
+			mlx_put_pixel(y->image, m, i, ft_pixel(y->path->f[0], y->path->f[1],y->path->f[2], 255));
 		i++;
 	}
 }
@@ -270,9 +262,9 @@ void render_next_frame1(t_cub *y)
 		while (y->map[i][j])
 		{
 			if (y->map[i][j] == '0' || check_direction(y->map[i][j]))
-				draw_pixel(i, j, 0xFFFFFF0);
+				draw_pixel(i, j, 0xFFFFFF0, y);
 			if (y->map[i][j] == '1')
-				draw_pixel(i, j, 0x000FF);
+				draw_pixel(i, j, 0x000FF, y);
 			j++;
 		}
 		i++;
@@ -294,69 +286,8 @@ void	mouse_event(t_cub *y)
 		y->plr->derction += 2 * M_PI / 180;
 	else if (y->mouse_key_down && y->x_mouse < 1000)
 		y->plr->derction -= 2 * M_PI / 180;
-}
-
-void ft_hook1(void* param)
-{
-	t_cub* y = param;
-
-	mouse_event(y);
 	if (mlx_is_key_down(y->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(y->mlx);
-	if (mlx_is_key_down(y->mlx, MLX_KEY_UP) || mlx_is_key_down(y->mlx, MLX_KEY_W))
-	{
-		if (!check_is_wall(y->plr->y_p + 5 * sin(y->plr->derction), y->plr->x_p + 5 * cos(y->plr->derction), y))
-		{
-			y->plr->y_p += 5 *sin(y->plr->derction);
-			y->plr->x_p += 5 *cos(y->plr->derction);
-		}
-	}
-	if (mlx_is_key_down(y->mlx, MLX_KEY_DOWN) || mlx_is_key_down(y->mlx, MLX_KEY_S))
-	{
-		if (!check_is_wall(y->plr->y_p - 5 * sin(y->plr->derction), y->plr->x_p - 5 * cos(y->plr->derction), y))
-		{
-			y->plr->y_p -= 5 *sin(y->plr->derction);
-			y->plr->x_p -= 5 *cos(y->plr->derction);
-		}
-	}
-
-	if (mlx_is_key_down(y->mlx, MLX_KEY_D) || mlx_is_mouse_down(y->mlx, 2))
-	{
-		if (!check_is_wall(y->plr->y_p + 2 * cos(y->plr->derction), y->plr->x_p - 2 * sin(y->plr->derction), y))
-		{
-			y->plr->y_p += 2 *cos(y->plr->derction);
-			y->plr->x_p -= 2 *sin(y->plr->derction);
-		}
-	}
-	if (mlx_is_key_down(y->mlx, MLX_KEY_A))
-	{
-		if (!check_is_wall(y->plr->y_p - 2 * cos(y->plr->derction), y->plr->x_p + 2 * sin(y->plr->derction), y))
-		{
-			y->plr->y_p -= 2 *cos(y->plr->derction);
-			y->plr->x_p += 2 *sin(y->plr->derction);
-		}
-	}
-	
-	if (mlx_is_key_down(y->mlx, MLX_KEY_LEFT))
-	{
-		y->plr->derction -= 2 * M_PI / 180;
-		if (y->plr->derction < 0)
-				y->plr->derction = (2 * M_PI) + y->plr->derction;
-		
-	}
-	if (mlx_is_key_down(y->mlx, MLX_KEY_RIGHT))
-	{
-		y->plr->derction += 2 * M_PI / 180;
-		if (y->plr->derction  >= 2 * M_PI)
-				y->plr->derction  = 0;
-	}
-	
-	mlx_delete_image(y->mlx, image);
-	mlx_delete_image(y->mlx, image);
-	image = mlx_new_image(y->mlx, 2000, 1000);
-	// render_next_frame1(y);
-	frame_playr(y);
-	mlx_image_to_window(y->mlx, image, 0, 0);
 }
 
 void	draw_player(t_cub *y)
@@ -387,8 +318,8 @@ void	draw_player(t_cub *y)
 		j = mm;
 		while (j < size)
 		{
-			mlx_put_pixel(image, 140 + i , 140 + j , color);
-			mlx_put_pixel(image, (15 + i) *  cos(y->plr->derction) + 140,  (15 + j) * sin(y->plr->derction) + 140,  0xffe512);
+			mlx_put_pixel(y->image, 140 + i , 140 + j , color);
+			mlx_put_pixel(y->image, (15 + i) *  cos(y->plr->derction) + 140,  (15 + j) * sin(y->plr->derction) + 140,  0xffe512);
 			j++;
 		}
 		i++;
@@ -396,14 +327,14 @@ void	draw_player(t_cub *y)
 	i = 0;
 	while (i < 280)
 	{
-		mlx_put_pixel(image, i , 0 , color);
-		mlx_put_pixel(image, 0 , i , color);
-		mlx_put_pixel(image, i , 280 , color);
-		mlx_put_pixel(image, 280 , i , color);
-		mlx_put_pixel(image, i + 1 , 1 , color);
-		mlx_put_pixel(image, 1 , i + 1 , color);
-		mlx_put_pixel(image, i + 1, 281 , color);
-		mlx_put_pixel(image, 281 , i +1, color);
+		mlx_put_pixel(y->image, i , 0 , color);
+		mlx_put_pixel(y->image, 0 , i , color);
+		mlx_put_pixel(y->image, i , 280 , color);
+		mlx_put_pixel(y->image, 280 , i , color);
+		mlx_put_pixel(y->image, i + 1 , 1 , color);
+		mlx_put_pixel(y->image, 1 , i + 1 , color);
+		mlx_put_pixel(y->image, i + 1, 281 , color);
+		mlx_put_pixel(y->image, 281 , i +1, color);
 		i++;
 	}
 	
@@ -446,7 +377,7 @@ void render_next_frame(t_cub *y)
 			while((x_map < tmp + 140 * 2) && x_map / 32 < ft_strlen(y->map[y_map / 32]))
 			{
 				if(y->map[y_map / 32][x_map / 32] == '1')
-					mlx_put_pixel(image, (x_map  - y->plr->x_p + 140 )  , (y_map  - y->plr->y_p + 140) , 0xFFF);
+					mlx_put_pixel(y->image, (x_map  - y->plr->x_p + 140 )  , (y_map  - y->plr->y_p + 140) , 0xFFF);
 				x_map++;
 			}
 		y_map++;
@@ -478,30 +409,59 @@ double init_direction(char c)
 	return (-1);
 }
 
-void mouse_houk(mouse_key_t button, action_t action, modifier_key_t mods, void* param)
+void	init_ang(t_cub *y)
 {
-	t_cub *y = (t_cub *)param;
-	
-	
+	int i;
+	int j;
 
+	i = 0;
+	while (y->map[i])
+	{
+		j = 0;
+		while (y->map[i][j])
+		{
+			if (check_direction(y->map[i][j]))
+			{
+				y->plr->x_p = j * 32 + 14;
+				y->plr->y_p = i * 32 + 14;
+				y->plr->derction = init_direction(y->map[i][j]);
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+void	houk_and_free(t_cub *y, t_path *p)
+{
+	mlx_loop_hook(y->mlx, ft_hook1, y);
+	mlx_loop(y->mlx);
+	mlx_delete_texture(y->img_data_e);
+	mlx_delete_texture(y->img_data_n);
+	mlx_delete_texture(y->img_data_w);
+	mlx_delete_texture(y->img_data_s);
+	free(p->ea);
+	free(p->we);
+	free(p->so);
+	free(p->no);
+	free(y->plr);
+	mlx_delete_image(y->mlx, y->image);
+	mlx_close_window(y->mlx);
 }
 
 void    graphic(char **map_only, t_path *p)
 {
     t_cub y;
+
     y.map = map_only;
 	y.path = p;
 	y.mouse_key_down = 0;
 	y.plr = malloc(sizeof(t_player));
 	if (!y.plr)
-		exit(0);
-	// y.with_map = ft_strlen(map_only[0]);
-	// if (y.with_map == 0)
-		// exit(0);
+		exit(1);
 	y.hight_map = ft_strlen_pnt(map_only);
-    y.mlx = mlx_init(2000, 1000, "cube3D", false);
-   	image = mlx_new_image(y.mlx, 2000, 1000);
-	
+    y.mlx = mlx_init(2000, 1000, "cub3D", false);
+   	y.image = mlx_new_image(y.mlx, 2000, 1000);
 	y.img_data_n = mlx_load_png(p->no);
 	y.img_data_e = mlx_load_png(p->ea);
 	y.img_data_s = mlx_load_png(p->so);
@@ -512,46 +472,6 @@ void    graphic(char **map_only, t_path *p)
 	y.img_e = mlx_texture_to_image(y.mlx, y.img_data_e);
 	y.img_w = mlx_texture_to_image(y.mlx, y.img_data_w);
 	y.img_s = mlx_texture_to_image(y.mlx, y.img_data_s);
-	int i = 0;
-	while (y.map[i])
-	{
-		int j = 0;
-		while (y.map[i][j])
-		{
-			// if (y.map[i][j] == '1')
-			// 	draw_pixel(i, j, 0xFFFFFFF);
-			if (check_direction(y.map[i][j]))
-			{
-				y.plr->x_p = j * 32 + 14;
-				y.plr->y_p = i * 32 + 14;
-				y.plr->derction = init_direction(y.map[i][j]);
-				// y.plr->a_x = y.plr->x_p + 20 * cos(y.plr->derction);
-				// y.plr->a_y = y.plr->y_p + 20 * sin(y.plr->derction);
-			}
-			j++;
-		}
-		i++;
-	}
-
-	// exit(1);
-	// render_next_frame(&y);
-	// mlx_loop_hook(y.mlx, ft_randomize, &y);aaaa
-	mlx_loop_hook(y.mlx, ft_hook1, &y);
-	// mlx_mouse_hook(y.mlx, mouse_houk , &y);
-	mlx_image_to_window(y.mlx, image, 0, 0);
-	mlx_loop(y.mlx);
-	mlx_delete_texture(y.img_data_e);
-	mlx_delete_texture(y.img_data_n);
-	mlx_delete_texture(y.img_data_w);
-	mlx_delete_texture(y.img_data_s);
-	// mlx_delete_image(y.mlx, y.img_e);
-	free(p->ea);
-	free(p->we);
-	free(p->so);
-	free(p->no);
-	free(y.plr);
-	mlx_close_window(y.mlx);
-	mlx_delete_image(y.mlx, image);
+	init_ang(&y);
+	houk_and_free(&y, p);
 }
-
-// when we want to calcul a dictance between a and b just we need to transfer it to trangle Ay - By = ab and Ax - Bx = Ac and we will calclut auther line with tng or sin or cos 
