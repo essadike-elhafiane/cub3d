@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/26 22:58:09 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/26 23:10:48 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,25 +271,6 @@ void render_next_frame1(t_cub *y)
 	}
 }
 
-void	mouse_event(t_cub *y)
-{
-	if (mlx_is_mouse_down(y->mlx, MLX_MOUSE_BUTTON_LEFT) && y->mouse_key_down == 0)
-	{	
-		mlx_set_mouse_pos(y->mlx, 1000, 500);
-		mlx_set_cursor_mode(y->mlx, MLX_MOUSE_HIDDEN);
-		y->mouse_key_down = 1;
-	}
-	else if (!mlx_is_mouse_down(y->mlx, MLX_MOUSE_BUTTON_LEFT) && y->mouse_key_down == 1)
-		y->mouse_key_down  = 0;
-	mlx_get_mouse_pos(y->mlx, &y->x_mouse, &y->y_mouse);
-	if (y->mouse_key_down && y->x_mouse > 1000)
-		y->plr->derction += 2 * M_PI / 180;
-	else if (y->mouse_key_down && y->x_mouse < 1000)
-		y->plr->derction -= 2 * M_PI / 180;
-	if (mlx_is_key_down(y->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(y->mlx);
-}
-
 void	draw_player(t_cub *y)
 {
 	int size;
@@ -384,10 +365,10 @@ void render_next_frame(t_cub *y)
 	}
 }
 
-int ft_strlen_pnt(char **str)
+int	ft_strlen_pnt(char **str)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	if (!str || !*str)
 		return (0);
@@ -411,8 +392,8 @@ double init_direction(char c)
 
 void	init_ang(t_cub *y)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (y->map[i])
@@ -451,17 +432,17 @@ void	houk_and_free(t_cub *y, t_path *p)
 
 void    graphic(char **map_only, t_path *p)
 {
-    t_cub y;
+	t_cub	y;
 
-    y.map = map_only;
+	y.map = map_only;
 	y.path = p;
 	y.mouse_key_down = 0;
 	y.plr = malloc(sizeof(t_player));
 	if (!y.plr)
 		exit(1);
 	y.hight_map = ft_strlen_pnt(map_only);
-    y.mlx = mlx_init(2000, 1000, "cub3D", false);
-   	y.image = mlx_new_image(y.mlx, 2000, 1000);
+	y.mlx = mlx_init(2000, 1000, "cub3D", false);
+	y.image = mlx_new_image(y.mlx, 2000, 1000);
 	y.img_data_n = mlx_load_png(p->no);
 	y.img_data_e = mlx_load_png(p->ea);
 	y.img_data_s = mlx_load_png(p->so);

@@ -6,11 +6,32 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 22:30:41 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/26 22:58:46 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/26 23:11:44 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
+
+void	mouse_event(t_cub *y)
+{
+	if (mlx_is_mouse_down(y->mlx, MLX_MOUSE_BUTTON_LEFT)
+		&& y->mouse_key_down == 0)
+	{
+		mlx_set_mouse_pos(y->mlx, 1000, 500);
+		mlx_set_cursor_mode(y->mlx, MLX_MOUSE_HIDDEN);
+		y->mouse_key_down = 1;
+	}
+	else if (!mlx_is_mouse_down(y->mlx, MLX_MOUSE_BUTTON_LEFT)
+		&& y->mouse_key_down == 1)
+		y->mouse_key_down = 0;
+	mlx_get_mouse_pos(y->mlx, &y->x_mouse, &y->y_mouse);
+	if (y->mouse_key_down && y->x_mouse > 1000)
+		y->plr->derction += 2 * M_PI / 180;
+	else if (y->mouse_key_down && y->x_mouse < 1000)
+		y->plr->derction -= 2 * M_PI / 180;
+	if (mlx_is_key_down(y->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(y->mlx);
+}
 
 void	view_left_right(t_cub *y)
 {

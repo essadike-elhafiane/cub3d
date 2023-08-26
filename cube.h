@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:18:49 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/26 22:41:51 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/26 23:11:07 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	randerwall(t_cub *y, int m);
 void	draw_player(t_cub *y);
 void    ft_free(char **map, char **only_map);
 void 	ft_hook1(void* param);
-void	mouse_event(t_cub *y);
 int		check_is_wall(double y, double x, t_cub *data);
 void	frame_playr(t_cub *y);
 
