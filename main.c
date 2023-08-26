@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:17:53 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/26 17:49:37 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/26 23:34:04 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 void check_cub(char *name)
 {   
     int len;
-    char *str;
+    char *str;    
 
     len = ft_strlen(name);
-    if (len < 5 || ft_strncmp(".cub", str = ft_substr(name, len - 4, 4), 4))
+    str = ft_substr(name, len - 4, 4);
+    if (len < 5 || ft_strncmp(".cub", str, 4))
     {
         write(2, "Error map dos'nt have .cub \n", 28);
         free(str);

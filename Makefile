@@ -1,5 +1,5 @@
 NAME = cub3D
-CC = cc  #-g -fsanitize=address
+CC = cc  -Wall -Wextra -Werror #-g -fsanitize=address
 flg = 
 RM = rm -f 
 

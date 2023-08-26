@@ -6,49 +6,46 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/26 23:10:48 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/26 23:49:44 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
 
-double deg2rad(double degrees)
+double	deg2rad(double degrees)
 {
 	return (degrees * (M_PI / 180.0));
 }
 
-int check_direction(char c)
+int	check_direction(char c)
 {
 	if (c == 'S' || c == 'E' || c == 'W' || c == 'N')
 		return (1);
 	return (0);
 }
 
-
-// -----------------------------------------------------------------------------
-
-unsigned int ft_pixel(unsigned int r, unsigned int g, unsigned int b, unsigned int a)
+unsigned int	ft_pixel(unsigned int r, unsigned int g,
+							unsigned int b, unsigned int a)
 {
-    return (r << 24 | g << 16 | b << 8 | a);
+	return (r << 24 | g << 16 | b << 8 | a);
 }
 
-void draw_pixel(int x, int y, unsigned int color, t_cub *yy)
+void	draw_pixel(int x, int y, unsigned int color, t_cub *yy)
 {
-	int i = 0;
-	
+	int	i;
+	int	j;
+
+	i = 0;
 	if (x < 0 || y < 0)
 		exit(1);
 	while (i < 32)
 	{
-		int j = 0;
+		j = 0;
 		while (j < 32)
 		{
-			mlx_put_pixel(yy->image, (y* 32 ) + i ,( x * 32) + j, color);
-			// mlx_put_pixel(image, (y * 32) , (x * 32), 0x0FFFFF);
-
+			mlx_put_pixel(yy->image, (y * 32) + i, (x * 32) + j, color);
 			j++;
 		}
-		// mlx_put_pixel(image, (y * 32) + i , (x * 32), 0x0FFFFF);
 		i++;
 	}
 }
@@ -62,13 +59,11 @@ void draw_pixel(int x, int y, unsigned int color, t_cub *yy)
 // 	int y0 = data->plr->y_p;
 // 	int x1 = (int)end_x;
 // 	int y1 = (int)end_y;
-	
 // 	int dx = abs(x1 - x0);
 // 	int dy = abs(y1 - y0);
 // 	int sx = (x0 < x1) ? 1 : -1;
 // 	int sy = (y0 < y1) ? 1 : -1;
 // 	int err = dx - dy;
-	
 // 	while (1) {
 // 	    mlx_put_pixel(image, x0, y0, 0x000000FF);
 // 		if ((x0 == x1) && (y0 == y1))
@@ -87,86 +82,82 @@ void draw_pixel(int x, int y, unsigned int color, t_cub *yy)
 // 	}	
 // }
 
-int check_is_wall(double y, double x, t_cub *data)
+int	check_is_wall(double y, double x, t_cub *data)
 {
-	int idy  = y / 32;
-	int idx = x / 32;
-	int idy1  = (y + 1) / 32;
-	int idy_1  = (y - 1) / 32;
-	int idx1 = (x + 1) / 32;
-	if (y < 0)
+	int	idy;
+	int	idx1;
+	int	idx;
+	int	idy1;
+	int	idy_1;
+
+	idy = y / 32;
+	idx = x / 32;
+	idy1 = (y + 1) / 32;
+	idy_1 = (y - 1) / 32;
+	idx1 = (x + 1) / 32;
+	if (y < 0 || x < 0)
 		return (1);
-	if (x < 0)
+	if (data->map[idy][idx] && (data->map[idy][idx] == '1'
+		|| data->map[idy][idx1] == '1' || data->map[idy1][idx] == '1'
+		|| data->map[idy_1][idx] == '1' ))
 		return (1);
-	if (data->map[idy][idx] && (data->map[idy][idx] == '1' || data->map[idy][idx1] == '1' \
-	|| data->map[idy1][idx] == '1' || data->map[idy_1][idx] == '1' ))
-		return 1;
-	if (data->map[idy][idx] && (data->map[idy][idx] == ' ' || data->map[idy][idx1] == ' ' \
-	|| data->map[idy1][idx] == ' ' || data->map[idy_1][idx] == ' ' ))
-		return 1;
-	if (data->map[(int)(data->plr->y_p / 32)][(int)(x / 32)] == '1' && data->map[idy][(int)(data->plr->x_p / 32)] == '1')
+	if (data->map[idy][idx] && (data->map[idy][idx] == ' '
+		|| data->map[idy][idx1] == ' ' || data->map[idy1][idx] == ' '
+		|| data->map[idy_1][idx] == ' ' ))
+		return (1);
+	if (data->map[(int)(data->plr->y_p / 32)][(int)(x / 32)] == '1'
+		&& data->map[idy][(int)(data->plr->x_p / 32)] == '1')
 		return (1);
 	return (0);
 }
 
-double distance_p(double x, double y, double x1, double y1)
+double	distance_p(double x, double y, double x1, double y1)
 {
-	return(sqrt(((x1-x) * (x1-x)) + ((y1-y) * (y1 - y))));
+	return (sqrt(((x1 - x) * (x1 - x)) + ((y1 - y) * (y1 - y))));
 }
-int angle = 60;
 
-int check_wall_fram(double x, double y, char **map, t_cub *data)
+int	check_wall_fram(double x, double y, char **map, t_cub *data)
 {
-	// printf("fddfhd %f | %f\n", x,y);
-	// exit(1);
-	int xx = (int)floor(x / 32);
-	// int xx1 = (int)floor((x + 1) / 32);
-	// int xx_1 = (int)floor((x - 1) / 32);
-	int yy = (int)floor(y / 32);
-	// int yy_1 = (int)floor((y - 1 )/ 32);
-	// int yy1 = (int)floor((y + 1) / 32);
-	// int yy = (int)floor(y / 32);
+	int	xx;
+	int	yy;
+
+	xx = (int)floor(x / 32);
+	yy = (int)floor(y / 32);
 	if (yy < 0 || yy >= data->hight_map)
 		return (1);
-	if (xx < 0 || xx >= ft_strlen(map[yy]))
+	if (xx < 0 || (size_t)xx >= ft_strlen(map[yy]))
 		return (1);
 	if (map[yy][xx] == '1')
 		return (1);
 	return (0);
 }
 
-void frame_playr(t_cub *y)
+void	frame_playr(t_cub *y)
 {
-	int m = 0;
-	double distence_h = 0;
-	double distence_v = 0;
+	int		m;
+	double	distence_v;
+	double	distence_h;
 
+	m = 0;
+	distence_h = 0;
+	distence_v = 0;
 	y->angle_of_ray = y->plr->derction - (deg2rad(30));
 	while (m < 2000)
 	{
-		if(y->angle_of_ray < 0)
-			y->angle_of_ray += 2*M_PI;
-		else if(y->angle_of_ray >=2 * M_PI)
+		if (y->angle_of_ray < 0)
+			y->angle_of_ray += 2 * M_PI;
+		else if (y->angle_of_ray >= 2 * M_PI)
 			y->angle_of_ray -= 2 * M_PI;
 		distence_h = dictance_horizontal(y);
 		distence_v = dictance_virtical(y);
 		y->h = 0;
-		if (distence_h < distence_v +  0.00000001)
-			{
-				// if (distence_h > 600)
-				// 	distence_h = 600,00;
-				// draw_line(y, distence_h, y->angle_of_ray);
-				y->distancee = distence_h;
-				y->h = 1;
-				// printf("%f, %f\n", distence_h, distence_v);
-			}
-		else if (distence_h >= distence_v +  0.00000001)
-			{
-				// draw_line(y, distence_v, y->angle_of_ray);
-				// if (distence_v > 600)
-				// 	distence_v = 600,00;
-				y->distancee = distence_v;
-			}
+		if (distence_h < distence_v + 0.00000001)
+		{
+			y->distancee = distence_h;
+			y->h = 1;
+		}
+		else if (distence_h >= distence_v + 0.00000001)
+			y->distancee = distence_v;
 		randerwall(y, m);
 		y->angle_of_ray += deg2rad(60) / 2000;
 		m++;
@@ -175,10 +166,9 @@ void frame_playr(t_cub *y)
 	draw_player(y);
 }
 
-
-mlx_image_t *get_img_of_view(t_cub *y)
+mlx_image_t	*get_img_of_view(t_cub *y)
 {
-	if (y->h && (y->angle_of_ray >  M_PI && y->angle_of_ray < 2 * M_PI))
+	if (y->h && (y->angle_of_ray > M_PI && y->angle_of_ray < 2 * M_PI))
 	{
 		y->data_pixel = y->img_n->pixels;
 		return (y->img_n);
@@ -221,7 +211,7 @@ void	randerwall(t_cub *y, int m)
 	else
 		x_texture = (int )((y->hitwall_x * y->imgg->width) / 32) % y->imgg->width;
 	
-	int j = 0;
+	// int j = 0;
 	while (i < 1000)
 	{
 		
@@ -255,10 +245,13 @@ void	randerwall(t_cub *y, int m)
 
 void render_next_frame1(t_cub *y)
 {
-	int i = 0;
+	int	i;
+	int	j;
+
+	i = 0;
 	while (y->map[i])
 	{
-		int j = 0;
+		j = 0;
 		while (y->map[i][j])
 		{
 			if (y->map[i][j] == '0' || check_direction(y->map[i][j]))
@@ -273,26 +266,26 @@ void render_next_frame1(t_cub *y)
 
 void	draw_player(t_cub *y)
 {
-	int size;
+	int size = 0;
 	static int effect;
 	unsigned int color;
 	int j;
 	int i = 0;
 	int mm = 0;
-	
+
 	if (effect < 20)
 		{
 			size = 4;
 			color = 0xFFFFF;
 		}
-	else if(effect < 40)
+	else if (effect < 40)
 	{
 		i = -4;
 		mm = -4;
 		size = 8;
 		color = 0x66cdaa;
 	}
-	else
+	else if(effect > 40)
 		effect = 0;
 	while (i < size)
 	{
@@ -318,15 +311,14 @@ void	draw_player(t_cub *y)
 		mlx_put_pixel(y->image, 281 , i +1, color);
 		i++;
 	}
-	
 	effect++;
 }
 
 void render_next_frame(t_cub *y)
 {
 	static int effect;
-	int i = 0;
-	int j;
+	// int i = 0;
+	// int j;
 	unsigned int color;
 	color = 0x7FEAFF;
 	effect = 0;
@@ -355,7 +347,7 @@ void render_next_frame(t_cub *y)
 		x_map = tmp;
 		if (x_map < 0)
 			x_map = 0;	
-			while((x_map < tmp + 140 * 2) && x_map / 32 < ft_strlen(y->map[y_map / 32]))
+			while((x_map < tmp + 140 * 2) && (size_t)(x_map / 32) < ft_strlen(y->map[y_map / 32]))
 			{
 				if(y->map[y_map / 32][x_map / 32] == '1')
 					mlx_put_pixel(y->image, (x_map  - y->plr->x_p + 140 )  , (y_map  - y->plr->y_p + 140) , 0xFFF);

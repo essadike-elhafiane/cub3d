@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:44:31 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/25 19:24:50 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/26 23:35:41 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void    check_norm(char *map, int i, int *f, t_path *p)
 void    check_f_c(char *map, char c, int *f, t_path *p)
 {
 	int i;
-	int num;
 
 	i = 0;
 	while(map[i] && (map[i] == ' ' || map[i] == '\t'))
@@ -178,7 +177,7 @@ int chose_line(int *i, char **map, t_path *p)
 		j = 0;
 		while(map[*i] && map[*i][j] && (map[*i][j] == ' ' || map[*i][j] == '\n' || map[*i][j] == '\t'))
 			j++;
-		if(j == ft_strlen(map[*i]))
+		if(j == (int)ft_strlen(map[*i]))
 			(*i) += 1;
 		else
 			return(*i);
@@ -272,7 +271,7 @@ void is_player(char **map, int i , int j, t_path *p)
 		if(p->p == 1)
 			error_message("1error in player \n", p);
 		p->p = 1;
-	if( ft_strlen (map[i - 1])  <  j || map[i + 1] == NULL ||ft_strlen (map[i + 1]) < j || j == 0)
+	if((int)ft_strlen (map[i - 1])  <  j || map[i + 1] == NULL || (int)ft_strlen (map[i + 1]) < j || j == 0)
 		error_message("2error in player \n", p);
 	if((map[i - 1] [j] != '0' && map[i - 1] [j] != '1') 
 		|| (map[i + 1] [j] != '0' && map[i + 1] [j] != '1' ) ||
