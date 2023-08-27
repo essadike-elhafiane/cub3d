@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 17:20:39 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/27 17:23:02 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/27 18:07:32 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,42 +39,10 @@ void	draw_pixel(int x, int y, unsigned int color, t_cub *yy)
 	}
 }
 
-void	draw_player(t_cub *y)
+void	draw_cadre(t_cub *y, unsigned int color)
 {
-	int size = 0;
-	static int effect;
-	unsigned int color;
-	int j;
-	int i = 0;
-	int mm = 0;
+	int	i;
 
-	if (effect < 20)
-	{
-		size = 4;
-		color = 0xFFFFF;
-	}
-	else if (effect < 40)
-	{
-		i = -4;
-		mm = -4;
-		size = 8;
-		color = 0x66cdaa;
-	}
-	else if (effect > 40)
-		effect = 0;
-	while (i < size)
-	{
-		j = mm;
-		while (j < size)
-		{
-			mlx_put_pixel(y->image, 140 + i, 140 + j, color);
-			mlx_put_pixel(y->image,
-				(15 + i) * cos(y->plr->derction) + 140,
-				(15 + j) * sin(y->plr->derction) + 140, 0xffe512);
-			j++;
-		}
-		i++;
-	}
 	i = 0;
 	while (i < 280)
 	{
@@ -88,5 +56,48 @@ void	draw_player(t_cub *y)
 		mlx_put_pixel(y->image, 281, i +1, color);
 		i++;
 	}
+}
+
+void	draw_palyer_loop(t_cub *y, t_draw d)
+{
+	while (d.i < d.size)
+	{
+		d.j = d.mm;
+		while (d.j < d.size)
+		{
+			mlx_put_pixel(y->image, 140 + d.i, 140 + d.j, d.color);
+			mlx_put_pixel(y->image,
+				(15 + d.i) * cos(y->plr->derction) + 140,
+				(15 + d.j) * sin(y->plr->derction) + 140, 0xffe512);
+			d.j++;
+		}
+		d.i++;
+	}
+}
+
+void	draw_player(t_cub *y)
+{
+	t_draw		d;
+	static int	effect;
+
+	d.mm = 0;
+	d.i = 0; 
+	d.size = 0;
+	if (effect < 20)
+	{
+		d.size = 4;
+		d.color = 0xFFFFF;
+	}
+	else if (effect < 40)
+	{
+		d.i = -4;
+		d.mm = -4;
+		d.size = 8;
+		d.color = 0x66cdaa;
+	}
+	else if (effect > 40)
+		effect = 0;
+	draw_palyer_loop(y, d);
+	draw_cadre(y, d.color);
 	effect++;
 }

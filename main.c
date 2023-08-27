@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:17:53 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/27 17:13:25 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/27 18:08:05 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void	ft_free(char **map, char **only_map)
 		free(only_map);
 	}
 }
-void v()
-{
-	system("leaks cub");
-}
+// void v()
+// {
+// 	system("leaks cub");
+// }
 
 void	init_struct(t_path *p)
 {
@@ -83,9 +83,8 @@ int	main(int ac, char **av)
 	t_path	p;
 
 	init_struct(&p);
-	atexit(v);
 	if (ac != 2)
-		return (write(1, "Error in arg \n", 14 ), 1);
+		return (write(1, "Error in arg \n", 14), 1);
 	check_cub(av[1]);
 	p.fd = open(av[1], O_RDWR, 0777);
 	if (p.fd < 0)

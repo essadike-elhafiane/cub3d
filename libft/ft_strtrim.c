@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:01:43 by eelhafia          #+#    #+#             */
-/*   Updated: 2022/11/08 21:35:09 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/27 17:27:52 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static int	start(char *s1, char *set)
 	{
 		while (set[i] == s1[b])
 		{
-				b++;
-				i = 0;
+			b++;
+			i = 0;
 		}
 		i++;
 	}
@@ -42,8 +42,8 @@ static int	end(char *s1, char *set)
 	{
 		while (set[i] == s1[b -1])
 		{
-				b--;
-				i = 0;
+			b--;
+			i = 0;
 			if (b == 0)
 				return (0);
 		}

@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:18:49 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/27 17:23:09 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/27 18:39:13 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,34 @@
 
 typedef struct s_wall
 {
-	int i;
-	int x_texture;
-	int y_texture;
-	int down;
-	int height_of_wall;
-	int top;
-	unsigned int color;
-	int mm;
+	int				i;
+	int				x_texture;
+	int				y_texture;
+	int				down;
+	int				height_of_wall;
+	int				top;
+	unsigned int	color;
+	int				mm;
 }t_wall;
 
 typedef struct s_mini_map
 {
-	int				yy;
-	int				xx;
-	int				tmp;
-	int				tmp2;
-	int				x_map;
-	int				y_map;
+	int	yy;
+	int	xx;
+	int	tmp;
+	int	tmp2;
+	int	x_map;
+	int	y_map;
 }t_mini_map;
+
+typedef struct s_draw_player
+{
+	int				size;
+	unsigned int	color;
+	int				j;
+	int				i;
+	int				mm;
+}t_draw;
 
 typedef struct s_player
 {
@@ -55,21 +64,21 @@ typedef struct s_player
 
 typedef struct s_path
 {
-	char *no;
-	char *so;
-	char *we;
-	char *ea;
-	char **only_map;
-	char **map;
-	int p;
-	int cc;
-	int f[3];
-	int c[3];
-	int ff;
-	int flg;
-	int fd;
-    int len;
-    int i;
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	char	**only_map;
+	char	**map;
+	int		p;
+	int		cc;
+	int		f[3];
+	int		c[3];
+	int		ff;
+	int		flg;
+	int		fd;
+	int		len;
+	int		i;
 }t_path;
 
 typedef struct s_cube
@@ -90,7 +99,7 @@ typedef struct s_cube
 	mlx_image_t		*img_s;
 	mlx_image_t		*img_w;
 	mlx_image_t		*img_e;
-	mlx_image_t*	image;
+	mlx_image_t		*image;
 	int				h;
 	double			hitwall_x_v;
 	double			hitwall_y_v;
@@ -102,19 +111,22 @@ typedef struct s_cube
 	int				mouse_key_down;
 	t_player		*plr;
 	t_path			*path;
-} t_cub;
+}t_cub;
 
-int		check_map(char **map , t_path *p, int len);
-void    graphic(char **map_only, t_path *p);
+int		check_map(char **map, t_path *p, int len);
+void	graphic(char **map_only, t_path *p);
 double	dictance_horizontal(t_cub *y);
-void	check_line(char *map_line);
-double  dictance_virtical(t_cub *y);
+double	dictance_virtical(t_cub *y);
 void	randerwall(t_cub *y, int m);
 void	draw_player(t_cub *y);
-void    ft_free(char **map, char **only_map);
-void 	ft_hook1(void* param);
+void	ft_free(char **map, char **only_map);
+void	ft_hook1(void *param);
 void	frame_playr(t_cub *y);
-int	check_direction(char c);
+int		check_direction(char c);
 void	draw_player(t_cub *y);
+void	error_message(char *str, t_path *p);
+int		check_identify(char **map, t_path *p, int len);
+int		type_identifier(char *len_map, t_path *p, int *i);
+void	path_allocation(t_path *p, int i, int j, char *len_map);
 
 #endif
