@@ -1,7 +1,7 @@
-SO textures/wall1.png
-NO textures/2.png
-WE textures/d.png
-EA textures/wall.png
+SO textures/mm.png
+NO textures/mm.png
+WE textures/mm.png
+EA textures/mm.png
 
 C 204,225,245
 F 238,238,238

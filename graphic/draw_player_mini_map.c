@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 17:20:39 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/27 18:07:32 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/27 18:51:05 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ void	draw_player(t_cub *y)
 	d.mm = 0;
 	d.i = 0; 
 	d.size = 0;
-	if (effect < 20)
+	if (effect < 15)
 	{
 		d.size = 4;
 		d.color = 0xFFFFF;
 	}
-	else if (effect < 40)
+	else if (effect < 30)
 	{
 		d.i = -4;
 		d.mm = -4;

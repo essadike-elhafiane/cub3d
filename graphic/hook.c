@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 22:30:41 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/27 16:59:31 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/27 18:55:04 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,20 +113,20 @@ void	ft_hook1(void	*param)
 	if (mlx_is_key_down(y->mlx, MLX_KEY_UP)
 		|| mlx_is_key_down(y->mlx, MLX_KEY_W))
 	{
-		if (!check_is_wall(y->plr->y_p + 5 * sin(y->plr->derction),
-				y->plr->x_p + 5 * cos(y->plr->derction), y))
+		if (!check_is_wall(y->plr->y_p + 8 * sin(y->plr->derction),
+				y->plr->x_p + 8 * cos(y->plr->derction), y))
 		{
-			y->plr->y_p += 5 * sin(y->plr->derction);
-			y->plr->x_p += 5 * cos(y->plr->derction);
+			y->plr->y_p += 8 * sin(y->plr->derction);
+			y->plr->x_p += 8 * cos(y->plr->derction);
 		}
 	}
 	if (mlx_is_key_down(y->mlx, MLX_KEY_DOWN) || mlx_is_key_down(y->mlx, 83))
 	{
-		if (!check_is_wall(y->plr->y_p - 5 * sin(y->plr->derction),
-				y->plr->x_p - 5 * cos(y->plr->derction), y))
+		if (!check_is_wall(y->plr->y_p - 8 * sin(y->plr->derction),
+				y->plr->x_p - 8 * cos(y->plr->derction), y))
 		{
-			y->plr->y_p -= 5 * sin(y->plr->derction);
-			y->plr->x_p -= 5 * cos(y->plr->derction);
+			y->plr->y_p -= 8 * sin(y->plr->derction);
+			y->plr->x_p -= 8 * cos(y->plr->derction);
 		}
 	}
 	view_left_right(y);

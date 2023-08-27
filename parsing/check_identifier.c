@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 18:35:54 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/27 18:43:04 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:00:25 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,5 @@ int	type_identifier(char *len_map, t_path *p, int *i)
 	if (p->cc == 0)
 		if (compare_indentifier("C ", len_map, i, j))
 			return (check_f_c(len_map, 'C', p->c, p), p->cc = 1, 0);
-	return (write(2, "1Error in identify \n", 19), 1);
+	return (write(2, "Error in identify \n", 19), 1);
 }
