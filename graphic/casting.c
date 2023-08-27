@@ -6,11 +6,32 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 21:03:08 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/26 23:06:16 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/27 16:43:14 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
+
+int	check_wall_fram(double x, double y, char **map, t_cub *data)
+{
+	int	xx;
+	int	yy;
+
+	xx = (int)floor(x / 32);
+	yy = (int)floor(y / 32);
+	if (yy < 0 || yy >= data->hight_map)
+		return (1);
+	if (xx < 0 || (size_t)xx >= ft_strlen(map[yy]))
+		return (1);
+	if (map[yy][xx] == '1')
+		return (1);
+	return (0);
+}
+
+double	distance_p(double x, double y, double x1, double y1)
+{
+	return (sqrt(((x1 - x) * (x1 - x)) + ((y1 - y) * (y1 - y))));
+}
 
 double	dictance_horizontal(t_cub *y)
 {

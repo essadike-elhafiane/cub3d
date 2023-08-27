@@ -6,11 +6,40 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 22:30:41 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/26 23:11:44 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/27 16:59:31 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cube.h"
+
+int	check_is_wall(double y, double x, t_cub *data)
+{
+	int	idy;
+	int	idx1;
+	int	idx;
+	int	idy1;
+	int	idy_1;
+
+	idy = y / 32;
+	idx = x / 32;
+	idy1 = (y + 1) / 32;
+	idy_1 = (y - 1) / 32;
+	idx1 = (x + 1) / 32;
+	if (y < 0 || x < 0)
+		return (1);
+	if (data->map[idy][idx] && (data->map[idy][idx] == '1'
+		|| data->map[idy][idx1] == '1' || data->map[idy1][idx] == '1'
+		|| data->map[idy_1][idx] == '1' ))
+		return (1);
+	if (data->map[idy][idx] && (data->map[idy][idx] == ' '
+		|| data->map[idy][idx1] == ' ' || data->map[idy1][idx] == ' '
+		|| data->map[idy_1][idx] == ' ' ))
+		return (1);
+	if (data->map[(int)(data->plr->y_p / 32)][(int)(x / 32)] == '1'
+		&& data->map[idy][(int)(data->plr->x_p / 32)] == '1')
+		return (1);
+	return (0);
+}
 
 void	mouse_event(t_cub *y)
 {
@@ -55,7 +84,7 @@ void	view_left_right(t_cub *y)
 
 void	key_d_a(t_cub *y)
 {
-	if (mlx_is_key_down(y->mlx, MLX_KEY_D) || mlx_is_mouse_down(y->mlx, 2))
+	if (mlx_is_key_down(y->mlx, MLX_KEY_D))
 	{
 		if (!check_is_wall(y->plr->y_p + 2 * cos(y->plr->derction),
 				y->plr->x_p - 2 * sin(y->plr->derction), y))
@@ -91,8 +120,7 @@ void	ft_hook1(void	*param)
 			y->plr->x_p += 5 * cos(y->plr->derction);
 		}
 	}
-	if (mlx_is_key_down(y->mlx, MLX_KEY_DOWN)
-		|| mlx_is_key_down(y->mlx, MLX_KEY_S))
+	if (mlx_is_key_down(y->mlx, MLX_KEY_DOWN) || mlx_is_key_down(y->mlx, 83))
 	{
 		if (!check_is_wall(y->plr->y_p - 5 * sin(y->plr->derction),
 				y->plr->x_p - 5 * cos(y->plr->derction), y))
@@ -102,4 +130,7 @@ void	ft_hook1(void	*param)
 		}
 	}
 	view_left_right(y);
+	key_d_a(y);
 }
+
+/*83 is MLX_KEY_S*/

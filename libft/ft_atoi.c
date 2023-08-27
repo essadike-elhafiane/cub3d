@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:42:51 by eelhafia          #+#    #+#             */
-/*   Updated: 2022/11/11 14:47:04 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/27 16:49:07 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_atoi(const char *str)
 	a = 0;
 	i = 0;
 	while (ft_isspace(str[i]))
-			i++;
+		i++;
 	if (str[i] == '-' || str[i] == '+' )
 	{
 		if (str[i] == '-')

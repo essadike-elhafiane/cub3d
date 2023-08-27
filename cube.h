@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:18:49 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/27 16:20:21 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/27 17:23:09 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,15 +108,13 @@ int		check_map(char **map , t_path *p, int len);
 void    graphic(char **map_only, t_path *p);
 double	dictance_horizontal(t_cub *y);
 void	check_line(char *map_line);
-void	render_next_frame(t_cub *y);
-int		check_wall_fram(double x, double y, char **map, t_cub *data);
-double	distance_p(double x, double y, double x1, double y1);
 double  dictance_virtical(t_cub *y);
 void	randerwall(t_cub *y, int m);
 void	draw_player(t_cub *y);
 void    ft_free(char **map, char **only_map);
 void 	ft_hook1(void* param);
-int		check_is_wall(double y, double x, t_cub *data);
 void	frame_playr(t_cub *y);
+int	check_direction(char c);
+void	draw_player(t_cub *y);
 
 #endif
