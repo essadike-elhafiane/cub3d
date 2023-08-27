@@ -6,23 +6,43 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:18:49 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/26 23:11:07 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/27 16:20:21 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUBE_H
-#define CUBE_H
+# define CUBE_H
 
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <math.h>
+# include <fcntl.h>
+# include "/Users/eelhafia/Desktop/MLX42/include/MLX42/MLX42.h"
+# include "get_next_line/get_next_line.h"
+# include "libft/libft.h"
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <fcntl.h>
-#include "/Users/eelhafia/Desktop/MLX42/include/MLX42/MLX42.h"
-#include "get_next_line/get_next_line.h"
-#include "libft/libft.h"
+typedef struct s_wall
+{
+	int i;
+	int x_texture;
+	int y_texture;
+	int down;
+	int height_of_wall;
+	int top;
+	unsigned int color;
+	int mm;
+}t_wall;
 
+typedef struct s_mini_map
+{
+	int				yy;
+	int				xx;
+	int				tmp;
+	int				tmp2;
+	int				x_map;
+	int				y_map;
+}t_mini_map;
 
 typedef struct s_player
 {
@@ -31,7 +51,7 @@ typedef struct s_player
 	double	a_x;
 	double	a_y;
 	double	derction;
-} t_player;
+}t_player;
 
 typedef struct s_path
 {
@@ -83,7 +103,6 @@ typedef struct s_cube
 	t_player		*plr;
 	t_path			*path;
 } t_cub;
-
 
 int		check_map(char **map , t_path *p, int len);
 void    graphic(char **map_only, t_path *p);

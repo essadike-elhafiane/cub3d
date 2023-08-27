@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/05 18:33:28 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/26 23:49:44 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/27 16:35:15 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,57 +189,58 @@ mlx_image_t	*get_img_of_view(t_cub *y)
 		return (y->img_e);
 	}
 }
+void	rander_wall_help(t_wall *w, t_cub *y, int m)
+{
+	if (w->i < w->top)
+		mlx_put_pixel(y->image, m, w->i,
+			ft_pixel(y->path->c[0], y->path->c[1], y->path->c[2], 255));
+	else if (w->i < w->down)
+	{
+		w->mm = w->i + (w->height_of_wall / 2) - (1000 / 2);
+		w->y_texture = w->mm * ((double)y->imgg->height / w->height_of_wall);
+		if ((w->y_texture * y->imgg->width + w->x_texture) * 4 + 3
+			< y->imgg->height * y->imgg->width * 4)
+			w->color = ft_pixel(y->data_pixel[(w->y_texture
+						* y->imgg->width + w->x_texture) * 4],
+					y->data_pixel[(w->y_texture
+						* y->imgg->width + w->x_texture) * 4 + 1],
+					y->data_pixel[(w->y_texture
+						* y->imgg->width + w->x_texture) * 4 + 2],
+					y->data_pixel[(w->y_texture
+						* y->imgg->width + w->x_texture) * 4 + 3]);
+		else
+			w->color = 0;
+		mlx_put_pixel(y->image, m, w->i, w->color);
+	}
+	else
+		mlx_put_pixel(y->image, m,
+			w->i, ft_pixel(y->path->f[0], y->path->f[1], y->path->f[2], 255));
+	w->i++;
+}
 
 void	randerwall(t_cub *y, int m)
 {
-	int i;
-	int x_texture;
-	int y_texture;
+	t_wall	w;
 
-	i = 0;
+	w.i = 0;
 	y->distancee = y->distancee * cos(y->angle_of_ray - y->plr->derction);
-	int height_of_wall = 60000 / y->distancee;
-	int top = (1000 / 2) - (height_of_wall / 2);
-	int down = (1000 / 2) + (height_of_wall / 2);
-	if (top < 0)
-		top = 0;
-	if (down > 1000)
-		down = 1000;
+	w.height_of_wall = 60000 / y->distancee;
+	w.top = (1000 / 2) - (w.height_of_wall / 2);
+	w.down = (1000 / 2) + (w.height_of_wall / 2);
+	if (w.top < 0)
+		w.top = 0;
+	if (w.down > 1000)
+		w.down = 1000;
 	y->imgg = get_img_of_view(y);
 	if (!y->h)
-		x_texture = (int )((y->hitwall_y_v / 32) * y->imgg->width) % y->imgg->width;
+		w.x_texture = (int)((y->hitwall_y_v / 32)
+				* y->imgg->width) % y->imgg->width;
 	else
-		x_texture = (int )((y->hitwall_x * y->imgg->width) / 32) % y->imgg->width;
-	
-	// int j = 0;
-	while (i < 1000)
+		w.x_texture = (int)((y->hitwall_x * y->imgg->width) / 32)
+			% y->imgg->width;
+	while (w.i < 1000)
 	{
-		
-		if (i < top)
-			mlx_put_pixel(y->image, m, i, ft_pixel(y->path->c[0], y->path->c[1],y->path->c[2] , 255));
-		else if (i < down)
-		{
-				int mm = i + ( height_of_wall / 2) - (1000 / 2);
-				y_texture = mm * ((double)y->imgg->height / height_of_wall);
-				unsigned int color;
-				if ((y_texture * y->imgg->width + x_texture) * 4 + 3 < y->imgg->height * y->imgg->width * 4)
-				
-					color  = ft_pixel(y->data_pixel[(y_texture * y->imgg->width + x_texture) * 4],
-
-					y->data_pixel[(y_texture * y->imgg->width + x_texture) * 4 + 1],
-
-					y->data_pixel[(y_texture * y->imgg->width + x_texture)* 4 + 2],
-					
-					y->data_pixel[(y_texture * y->imgg->width + x_texture)* 4 + 3]);
-					
-				else
-					color = 0;
-				
-			 	mlx_put_pixel(y->image, m ,  i, color);
-		}
-		else
-			mlx_put_pixel(y->image, m, i, ft_pixel(y->path->f[0], y->path->f[1],y->path->f[2], 255));
-		i++;
+		rander_wall_help(&w, y, m);
 	}
 }
 
@@ -274,10 +275,10 @@ void	draw_player(t_cub *y)
 	int mm = 0;
 
 	if (effect < 20)
-		{
-			size = 4;
-			color = 0xFFFFF;
-		}
+	{
+		size = 4;
+		color = 0xFFFFF;
+	}
 	else if (effect < 40)
 	{
 		i = -4;
@@ -285,15 +286,17 @@ void	draw_player(t_cub *y)
 		size = 8;
 		color = 0x66cdaa;
 	}
-	else if(effect > 40)
+	else if (effect > 40)
 		effect = 0;
 	while (i < size)
 	{
 		j = mm;
 		while (j < size)
 		{
-			mlx_put_pixel(y->image, 140 + i , 140 + j , color);
-			mlx_put_pixel(y->image, (15 + i) *  cos(y->plr->derction) + 140,  (15 + j) * sin(y->plr->derction) + 140,  0xffe512);
+			mlx_put_pixel(y->image, 140 + i, 140 + j, color);
+			mlx_put_pixel(y->image,
+				(15 + i) * cos(y->plr->derction) + 140,
+				(15 + j) * sin(y->plr->derction) + 140, 0xffe512);
 			j++;
 		}
 		i++;
@@ -301,59 +304,57 @@ void	draw_player(t_cub *y)
 	i = 0;
 	while (i < 280)
 	{
-		mlx_put_pixel(y->image, i , 0 , color);
-		mlx_put_pixel(y->image, 0 , i , color);
-		mlx_put_pixel(y->image, i , 280 , color);
-		mlx_put_pixel(y->image, 280 , i , color);
-		mlx_put_pixel(y->image, i + 1 , 1 , color);
-		mlx_put_pixel(y->image, 1 , i + 1 , color);
-		mlx_put_pixel(y->image, i + 1, 281 , color);
-		mlx_put_pixel(y->image, 281 , i +1, color);
+		mlx_put_pixel(y->image, i, 0, color);
+		mlx_put_pixel(y->image, 0, i, color);
+		mlx_put_pixel(y->image, i, 280, color);
+		mlx_put_pixel(y->image, 280, i, color);
+		mlx_put_pixel(y->image, i + 1, 1, color);
+		mlx_put_pixel(y->image, 1, i + 1, color);
+		mlx_put_pixel(y->image, i + 1, 281, color);
+		mlx_put_pixel(y->image, 281, i +1, color);
 		i++;
 	}
 	effect++;
 }
 
+void	init_frame(t_mini_map *m, t_cub *y)
+{
+	m->tmp = y->plr->x_p;
+	m->tmp2 = y->plr->y_p; 
+	m->tmp -= 140;
+	m->tmp2 -= 140;
+	m->y_map = m->tmp2;
+	m->yy = 0;
+	while (m->yy < 280)
+	{
+		m->xx = 0;
+		while (m->xx < 280)
+			m->xx++;
+		m->yy++;
+	}
+}
+
 void render_next_frame(t_cub *y)
 {
-	static int effect;
-	// int i = 0;
-	// int j;
-	unsigned int color;
-	color = 0x7FEAFF;
-	effect = 0;
-	int tmp = y->plr->x_p;
-	int	tmp2 = y->plr->y_p; 
-	int x_map;
-	tmp -= 140;
-	tmp2 -= 140;
-	int y_map = tmp2;
-	
-	int yy;
-	int xx;
+	t_mini_map	m;
 
-	yy = 0;
-	while(yy < 280)
+	init_frame(&m, y);
+	if (m.y_map < 0)
+		m.y_map = 0;
+	while (m.y_map < m.tmp2 + 140 * 2 && y->map[m.y_map / 32])
 	{
-		xx = 0;
-		while(xx < 280)
-			xx++;
-		yy++;
-	}
-	if(y_map < 0)
-		y_map = 0;
-	while(y_map < tmp2 + 140 * 2 && y->map[y_map / 32])
-	{
-		x_map = tmp;
-		if (x_map < 0)
-			x_map = 0;	
-			while((x_map < tmp + 140 * 2) && (size_t)(x_map / 32) < ft_strlen(y->map[y_map / 32]))
-			{
-				if(y->map[y_map / 32][x_map / 32] == '1')
-					mlx_put_pixel(y->image, (x_map  - y->plr->x_p + 140 )  , (y_map  - y->plr->y_p + 140) , 0xFFF);
-				x_map++;
-			}
-		y_map++;
+		m.x_map = m.tmp;
+		if (m.x_map < 0)
+			m.x_map = 0;
+		while ((m.x_map < m.tmp + 140 * 2)
+			&& (size_t)(m.x_map / 32) < ft_strlen(y->map[m.y_map / 32]))
+		{
+			if (y->map[m.y_map / 32][m.x_map / 32] == '1')
+				mlx_put_pixel(y->image, (m.x_map - y->plr->x_p + 140),
+					(m.y_map - y->plr->y_p + 140), 0xFFF);
+			m.x_map++;
+		}
+		m.y_map++;
 	}
 }
 
