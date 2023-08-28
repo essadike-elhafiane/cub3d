@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rander_wall.c                                      :+:      :+:    :+:   */
+/*   render_wall.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 22:31:09 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/27 16:46:44 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/28 16:48:35 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	randerwall(t_cub *y, int m)
 	if (!y->h)
 		w.x_texture = (int)((y->hitwall_y_v / 32)
 				* y->imgg->width) % y->imgg->width;
-	else
+	else 
 		w.x_texture = (int)((y->hitwall_x * y->imgg->width) / 32)
 			% y->imgg->width;
 	while (w.i < 1000)
