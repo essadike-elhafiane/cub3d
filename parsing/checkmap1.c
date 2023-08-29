@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:28:26 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/27 18:44:28 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/29 21:50:20 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 void	path_allocation(t_path *p, int i, int j, char *len_map)
 {
 	if (p->flg == 1)
-		p->no = ft_substr(len_map, j, i - j);
+		p->no = ft_substr(len_map, j, i - j - count_space_tap(len_map));
 	if (p->flg == 2)
-		p->so = ft_substr(len_map, j, i - j);
+		p->so = ft_substr(len_map, j, i - j - count_space_tap(len_map));
 	if (p->flg == 3)
-		p->we = ft_substr(len_map, j, i - j);
+		p->we = ft_substr(len_map, j, i - j - count_space_tap(len_map));
 	if (p->flg == 4)
-		p->ea = ft_substr(len_map, j, i - j);
+		p->ea = ft_substr(len_map, j, i - j - count_space_tap(len_map));
 }
 
 int	check_correct_word(char *len_map, t_path *p)

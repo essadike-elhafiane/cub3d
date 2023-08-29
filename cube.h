@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:18:49 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/27 18:39:13 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/29 21:50:40 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,6 @@ void	error_message(char *str, t_path *p);
 int		check_identify(char **map, t_path *p, int len);
 int		type_identifier(char *len_map, t_path *p, int *i);
 void	path_allocation(t_path *p, int i, int j, char *len_map);
+int		count_space_tap(char *len_map);
 
 #endif

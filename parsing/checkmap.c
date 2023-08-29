@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/31 22:44:31 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/27 19:00:02 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/29 21:20:34 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,17 @@ int	check_map(char **map, t_path *p, int len)
 		error_message("", p);
 	while (p->only_map[++i])
 	{
-		j = 0;
-		while (p->only_map[i][j])
+		j = -1;
+		while (p->only_map[i][++j])
 		{
 			is_player(p->only_map, i, j, p);
 			if (p->only_map[i][j] == '0')
+			{
+				if (j == 0)
+					error_message("Error in wall !\n", p);
 				chack_env_0(p->only_map, i, j);
+			}
 			check_element(p->only_map[i][j], p);
-			j++;
 		}
 	}
 	if (p->p == 0)

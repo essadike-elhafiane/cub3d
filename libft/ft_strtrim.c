@@ -6,7 +6,7 @@
 /*   By: eelhafia <eelhafia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:01:43 by eelhafia          #+#    #+#             */
-/*   Updated: 2023/08/27 17:27:52 by eelhafia         ###   ########.fr       */
+/*   Updated: 2023/08/29 21:31:56 by eelhafia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	end(char *s1, char *set)
 	return (b);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char *s1, char const *set)
 {
 	int		a;
 	int		b;
@@ -63,5 +63,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 		return (ft_strdup(""));
 	a = start ((char *)s1, (char *)set);
 	b = end ((char *)s1, (char *)set);
+	free(s1);
 	return (ft_substr(s1, a, (b - a)));
 }
